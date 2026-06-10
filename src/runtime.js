@@ -193,18 +193,46 @@ function render() {
   return;
 }
 
+if (current.id === "characterSketch") {
+
   app.innerHTML = `
-    <h2>Current Anchor</h2>
-    <p>${current.id}</p>
-    <p>${current.purpose}</p>
-    <hr>
-    <p>Name: ${storyState.identity.name || "(none)"}</p>
-    <p>Sun Sign: ${storyState.identity.sunSign || "(none)"}</p>
-    <p>Moon Sign: ${storyState.identity.moonSign || "(none)"}</p>
+    <h2>Your Character Sketch</h2>
+
+    <p><strong>Name:</strong> ${storyState.identity.name}</p>
+    <p><strong>Sun:</strong> ${storyState.identity.sunSign} — ${storyState.selections.sunKeyword}</p>
+    <p><strong>Moon:</strong> ${storyState.identity.moonSign} — ${storyState.selections.moonKeyword}</p>
+    <p><strong>Rising:</strong> ${storyState.identity.risingSign} — ${storyState.selections.risingKeyword}</p>
   `;
+
+  return;
+}
+
+app.innerHTML = `
+  <h2>Current Anchor</h2>
+  <p>${current.id}</p>
+  <p>${current.purpose}</p>
+  <hr>
+  <p>Name: ${storyState.identity.name || "(none)"}</p>
+  <p>Sun Sign: ${storyState.identity.sunSign || "(none)"}</p>
+  <p>Moon Sign: ${storyState.identity.moonSign || "(none)"}</p>
+`;
 }
 
 nextButton.addEventListener("click", () => {
+  const current = getCurrentAnchor();
+
+  if (
+    current.id === "identityCollection" ||
+    current.id === "sunSignSelection" ||
+    current.id === "moonSignSelection" ||
+    current.id === "risingSignSelection" ||
+    current.id === "sunKeywordSelection" ||
+    current.id === "moonKeywordSelection" ||
+    current.id === "risingKeywordSelection"
+  ) {
+    return;
+  }
+
   advanceStory();
   render();
 });
