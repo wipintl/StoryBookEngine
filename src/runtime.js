@@ -12,7 +12,7 @@ function getSignOptions() {
 }
 
 function render() {
-  const current = getCurrentAnchor ();
+  const current = getCurrentAnchor();
   console.log("Current Anchor ID:", current.id);
 
   if (current.id === "identityCollection") {
@@ -69,7 +69,7 @@ function render() {
     document.getElementById("submitMoonSign").addEventListener("click", () => {
       const moonSign = document.getElementById("moonSignInput").value;
       if (!moonSign) return;
-      console.log("Name submit clicked");
+
       storyState.identity.moonSign = moonSign;
       advanceStory();
       render();
@@ -79,25 +79,116 @@ function render() {
   }
 
   if (current.id === "risingSignSelection") {
+    app.innerHTML = `
+      <h2>What is your Rising Sign?</h2>
+      <select id="risingSignInput">
+        <option value="">Select one</option>
+        ${getSignOptions()}
+      </select>
+      <button id="submitRisingSign">Submit</button>
+    `;
+
+    document.getElementById("submitRisingSign").addEventListener("click", () => {
+      const risingSign = document.getElementById("risingSignInput").value;
+      if (!risingSign) return;
+
+      storyState.identity.risingSign = risingSign;
+      advanceStory();
+      render();
+    });
+
+    return;
+  }
+
+  if (current.id === "sunKeywordSelection") {
+    const keywords =
+      zodiacKeywords[storyState.identity.sunSign] || [];
+
+    const keywordButtons = keywords
+      .map(keyword =>
+        `<button class="keywordButton" data-keyword="${keyword}">
+          ${keyword}
+        </button>`
+      )
+      .join("");
+
+    app.innerHTML = `
+      <h2>Select Your Sun Keyword</h2>
+      ${keywordButtons}
+    `;
+
+    document.querySelectorAll(".keywordButton")
+      .forEach(button => {
+        button.addEventListener("click", () => {
+          storyState.selections.sunKeyword =
+            button.dataset.keyword;
+
+          advanceStory();
+          render();
+        });
+      });
+
+    return;
+  }
+
+  if (current.id === "moonKeywordSelection") {
+    const keywords =
+      zodiacKeywords[storyState.identity.moonSign] || [];
+
+    const keywordButtons = keywords
+      .map(keyword =>
+        `<button class="keywordButton" data-keyword="${keyword}">
+          ${keyword}
+        </button>`
+      )
+      .join("");
+
+    app.innerHTML = `
+      <h2>Select Your Moon Keyword</h2>
+      ${keywordButtons}
+    `;
+
+    document.querySelectorAll(".keywordButton")
+      .forEach(button => {
+        button.addEventListener("click", () => {
+          storyState.selections.moonKeyword =
+            button.dataset.keyword;
+
+          advanceStory();
+          render();
+        });
+      });
+
+    return;
+  }
+
+  if (current.id === "risingKeywordSelection") {
+  const keywords =
+    zodiacKeywords[storyState.identity.risingSign] || [];
+
+  const keywordButtons = keywords
+    .map(keyword =>
+      `<button class="keywordButton" data-keyword="${keyword}">
+        ${keyword}
+      </button>`
+    )
+    .join("");
+
   app.innerHTML = `
-    <h2>What is your Rising Sign?</h2>
-    <select id="risingSignInput">
-      <option value="">Select one</option>
-      ${getSignOptions()}
-    </select>
-    <button id="submitRisingSign">Submit</button>
+    <h2>Select Your Rising Keyword</h2>
+    ${keywordButtons}
   `;
 
-  document.getElementById("submitRisingSign").addEventListener("click", () => {
-    const risingSign = document.getElementById("risingSignInput").value;
+  document.querySelectorAll(".keywordButton")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        storyState.selections.risingKeyword =
+          button.dataset.keyword;
 
-    if (!risingSign) return;
-
-    storyState.identity.risingSign = risingSign;
-
-    advanceStory();
-    render();
-  });
+        advanceStory();
+        render();
+      });
+    });
 
   return;
 }
