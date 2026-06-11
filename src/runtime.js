@@ -101,137 +101,95 @@ function render() {
   }
 
   if (current.id === "sunKeywordSelection") {
-    const keywords =
-      zodiacKeywords[storyState.identity.sunSign] || [];
-
-    const keywordButtons = keywords
-      .map(keyword =>
-        `<button class="keywordButton" data-keyword="${keyword}">
-          ${keyword}
-        </button>`
-      )
-      .join("");
+    const keywords = zodiacKeywords[storyState.identity.sunSign] || [];
 
     app.innerHTML = `
       <h2>Select Your Sun Keyword</h2>
-      ${keywordButtons}
+      ${keywords.map(k => `<button class="kw" data-k="${k}">${k}</button>`).join("")}
     `;
 
-    document.querySelectorAll(".keywordButton")
-      .forEach(button => {
-        button.addEventListener("click", () => {
-          storyState.selections.sunKeyword =
-            button.dataset.keyword;
-
-          advanceStory();
-          render();
-        });
-      });
-
-    return;
-  }
-
-  if (current.id === "moonKeywordSelection") {
-    const keywords =
-      zodiacKeywords[storyState.identity.moonSign] || [];
-
-    const keywordButtons = keywords
-      .map(keyword =>
-        `<button class="keywordButton" data-keyword="${keyword}">
-          ${keyword}
-        </button>`
-      )
-      .join("");
-
-    app.innerHTML = `
-      <h2>Select Your Moon Keyword</h2>
-      ${keywordButtons}
-    `;
-
-    document.querySelectorAll(".keywordButton")
-      .forEach(button => {
-        button.addEventListener("click", () => {
-          storyState.selections.moonKeyword =
-            button.dataset.keyword;
-
-          advanceStory();
-          render();
-        });
-      });
-
-    return;
-  }
-
-  if (current.id === "risingKeywordSelection") {
-  const keywords =
-    zodiacKeywords[storyState.identity.risingSign] || [];
-
-  const keywordButtons = keywords
-    .map(keyword =>
-      `<button class="keywordButton" data-keyword="${keyword}">
-        ${keyword}
-      </button>`
-    )
-    .join("");
-
-  app.innerHTML = `
-    <h2>Select Your Rising Keyword</h2>
-    ${keywordButtons}
-  `;
-
-  document.querySelectorAll(".keywordButton")
-    .forEach(button => {
-      button.addEventListener("click", () => {
-        storyState.selections.risingKeyword =
-          button.dataset.keyword;
-
+    document.querySelectorAll(".kw").forEach(btn => {
+      btn.addEventListener("click", () => {
+        storyState.selections.sunKeyword = btn.dataset.k;
         advanceStory();
         render();
       });
     });
 
-  return;
-}
+    return;
+  }
 
-if (current.id === "characterSketch") {
+  if (current.id === "moonKeywordSelection") {
+    const keywords = zodiacKeywords[storyState.identity.moonSign] || [];
+
+    app.innerHTML = `
+      <h2>Select Your Moon Keyword</h2>
+      ${keywords.map(k => `<button class="kw" data-k="${k}">${k}</button>`).join("")}
+    `;
+
+    document.querySelectorAll(".kw").forEach(btn => {
+      btn.addEventListener("click", () => {
+        storyState.selections.moonKeyword = btn.dataset.k;
+        advanceStory();
+        render();
+      });
+    });
+
+    return;
+  }
+
+  if (current.id === "risingKeywordSelection") {
+    const keywords = zodiacKeywords[storyState.identity.risingSign] || [];
+
+    app.innerHTML = `
+      <h2>Select Your Rising Keyword</h2>
+      ${keywords.map(k => `<button class="kw" data-k="${k}">${k}</button>`).join("")}
+    `;
+
+    document.querySelectorAll(".kw").forEach(btn => {
+      btn.addEventListener("click", () => {
+        storyState.selections.risingKeyword = btn.dataset.k;
+        advanceStory();
+        render();
+      });
+    });
+
+    return;
+  }
+
+  if (current.id === "characterSketch") {
+    const prompt = `
+Create a character sketch in a rich, fluid, authoritative tone.
+
+Name: ${storyState.identity.name}
+Sun: ${storyState.identity.sunSign} (${storyState.selections.sunKeyword})
+Moon: ${storyState.identity.moonSign} (${storyState.selections.moonKeyword})
+Rising: ${storyState.identity.risingSign} (${storyState.selections.risingKeyword})
+
+Blend into one unified voice. Do not list traits. Do not echo keywords.
+`;
+
+    console.log(prompt);
+
+    app.innerHTML = `
+      <h2>Your Character Sketch</h2>
+      <p><em>Generating your narrative...</em></p>
+    `;
+
+    return;
+  }
 
   app.innerHTML = `
-    <h2>Your Character Sketch</h2>
-
-    <p><strong>Name:</strong> ${storyState.identity.name}</p>
-    <p><strong>Sun:</strong> ${storyState.identity.sunSign} — ${storyState.selections.sunKeyword}</p>
-    <p><strong>Moon:</strong> ${storyState.identity.moonSign} — ${storyState.selections.moonKeyword}</p>
-    <p><strong>Rising:</strong> ${storyState.identity.risingSign} — ${storyState.selections.risingKeyword}</p>
+    <h2>Current Anchor</h2>
+    <p>${current.id}</p>
+    <p>${current.purpose}</p>
   `;
-
-  return;
-}
-
-app.innerHTML = `
-  <h2>Current Anchor</h2>
-  <p>${current.id}</p>
-  <p>${current.purpose}</p>
-  <hr>
-  <p>Name: ${storyState.identity.name || "(none)"}</p>
-  <p>Sun Sign: ${storyState.identity.sunSign || "(none)"}</p>
-  <p>Moon Sign: ${storyState.identity.moonSign || "(none)"}</p>
-`;
 }
 
 nextButton.addEventListener("click", () => {
   const current = getCurrentAnchor();
 
-  if (
-    current.id === "identityCollection" ||
-    current.id === "sunSignSelection" ||
-    current.id === "moonSignSelection" ||
-    current.id === "risingSignSelection" ||
-    current.id === "sunKeywordSelection" ||
-    current.id === "moonKeywordSelection" ||
-    current.id === "risingKeywordSelection"
-  ) {
-    return;
-  }
+  if (current.id === "characterSketch") return;
 
   advanceStory();
   render();
