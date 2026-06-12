@@ -11,10 +11,6 @@ export function advanceStory() {
 
   completeAnchor(current.id);
 
-  if (current.id === "characterSketch") {
-  return current;
-  }
-
   if (!current.unlocks) {
     return null;
   }
