@@ -1,9 +1,288 @@
 import { getCurrentAnchor, advanceStory } from "./engine.js";
 import { storyState } from "./state.js";
 import { zodiacKeywords } from "../assets/keywords/zodiacKeywords.js";
+import {
+  characterSketchLanguage,
+  signElements
+} from "../assets/narratives/characterSketchLanguage.js";
 
 const app = document.getElementById("app");
 const nextButton = document.getElementById("nextButton");
+
+function escapeHtml(value = "") {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function capitalizeFirst(value = "") {
+  if (!value) return "";
+
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
+function prepareResponse(value = "", prefixes = []) {
+  let response = String(value).trim();
+
+  prefixes.forEach(prefix => {
+    const pattern = new RegExp(`^${prefix}\\s*`, "i");
+    response = response.replace(pattern, "");
+  });
+
+  response = response
+    .replace(/[.!?]+$/, "")
+    .trim();
+
+  if (!response) {
+    return "";
+  }
+
+  return response.charAt(0).toLowerCase() + response.slice(1);
+}
+
+function shiftToSecondPerson(value = "") {
+  return String(value)
+    .replace(/\bmyself\b/gi, "yourself")
+    .replace(/\bmine\b/gi, "yours")
+    .replace(/\bmy\b/gi, "your")
+    .replace(/\bme\b/gi, "you")
+    .replace(/\bI am\b/gi, "you are")
+    .replace(/\bI'm\b/gi, "you're")
+    .replace(/\bI\b/gi, "you");
+}
+
+function prepareActionResponse(value = "", prefixes = []) {
+  let response = prepareResponse(value, prefixes);
+
+  response = shiftToSecondPerson(response)
+    .replace(/^(you are|you're)\s+/i, "")
+    .replace(/^you\s+/i, "")
+    .trim();
+
+  return response;
+}
+
+function prepareDescriptionResponse(value = "", prefixes = []) {
+  let response = prepareResponse(value, prefixes);
+
+  response = shiftToSecondPerson(response)
+    .replace(/^(you are|you're)\s+/i, "")
+    .replace(/^your style is\s+/i, "")
+    .trim();
+
+  return response;
+}
+
+function buildMoonEaseSentence(value = "") {
+  let response = prepareResponse(value, [
+    "I feel most at ease when I am"
+  ]);
+
+  response = shiftToSecondPerson(response).trim();
+
+  if (/^(you are|you're|you)\b/i.test(response)) {
+    return `You feel most at ease when ${response}.`;
+  }
+
+  const actionVerbs = [
+    "allow",
+    "accept",
+    "act",
+    "care",
+    "choose",
+    "connect",
+    "create",
+    "express",
+    "feel",
+    "focus",
+    "follow",
+    "give",
+    "have",
+    "help",
+    "learn",
+    "listen",
+    "make",
+    "move",
+    "protect",
+    "pursue",
+    "rest",
+    "share",
+    "speak",
+    "spend",
+    "stay",
+    "take",
+    "trust",
+    "work",
+    "write"
+  ];
+
+  const beginsWithAction = actionVerbs.some(verb =>
+    response.toLowerCase().startsWith(`${verb} `)
+  );
+
+  if (beginsWithAction) {
+    return `You feel most at ease when you ${response}.`;
+  }
+
+  return `You feel most at ease when you are ${response}.`;
+}
+
+function determineRelationship(sunSign, moonSign) {
+  if (sunSign === moonSign) {
+    return "reinforcement";
+  }
+
+  const sunElement = signElements[sunSign];
+  const moonElement = signElements[moonSign];
+
+  if (sunElement === moonElement) {
+    return "reinforcement";
+  }
+
+  const supportivePairs = [
+    ["Fire", "Air"],
+    ["Earth", "Water"]
+  ];
+
+  const frictionPairs = [
+    ["Fire", "Water"],
+    ["Earth", "Air"]
+  ];
+
+  const isPair = (pairs, first, second) =>
+    pairs.some(
+      ([a, b]) =>
+        (first === a && second === b) ||
+        (first === b && second === a)
+    );
+
+  if (isPair(supportivePairs, sunElement, moonElement)) {
+    return "support";
+  }
+
+  if (isPair(frictionPairs, sunElement, moonElement)) {
+    return "friction";
+  }
+
+  return "contrast";
+}
+
+function getRelationshipLanguage(relationship) {
+  const language = {
+    reinforcement: {
+      interior:
+        "That same movement continues beneath the surface rather than changing direction.",
+      threshold:
+        "Because the center and the interior are moving in related ways, what reaches the world carries a strong sense of continuity.",
+      integration:
+        "Over time, this creates a steady internal current: what sustains you, what moves within you, and how you meet the world repeatedly return to the same underlying center."
+    },
+
+    support: {
+      interior:
+        "Your inner life does not oppose that movement; it gives it another form through which to deepen and become more fully lived.",
+      threshold:
+        "When these layers meet the world, they tend to support one another, even when they speak in different tones.",
+      integration:
+        "Over time, the relationship between your center and your emotional life can become a source of resilience, while your outward manner gives that inner relationship a visible form."
+    },
+
+    friction: {
+      interior:
+        "Yet the inner movement does not simply follow the direction set by the center. It introduces a tension that complicates what might otherwise seem straightforward.",
+      threshold:
+        "When this reaches the world, what is expressed may carry both the force of what sustains you and the pressure of what remains unresolved beneath it.",
+      integration:
+        "Over time, this tension does not have to disappear. It can become the place where self-knowledge develops, as each part of you continually asks the others to become more honest."
+    },
+
+    contrast: {
+      interior:
+        "At the same time, your inner life moves according to a different rhythm, adding another dimension to how experience is felt and understood.",
+      threshold:
+        "When these differing movements meet the world, they are not displayed separately. They become translated through one another.",
+      integration:
+        "Over time, this does not resolve into something fixed. It continues to refine itself through the relationship between what sustains you, what moves within you, and how you are ultimately expressed."
+    }
+  };
+
+  return language[relationship];
+}
+
+function buildCharacterSketch() {
+  const name = storyState.identity.name;
+
+  const sunSign = storyState.identity.sunSign;
+  const moonSign = storyState.identity.moonSign;
+
+  const sunKeyword = storyState.selections.sunKeyword;
+  const moonKeyword = storyState.selections.moonKeyword;
+  const risingKeyword = storyState.selections.risingKeyword;
+
+  const sunLanguage = characterSketchLanguage[sunKeyword];
+  const moonLanguage = characterSketchLanguage[moonKeyword];
+  const risingLanguage = characterSketchLanguage[risingKeyword];
+
+  const responses = storyState.characterResponses;
+
+  if (!sunLanguage || !moonLanguage || !risingLanguage) {
+    return `${name}, your Character Sketch could not be completed because one or more narrative selections are missing.`;
+  }
+
+  const sunShine = prepareActionResponse(responses.sunShine, [
+    "I shine in the world when I"
+  ]);
+
+  const sunPride = prepareActionResponse(responses.sunPride, [
+    "I am proud of myself when I"
+  ]);
+
+  const moonEaseSentence = buildMoonEaseSentence(
+    responses.moonEase
+  );
+
+  const moonMotivation = prepareActionResponse(
+    responses.moonMotivation,
+    ["I am motivated by the need to"]
+  );
+
+  const risingStyle = prepareDescriptionResponse(
+    responses.risingStyle,
+    ["My style is"]
+  );
+
+  const risingActions = prepareDescriptionResponse(
+    responses.risingActions,
+    ["Others would describe my actions as"]
+  );
+
+  const relationship = determineRelationship(
+    sunSign,
+    moonSign
+  );
+
+  const relationshipLanguage =
+    getRelationshipLanguage(relationship);
+
+  const paragraphs = [
+    `${name}, ${sunLanguage.sun} In your own life, this becomes visible when you ${sunShine}, and you take particular pride in the ways you ${sunPride}.`,
+
+    `${relationshipLanguage.interior} ${capitalizeFirst(
+      moonLanguage.moon
+    )} ${moonEaseSentence} Beneath many of your choices is a need to ${moonMotivation}.`,
+
+    `${relationshipLanguage.threshold} ${capitalizeFirst(
+      risingLanguage.rising
+    )} You describe your style as ${risingStyle}. Others may experience you as ${risingActions}.`,
+
+    relationshipLanguage.integration
+  ];
+
+  return paragraphs.join("\n\n");
+}
 
 function getSignOptions() {
   return Object.keys(zodiacKeywords)
@@ -11,9 +290,116 @@ function getSignOptions() {
     .join("");
 }
 
+function savePromptResponses(fields) {
+  fields.forEach(field => {
+    storyState.characterResponses[field.stateKey] =
+      document.getElementById(field.id).value.trim();
+  });
+}
+
+function renderCharacterPromptPage({
+  title,
+  subtitle,
+  keywordLabel,
+  keyword,
+  fields,
+  backAnchor
+}) {
+  app.innerHTML = `
+    <h2>${escapeHtml(title)}</h2>
+
+    <p>${escapeHtml(subtitle)}</p>
+
+    <p>
+      <strong>${escapeHtml(keywordLabel)}:</strong>
+      ${escapeHtml(keyword)}
+    </p>
+
+    ${fields
+      .map(
+        field => `
+          <label for="${field.id}">
+            <strong>${escapeHtml(field.label)}</strong>
+          </label>
+
+          <textarea
+            id="${field.id}"
+            rows="4"
+            style="width: 100%;"
+            placeholder="Complete this sentence in your own words."
+          >${escapeHtml(
+            storyState.characterResponses[field.stateKey] || ""
+          )}</textarea>
+
+          <br><br>
+        `
+      )
+      .join("")}
+
+    <p id="promptError" style="display: none;">
+      Please respond to both prompts before continuing.
+    </p>
+
+    <button id="backPromptButton">
+      Back
+    </button>
+
+    <button id="continuePromptButton">
+      Continue
+    </button>
+  `;
+
+  document
+    .getElementById("backPromptButton")
+    .addEventListener("click", () => {
+      savePromptResponses(fields);
+      storyState.currentAnchorId = backAnchor;
+      render();
+    });
+
+  document
+    .getElementById("continuePromptButton")
+    .addEventListener("click", () => {
+      savePromptResponses(fields);
+
+      const allComplete = fields.every(
+        field =>
+          storyState.characterResponses[field.stateKey].length > 0
+      );
+
+      if (!allComplete) {
+        document.getElementById("promptError").style.display = "block";
+        return;
+      }
+
+      advanceStory();
+      render();
+    });
+}
+
 function render() {
   const current = getCurrentAnchor();
+
   console.log("Current Anchor ID:", current.id);
+
+  if (nextButton) {
+    nextButton.style.display = "none";
+  }
+
+  if (current.id === "welcome") {
+    app.innerHTML = `
+      <h2>Welcome</h2>
+      <p>This is the beginning of your Storybook journey.</p>
+      <button id="startButton">Begin</button>
+    `;
+
+    document.getElementById("startButton").addEventListener("click", () => {
+      advanceStory();
+      render();
+    });
+
+    return;
+  }
 
   if (current.id === "identityCollection") {
     app.innerHTML = `
@@ -23,8 +409,11 @@ function render() {
     `;
 
     document.getElementById("submitName").addEventListener("click", () => {
-      const name = document.getElementById("nameInput").value;
-      if (!name) return;
+      const name = document.getElementById("nameInput").value.trim();
+
+      if (!name) {
+        return;
+      }
 
       storyState.identity.name = name;
       advanceStory();
@@ -37,16 +426,21 @@ function render() {
   if (current.id === "sunSignSelection") {
     app.innerHTML = `
       <h2>What is your Sun Sign?</h2>
+
       <select id="sunSignInput">
         <option value="">Select one</option>
         ${getSignOptions()}
       </select>
+
       <button id="submitSunSign">Submit</button>
     `;
 
     document.getElementById("submitSunSign").addEventListener("click", () => {
       const sunSign = document.getElementById("sunSignInput").value;
-      if (!sunSign) return;
+
+      if (!sunSign) {
+        return;
+      }
 
       storyState.identity.sunSign = sunSign;
       advanceStory();
@@ -59,16 +453,21 @@ function render() {
   if (current.id === "moonSignSelection") {
     app.innerHTML = `
       <h2>What is your Moon Sign?</h2>
+
       <select id="moonSignInput">
         <option value="">Select one</option>
         ${getSignOptions()}
       </select>
+
       <button id="submitMoonSign">Submit</button>
     `;
 
     document.getElementById("submitMoonSign").addEventListener("click", () => {
       const moonSign = document.getElementById("moonSignInput").value;
-      if (!moonSign) return;
+
+      if (!moonSign) {
+        return;
+      }
 
       storyState.identity.moonSign = moonSign;
       advanceStory();
@@ -81,36 +480,51 @@ function render() {
   if (current.id === "risingSignSelection") {
     app.innerHTML = `
       <h2>What is your Rising Sign?</h2>
+
       <select id="risingSignInput">
         <option value="">Select one</option>
         ${getSignOptions()}
       </select>
+
       <button id="submitRisingSign">Submit</button>
     `;
 
-    document.getElementById("submitRisingSign").addEventListener("click", () => {
-      const risingSign = document.getElementById("risingSignInput").value;
-      if (!risingSign) return;
+    document
+      .getElementById("submitRisingSign")
+      .addEventListener("click", () => {
+        const risingSign =
+          document.getElementById("risingSignInput").value;
 
-      storyState.identity.risingSign = risingSign;
-      advanceStory();
-      render();
-    });
+        if (!risingSign) {
+          return;
+        }
+
+        storyState.identity.risingSign = risingSign;
+        advanceStory();
+        render();
+      });
 
     return;
   }
 
   if (current.id === "sunKeywordSelection") {
-    const keywords = zodiacKeywords[storyState.identity.sunSign] || [];
+    const keywords =
+      zodiacKeywords[storyState.identity.sunSign] || [];
 
     app.innerHTML = `
       <h2>Select Your Sun Keyword</h2>
-      ${keywords.map(k => `<button class="kw" data-k="${k}">${k}</button>`).join("")}
+
+      ${keywords
+        .map(
+          keyword =>
+            `<button class="kw" data-keyword="${keyword}">${keyword}</button>`
+        )
+        .join("")}
     `;
 
-    document.querySelectorAll(".kw").forEach(btn => {
-      btn.addEventListener("click", () => {
-        storyState.selections.sunKeyword = btn.dataset.k;
+    document.querySelectorAll(".kw").forEach(button => {
+      button.addEventListener("click", () => {
+        storyState.selections.sunKeyword = button.dataset.keyword;
         advanceStory();
         render();
       });
@@ -120,16 +534,23 @@ function render() {
   }
 
   if (current.id === "moonKeywordSelection") {
-    const keywords = zodiacKeywords[storyState.identity.moonSign] || [];
+    const keywords =
+      zodiacKeywords[storyState.identity.moonSign] || [];
 
     app.innerHTML = `
       <h2>Select Your Moon Keyword</h2>
-      ${keywords.map(k => `<button class="kw" data-k="${k}">${k}</button>`).join("")}
+
+      ${keywords
+        .map(
+          keyword =>
+            `<button class="kw" data-keyword="${keyword}">${keyword}</button>`
+        )
+        .join("")}
     `;
 
-    document.querySelectorAll(".kw").forEach(btn => {
-      btn.addEventListener("click", () => {
-        storyState.selections.moonKeyword = btn.dataset.k;
+    document.querySelectorAll(".kw").forEach(button => {
+      button.addEventListener("click", () => {
+        storyState.selections.moonKeyword = button.dataset.keyword;
         advanceStory();
         render();
       });
@@ -139,16 +560,25 @@ function render() {
   }
 
   if (current.id === "risingKeywordSelection") {
-    const keywords = zodiacKeywords[storyState.identity.risingSign] || [];
+    const keywords =
+      zodiacKeywords[storyState.identity.risingSign] || [];
 
     app.innerHTML = `
       <h2>Select Your Rising Keyword</h2>
-      ${keywords.map(k => `<button class="kw" data-k="${k}">${k}</button>`).join("")}
+
+      ${keywords
+        .map(
+          keyword =>
+            `<button class="kw" data-keyword="${keyword}">${keyword}</button>`
+        )
+        .join("")}
     `;
 
-    document.querySelectorAll(".kw").forEach(btn => {
-      btn.addEventListener("click", () => {
-        storyState.selections.risingKeyword = btn.dataset.k;
+    document.querySelectorAll(".kw").forEach(button => {
+      button.addEventListener("click", () => {
+        storyState.selections.risingKeyword =
+          button.dataset.keyword;
+
         advanceStory();
         render();
       });
@@ -157,42 +587,191 @@ function render() {
     return;
   }
 
+  if (current.id === "sunReflection") {
+    renderCharacterPromptPage({
+      title: "Your Sun",
+      subtitle:
+        "Your Sun describes vitality, meaning, and purpose. Complete both sentences in your own words.",
+      keywordLabel: "Your selected Sun keyword",
+      keyword: storyState.selections.sunKeyword,
+      backAnchor: "risingKeywordSelection",
+      fields: [
+        {
+          id: "sunShineInput",
+          stateKey: "sunShine",
+          label: "I shine in the world when I…"
+        },
+        {
+          id: "sunPrideInput",
+          stateKey: "sunPride",
+          label: "I am proud of myself when I…"
+        }
+      ]
+    });
+
+    return;
+  }
+
+  if (current.id === "moonReflection") {
+    renderCharacterPromptPage({
+      title: "Your Moon",
+      subtitle:
+        "Your Moon describes emotional needs, comfort, and motivation. Complete both sentences in your own words.",
+      keywordLabel: "Your selected Moon keyword",
+      keyword: storyState.selections.moonKeyword,
+      backAnchor: "sunReflection",
+      fields: [
+        {
+          id: "moonEaseInput",
+          stateKey: "moonEase",
+          label: "I feel most at ease when I am…"
+        },
+        {
+          id: "moonMotivationInput",
+          stateKey: "moonMotivation",
+          label: "I am motivated by the need to…"
+        }
+      ]
+    });
+
+    return;
+  }
+
+  if (current.id === "risingReflection") {
+    renderCharacterPromptPage({
+      title: "Your Rising Sign",
+      subtitle:
+        "Your Rising sign describes style, behavior, and how others experience you. Complete both sentences in your own words.",
+      keywordLabel: "Your selected Rising keyword",
+      keyword: storyState.selections.risingKeyword,
+      backAnchor: "moonReflection",
+      fields: [
+        {
+          id: "risingStyleInput",
+          stateKey: "risingStyle",
+          label: "My style is…"
+        },
+        {
+          id: "risingActionsInput",
+          stateKey: "risingActions",
+          label: "Others would describe my actions as…"
+        }
+      ]
+    });
+
+    return;
+  }
+
   if (current.id === "characterSketch") {
-    const prompt = `
-Create a character sketch in a rich, fluid, authoritative tone.
+    const sketch = buildCharacterSketch();
 
-Name: ${storyState.identity.name}
-Sun: ${storyState.identity.sunSign} (${storyState.selections.sunKeyword})
-Moon: ${storyState.identity.moonSign} (${storyState.selections.moonKeyword})
-Rising: ${storyState.identity.risingSign} (${storyState.selections.risingKeyword})
+    storyState.outputs.characterSketch = sketch;
 
-Blend into one unified voice. Do not list traits. Do not echo keywords.
-`;
-
-    console.log(prompt);
+    const sketchParagraphs = sketch
+      .split("\n\n")
+      .map(paragraph => `<p>${escapeHtml(paragraph)}</p>`)
+      .join("");
 
     app.innerHTML = `
       <h2>Your Character Sketch</h2>
-      <p><em>Generating your narrative...</em></p>
+
+      ${sketchParagraphs}
+
+      <button id="backToRisingReflection">
+        Back
+      </button>
+
+      <button id="continueToReflection">
+        Continue
+      </button>
     `;
+
+    document
+      .getElementById("backToRisingReflection")
+      .addEventListener("click", () => {
+        storyState.currentAnchorId = "risingReflection";
+        render();
+      });
+
+    document
+      .getElementById("continueToReflection")
+      .addEventListener("click", () => {
+        advanceStory();
+        render();
+      });
+
+    return;
+  }
+
+  if (current.id === "characterReflection") {
+    const savedReflection =
+      storyState.selections.reflection || "";
+
+    app.innerHTML = `
+      <h2>In Your Own Words</h2>
+
+      <p>
+        Does this resonate with how you see yourself?
+        What feels accurate, and what feels different,
+        incomplete, or missing? Add anything you would
+        like to say in your own words.
+      </p>
+
+      <textarea
+        id="reflectionInput"
+        rows="6"
+        style="width: 100%;"
+      >${escapeHtml(savedReflection)}</textarea>
+
+      <br><br>
+
+      <button id="backToCharacterSketch">
+        Back
+      </button>
+
+      <button id="submitReflection">
+        Submit
+      </button>
+    `;
+
+    document
+      .getElementById("backToCharacterSketch")
+      .addEventListener("click", () => {
+        const text =
+          document.getElementById("reflectionInput").value.trim();
+
+        storyState.selections.reflection = text;
+        storyState.currentAnchorId = "characterSketch";
+
+        render();
+      });
+
+    document
+      .getElementById("submitReflection")
+      .addEventListener("click", () => {
+        const text =
+          document.getElementById("reflectionInput").value.trim();
+
+        storyState.selections.reflection = text;
+
+        advanceStory();
+        render();
+      });
 
     return;
   }
 
   app.innerHTML = `
-    <h2>Current Anchor</h2>
-    <p>${current.id}</p>
-    <p>${current.purpose}</p>
+    <h2>Storybook</h2>
+    <p>The next chamber is ready to be built.</p>
   `;
 }
 
-nextButton.addEventListener("click", () => {
-  const current = getCurrentAnchor();
-
-  if (current.id === "characterSketch") return;
-
-  advanceStory();
-  render();
-});
+if (nextButton) {
+  nextButton.addEventListener("click", () => {
+    advanceStory();
+    render();
+  });
+}
 
 render();

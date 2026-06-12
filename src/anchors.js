@@ -67,15 +67,51 @@ export const anchors = {
     purpose: "Select the participant's Rising keyword.",
     completionType: "participantResponse",
     requires: ["moonKeywordSelection"],
+    unlocks: "sunReflection"
+  },
+
+  sunReflection: {
+    id: "sunReflection",
+    type: "collection",
+    purpose: "Invite the participant to describe how their Sun operates in lived experience.",
+    completionType: "participantResponse",
+    requires: ["risingKeywordSelection"],
+    unlocks: "moonReflection"
+  },
+
+  moonReflection: {
+    id: "moonReflection",
+    type: "collection",
+    purpose: "Invite the participant to describe their emotional needs and motivations.",
+    completionType: "participantResponse",
+    requires: ["sunReflection"],
+    unlocks: "risingReflection"
+  },
+
+  risingReflection: {
+    id: "risingReflection",
+    type: "collection",
+    purpose: "Invite the participant to describe their style and outward behavior.",
+    completionType: "participantResponse",
+    requires: ["moonReflection"],
     unlocks: "characterSketch"
   },
 
   characterSketch: {
     id: "characterSketch",
     type: "generation",
-    purpose: "Allow the participant to inhabit their identity before entering the larger astrological landscape.",
+    purpose: "Create a unified portrait from the participant's astrological and personal responses.",
     completionType: "narrativeGeneration",
-    requires: ["risingKeywordSelection"],
+    requires: ["risingReflection"],
+    unlocks: "characterReflection"
+  },
+
+  characterReflection: {
+    id: "characterReflection",
+    type: "collection",
+    purpose: "Capture participant reflection on the Character Sketch.",
+    completionType: "participantResponse",
+    requires: ["characterSketch"],
     unlocks: "plutoNarrative"
   },
 
@@ -84,14 +120,14 @@ export const anchors = {
     type: "presentation",
     purpose: "Present the collective Pluto narrative.",
     completionType: "narrativePresentation",
-    requires: ["characterSketch"],
+    requires: ["characterReflection"],
     unlocks: "plutoContextRequest"
   },
 
   plutoContextRequest: {
     id: "plutoContextRequest",
     type: "collection",
-    purpose: "Request the participant's Pluto house context from Donna's reference chart.",
+    purpose: "Request the participant's Pluto house context.",
     completionType: "participantResponse",
     requires: ["plutoNarrative"],
     unlocks: "plutoReflection"

@@ -11,7 +11,17 @@ export const storyState = {
   selections: {
     sunKeyword: null,
     moonKeyword: null,
-    risingKeyword: null
+    risingKeyword: null,
+    reflection: null
+  },
+
+  characterResponses: {
+    sunShine: "",
+    sunPride: "",
+    moonEase: "",
+    moonMotivation: "",
+    risingStyle: "",
+    risingActions: ""
   },
 
   eventContext: {
