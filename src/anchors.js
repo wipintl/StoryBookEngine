@@ -2,7 +2,8 @@ export const anchors = {
   welcome: {
     id: "welcome",
     type: "presentation",
-    purpose: "Welcome the participant and establish the beginning of the Storybook journey.",
+    purpose:
+      "Welcome the participant and establish the beginning of the Storybook journey.",
     completionType: "narrativePresentation",
     unlocks: "identityCollection"
   },
@@ -73,7 +74,8 @@ export const anchors = {
   sunReflection: {
     id: "sunReflection",
     type: "collection",
-    purpose: "Invite the participant to describe how their Sun operates in lived experience.",
+    purpose:
+      "Invite the participant to describe how their Sun operates in lived experience.",
     completionType: "participantResponse",
     requires: ["risingKeywordSelection"],
     unlocks: "moonReflection"
@@ -82,7 +84,8 @@ export const anchors = {
   moonReflection: {
     id: "moonReflection",
     type: "collection",
-    purpose: "Invite the participant to describe their emotional needs and motivations.",
+    purpose:
+      "Invite the participant to describe their emotional needs and motivations.",
     completionType: "participantResponse",
     requires: ["sunReflection"],
     unlocks: "risingReflection"
@@ -91,7 +94,8 @@ export const anchors = {
   risingReflection: {
     id: "risingReflection",
     type: "collection",
-    purpose: "Invite the participant to describe their style and outward behavior.",
+    purpose:
+      "Invite the participant to describe their style and outward behavior.",
     completionType: "participantResponse",
     requires: ["moonReflection"],
     unlocks: "characterSketch"
@@ -100,7 +104,8 @@ export const anchors = {
   characterSketch: {
     id: "characterSketch",
     type: "generation",
-    purpose: "Create a unified portrait from the participant's astrological and personal responses.",
+    purpose:
+      "Create a unified portrait from the participant's astrological and personal responses.",
     completionType: "narrativeGeneration",
     requires: ["risingReflection"],
     unlocks: "characterReflection"
@@ -109,36 +114,60 @@ export const anchors = {
   characterReflection: {
     id: "characterReflection",
     type: "collection",
-    purpose: "Capture participant reflection on the Character Sketch.",
+    purpose:
+      "Capture participant reflection on the Character Sketch.",
     completionType: "participantResponse",
     requires: ["characterSketch"],
-    unlocks: "plutoNarrative"
+    unlocks: "annualEventScene"
   },
 
-  plutoNarrative: {
-    id: "plutoNarrative",
+  annualEventScene: {
+    id: "annualEventScene",
     type: "presentation",
-    purpose: "Present the collective Pluto narrative.",
+    purpose:
+      "Present Donna and Kathy's authored annual event narrative.",
     completionType: "narrativePresentation",
     requires: ["characterReflection"],
-    unlocks: "plutoContextRequest"
+    unlocks: "annualEventContext"
   },
 
-  plutoContextRequest: {
-    id: "plutoContextRequest",
+  annualEventContext: {
+    id: "annualEventContext",
     type: "collection",
-    purpose: "Request the participant's Pluto house context.",
+    purpose:
+      "Collect the participant's chart-specific house context for the annual event.",
     completionType: "participantResponse",
-    requires: ["plutoNarrative"],
-    unlocks: "plutoReflection"
+    requires: ["annualEventScene"],
+    unlocks: "annualEventChoices"
   },
 
-  plutoReflection: {
-    id: "plutoReflection",
-    type: "generation",
-    purpose: "Create the participant's personalized Pluto reflection.",
-    completionType: "narrativeGeneration",
-    requires: ["plutoContextRequest"],
+  annualEventChoices: {
+    id: "annualEventChoices",
+    type: "collection",
+    purpose:
+      "Collect the participant's house activity selections.",
+    completionType: "participantResponse",
+    requires: ["annualEventContext"],
+    unlocks: "annualEventReflection"
+  },
+
+  annualEventReflection: {
+    id: "annualEventReflection",
+    type: "collection",
+    purpose:
+      "Capture the participant's personal annual-event story.",
+    completionType: "participantResponse",
+    requires: ["annualEventChoices"],
+    unlocks: "annualEventComplete"
+  },
+
+  annualEventComplete: {
+    id: "annualEventComplete",
+    type: "presentation",
+    purpose:
+      "Present the participant's completed annual-event chapter.",
+    completionType: "narrativePresentation",
+    requires: ["annualEventReflection"],
     unlocks: null
   }
 };

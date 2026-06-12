@@ -24,17 +24,16 @@ export const storyState = {
     risingActions: ""
   },
 
-  eventContext: {
-    pluto: {
-      sunHouse: null,
-      moonHouse: null,
-      risingHouse: null
-    }
+  annualJourney: {
+    year: 2026,
+    currentEventIndex: 0,
+
+    responses: {}
   },
 
   outputs: {
     characterSketch: null,
-    eventReflections: {}
+    annualEventStories: {}
   },
 
   completedAnchors: []

@@ -5,6 +5,7 @@ import {
   characterSketchLanguage,
   signElements
 } from "../assets/narratives/characterSketchLanguage.js";
+import { renderAnnualEventAnchor } from "./annualEventRuntime.js";
 
 const app = document.getElementById("app");
 const nextButton = document.getElementById("nextButton");
@@ -24,73 +25,130 @@ function capitalizeFirst(value = "") {
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
-function prepareResponse(value = "", prefixes = []) {
+function lowercaseFirst(value = "") {
+  if (!value) return "";
+
+  return value.charAt(0).toLowerCase() + value.slice(1);
+}
+
+function escapeRegExp(value = "") {
+  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function removePromptStem(value = "", stems = []) {
   let response = String(value).trim();
 
-  prefixes.forEach(prefix => {
-    const pattern = new RegExp(`^${prefix}\\s*`, "i");
+  stems.forEach(stem => {
+    const pattern = new RegExp(
+      `^${escapeRegExp(stem)}[\\s,:;.!?–—-]*`,
+      "i"
+    );
+
     response = response.replace(pattern, "");
   });
 
-  response = response
-    .replace(/[.!?]+$/, "")
-    .trim();
-
-  if (!response) {
-    return "";
-  }
-
-  return response.charAt(0).toLowerCase() + response.slice(1);
+  return response.trim();
 }
 
 function shiftToSecondPerson(value = "") {
   return String(value)
+    .replace(/\bI am\b/gi, "you are")
+    .replace(/\bI'm\b/gi, "you're")
     .replace(/\bmyself\b/gi, "yourself")
     .replace(/\bmine\b/gi, "yours")
     .replace(/\bmy\b/gi, "your")
     .replace(/\bme\b/gi, "you")
-    .replace(/\bI am\b/gi, "you are")
-    .replace(/\bI'm\b/gi, "you're")
     .replace(/\bI\b/gi, "you");
 }
 
-function prepareActionResponse(value = "", prefixes = []) {
-  let response = prepareResponse(value, prefixes);
+function cleanParticipantResponse(value = "", stems = []) {
+  let response = removePromptStem(value, stems);
 
   response = shiftToSecondPerson(response)
-    .replace(/^(you are|you're)\s+/i, "")
-    .replace(/^you\s+/i, "")
+    .replace(/[.!?]+$/, "")
     .trim();
 
   return response;
 }
 
-function prepareDescriptionResponse(value = "", prefixes = []) {
-  let response = prepareResponse(value, prefixes);
+function buildSunShineSentence(value = "") {
+  let response = cleanParticipantResponse(value, [
+    "I shine in the world when I",
+    "I shine in the world when",
+    "When I"
+  ]);
 
-  response = shiftToSecondPerson(response)
-    .replace(/^(you are|you're)\s+/i, "")
-    .replace(/^your style is\s+/i, "")
-    .trim();
+  if (/^when\s+/i.test(response)) {
+    response = response.replace(/^when\s+/i, "");
+  }
 
-  return response;
+  if (/^(you|your)\b/i.test(response)) {
+    return `In your own life, this becomes visible when ${lowercaseFirst(
+      response
+    )}.`;
+  }
+
+  if (/^am\s+/i.test(response)) {
+    response = response.replace(/^am\s+/i, "are ");
+  }
+
+  return `In your own life, this becomes visible when you ${lowercaseFirst(
+    response
+  )}.`;
+}
+
+function buildSunPrideSentence(value = "") {
+  let response = cleanParticipantResponse(value, [
+    "I am proud of myself when I",
+    "I am proud of myself when",
+    "When I"
+  ]);
+
+  if (/^when\s+/i.test(response)) {
+    response = response.replace(/^when\s+/i, "");
+  }
+
+  if (/^you\b/i.test(response)) {
+    return `You take particular pride when ${lowercaseFirst(response)}.`;
+  }
+
+  if (/^are\s+/i.test(response)) {
+    return `You take particular pride when you ${lowercaseFirst(response)}.`;
+  }
+
+  return `You take particular pride in the ways you ${lowercaseFirst(
+    response
+  )}.`;
 }
 
 function buildMoonEaseSentence(value = "") {
-  let response = prepareResponse(value, [
-    "I feel most at ease when I am"
+  let response = cleanParticipantResponse(value, [
+    "I feel most at ease when I am",
+    "I feel most at ease when I",
+    "I feel most at ease when",
+    "When I am",
+    "When I"
   ]);
 
-  response = shiftToSecondPerson(response).trim();
+  if (/^when\s+/i.test(response)) {
+    response = response.replace(/^when\s+/i, "");
+  }
 
-  if (/^(you are|you're|you)\b/i.test(response)) {
-    return `You feel most at ease when ${response}.`;
+  if (/^(you are|you're|you|your)\b/i.test(response)) {
+    return `You feel most at ease when ${lowercaseFirst(response)}.`;
+  }
+
+  if (/^am\s+/i.test(response)) {
+    response = response.replace(/^am\s+/i, "");
+
+    return `You feel most at ease when you are ${lowercaseFirst(
+      response
+    )}.`;
   }
 
   const actionVerbs = [
-    "allow",
     "accept",
-    "act",
+    "allow",
     "care",
     "choose",
     "connect",
@@ -124,10 +182,70 @@ function buildMoonEaseSentence(value = "") {
   );
 
   if (beginsWithAction) {
-    return `You feel most at ease when you ${response}.`;
+    return `You feel most at ease when you ${lowercaseFirst(response)}.`;
   }
 
-  return `You feel most at ease when you are ${response}.`;
+  return `You feel most at ease when you are ${lowercaseFirst(response)}.`;
+}
+
+function buildMoonMotivationSentence(value = "") {
+  let response = cleanParticipantResponse(value, [
+    "I am motivated by the need to",
+    "I am motivated by",
+    "I need to",
+    "I want to"
+  ]);
+
+  response = response
+    .replace(/^you\s+/i, "")
+    .replace(/^are\s+/i, "be ")
+    .trim();
+
+  return `Beneath many of your choices is a need to ${lowercaseFirst(
+    response
+  )}.`;
+}
+
+function buildRisingStyleSentence(value = "") {
+  let response = cleanParticipantResponse(value, [
+    "My style is",
+    "I would describe my style as",
+    "I describe my style as",
+    "I am"
+  ]);
+
+  response = response
+    .replace(/^you are\s+/i, "")
+    .replace(/^you're\s+/i, "")
+    .trim();
+
+  if (/^like\s+/i.test(response)) {
+    response = `being ${response}`;
+  }
+
+  return `You describe your style as ${lowercaseFirst(response)}.`;
+}
+
+function buildRisingActionsSentence(value = "") {
+  let response = cleanParticipantResponse(value, [
+    "Others would describe my actions as",
+    "Others would describe me as",
+    "People would describe me as",
+    "I am"
+  ]);
+
+  response = response
+    .replace(/^you are\s+/i, "")
+    .replace(/^you're\s+/i, "")
+    .trim();
+
+  if (/^like\s+/i.test(response)) {
+    response = `being ${response}`;
+  }
+
+  return `As that quality takes shape in your actions, others may experience you as ${lowercaseFirst(
+    response
+  )}.`;
 }
 
 function determineRelationship(sunSign, moonSign) {
@@ -232,32 +350,31 @@ function buildCharacterSketch() {
     return `${name}, your Character Sketch could not be completed because one or more narrative selections are missing.`;
   }
 
-  const sunShine = prepareActionResponse(responses.sunShine, [
-    "I shine in the world when I"
-  ]);
+  const sunShineSentence = buildSunShineSentence(
+    responses.sunShine
+  );
 
-  const sunPride = prepareActionResponse(responses.sunPride, [
-    "I am proud of myself when I"
-  ]);
+  const sunPrideSentence = buildSunPrideSentence(
+    responses.sunPride
+  );
 
   const moonEaseSentence = buildMoonEaseSentence(
     responses.moonEase
   );
 
-  const moonMotivation = prepareActionResponse(
-    responses.moonMotivation,
-    ["I am motivated by the need to"]
+  const moonMotivationSentence =
+    buildMoonMotivationSentence(
+      responses.moonMotivation
+    );
+
+  const risingStyleSentence = buildRisingStyleSentence(
+    responses.risingStyle
   );
 
-  const risingStyle = prepareDescriptionResponse(
-    responses.risingStyle,
-    ["My style is"]
-  );
-
-  const risingActions = prepareDescriptionResponse(
-    responses.risingActions,
-    ["Others would describe my actions as"]
-  );
+  const risingActionsSentence =
+    buildRisingActionsSentence(
+      responses.risingActions
+    );
 
   const relationship = determineRelationship(
     sunSign,
@@ -268,15 +385,15 @@ function buildCharacterSketch() {
     getRelationshipLanguage(relationship);
 
   const paragraphs = [
-    `${name}, ${sunLanguage.sun} In your own life, this becomes visible when you ${sunShine}, and you take particular pride in the ways you ${sunPride}.`,
+    `${name}, ${sunLanguage.sun} ${sunShineSentence} ${sunPrideSentence}`,
 
     `${relationshipLanguage.interior} ${capitalizeFirst(
       moonLanguage.moon
-    )} ${moonEaseSentence} Beneath many of your choices is a need to ${moonMotivation}.`,
+    )} ${moonEaseSentence} ${moonMotivationSentence}`,
 
     `${relationshipLanguage.threshold} ${capitalizeFirst(
       risingLanguage.rising
-    )} You describe your style as ${risingStyle}. Others may experience you as ${risingActions}.`,
+    )} ${risingStyleSentence} ${risingActionsSentence}`,
 
     relationshipLanguage.integration
   ];
@@ -383,10 +500,22 @@ function render() {
   console.log("Current Anchor ID:", current.id);
 
   if (nextButton) {
-    nextButton.style.display = "none";
-  }
+  nextButton.style.display = "none";
+}
 
-  if (current.id === "welcome") {
+const annualEventWasRendered =
+  renderAnnualEventAnchor({
+    anchorId: current.id,
+    app,
+    advanceStory,
+    render
+  });
+
+if (annualEventWasRendered) {
+  return;
+}
+
+if (current.id === "welcome") {
     app.innerHTML = `
       <h2>Welcome</h2>
       <p>This is the beginning of your Storybook journey.</p>
@@ -435,17 +564,20 @@ function render() {
       <button id="submitSunSign">Submit</button>
     `;
 
-    document.getElementById("submitSunSign").addEventListener("click", () => {
-      const sunSign = document.getElementById("sunSignInput").value;
+    document
+      .getElementById("submitSunSign")
+      .addEventListener("click", () => {
+        const sunSign =
+          document.getElementById("sunSignInput").value;
 
-      if (!sunSign) {
-        return;
-      }
+        if (!sunSign) {
+          return;
+        }
 
-      storyState.identity.sunSign = sunSign;
-      advanceStory();
-      render();
-    });
+        storyState.identity.sunSign = sunSign;
+        advanceStory();
+        render();
+      });
 
     return;
   }
@@ -462,17 +594,20 @@ function render() {
       <button id="submitMoonSign">Submit</button>
     `;
 
-    document.getElementById("submitMoonSign").addEventListener("click", () => {
-      const moonSign = document.getElementById("moonSignInput").value;
+    document
+      .getElementById("submitMoonSign")
+      .addEventListener("click", () => {
+        const moonSign =
+          document.getElementById("moonSignInput").value;
 
-      if (!moonSign) {
-        return;
-      }
+        if (!moonSign) {
+          return;
+        }
 
-      storyState.identity.moonSign = moonSign;
-      advanceStory();
-      render();
-    });
+        storyState.identity.moonSign = moonSign;
+        advanceStory();
+        render();
+      });
 
     return;
   }
@@ -524,7 +659,9 @@ function render() {
 
     document.querySelectorAll(".kw").forEach(button => {
       button.addEventListener("click", () => {
-        storyState.selections.sunKeyword = button.dataset.keyword;
+        storyState.selections.sunKeyword =
+          button.dataset.keyword;
+
         advanceStory();
         render();
       });
@@ -550,7 +687,9 @@ function render() {
 
     document.querySelectorAll(".kw").forEach(button => {
       button.addEventListener("click", () => {
-        storyState.selections.moonKeyword = button.dataset.keyword;
+        storyState.selections.moonKeyword =
+          button.dataset.keyword;
+
         advanceStory();
         render();
       });
