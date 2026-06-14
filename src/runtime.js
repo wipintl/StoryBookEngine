@@ -9,6 +9,193 @@ import { renderAnnualEventAnchor } from "./annualEventRuntime.js";
 
 const app = document.getElementById("app");
 const nextButton = document.getElementById("nextButton");
+function loadDevelopmentCheckpoint() {
+  const isLocalDevelopment =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  if (!isLocalDevelopment) {
+    return;
+  }
+
+  const checkpoint =
+    new URLSearchParams(window.location.search).get("test");
+
+  const checkpointAnchors = {
+    pluto: {
+      currentAnchorId: "annualEventScene",
+      completedAnchors: [
+        "welcome",
+        "identityCollection",
+        "sunSignSelection",
+        "moonSignSelection",
+        "risingSignSelection",
+        "sunKeywordSelection",
+        "moonKeywordSelection",
+        "risingKeywordSelection",
+        "sunReflection",
+        "moonReflection",
+        "risingReflection",
+        "characterSketch",
+        "characterReflection"
+      ]
+    },
+
+    "pluto-context": {
+      currentAnchorId: "annualEventContext",
+      completedAnchors: [
+        "welcome",
+        "identityCollection",
+        "sunSignSelection",
+        "moonSignSelection",
+        "risingSignSelection",
+        "sunKeywordSelection",
+        "moonKeywordSelection",
+        "risingKeywordSelection",
+        "sunReflection",
+        "moonReflection",
+        "risingReflection",
+        "characterSketch",
+        "characterReflection",
+        "annualEventScene"
+      ]
+    },
+
+    "pluto-choices": {
+      currentAnchorId: "annualEventChoices",
+      completedAnchors: [
+        "welcome",
+        "identityCollection",
+        "sunSignSelection",
+        "moonSignSelection",
+        "risingSignSelection",
+        "sunKeywordSelection",
+        "moonKeywordSelection",
+        "risingKeywordSelection",
+        "sunReflection",
+        "moonReflection",
+        "risingReflection",
+        "characterSketch",
+        "characterReflection",
+        "annualEventScene",
+        "annualEventContext"
+      ]
+    },
+
+    "pluto-story": {
+      currentAnchorId: "annualEventReflection",
+      completedAnchors: [
+        "welcome",
+        "identityCollection",
+        "sunSignSelection",
+        "moonSignSelection",
+        "risingSignSelection",
+        "sunKeywordSelection",
+        "moonKeywordSelection",
+        "risingKeywordSelection",
+        "sunReflection",
+        "moonReflection",
+        "risingReflection",
+        "characterSketch",
+        "characterReflection",
+        "annualEventScene",
+        "annualEventContext",
+        "annualEventChoices"
+      ]
+    }
+  };
+
+  const selectedCheckpoint =
+    checkpointAnchors[checkpoint];
+
+  if (!selectedCheckpoint) {
+    return;
+  }
+
+  storyState.identity = {
+    name: "Tracy",
+    sunSign: "Taurus",
+    moonSign: "Scorpio",
+    risingSign: "Aquarius"
+  };
+
+  storyState.selections = {
+    sunKeyword: "Pleasure-seeking",
+    moonKeyword: "Passionate",
+    risingKeyword: "Detached",
+    reflection:
+      "This broadly reflects how I understand myself."
+  };
+
+  storyState.characterResponses = {
+    sunShine:
+      "I allow myself to experience new and exciting things.",
+    sunPride:
+      "I make time to do the things I love.",
+    moonEase:
+      "I express my softer emotions in an unguarded way.",
+    moonMotivation:
+      "I follow through on my promises to the people I care about.",
+    risingStyle:
+      "friendly yet independent",
+    risingActions:
+      "directed toward fulfilling a personal desire"
+  };
+
+  storyState.annualJourney = {
+    year: 2026,
+    currentEventIndex: 0,
+
+    responses: {
+      plutoAquarius: {
+        houses: {
+          sun: "10",
+          moon: "4",
+          rising: "1"
+        },
+
+        activities: {
+          sun: [
+            "Ask for a raise or a promotion"
+          ],
+
+          moon: [
+            "Spend time with my family"
+          ],
+
+          rising: [
+            "Refresh my look with new clothes, a haircut, or a makeover"
+          ]
+        },
+
+        natalPlanets: {
+          Saturn: [
+            "Grounded",
+            "Patient"
+          ]
+        },
+
+        reflections: {
+          sun: "",
+          moon: "",
+          rising: ""
+        }
+      }
+    }
+  };
+
+  storyState.outputs = {
+    characterSketch: null,
+    annualEventStories: {}
+  };
+
+  storyState.completedAnchors = [
+    ...selectedCheckpoint.completedAnchors
+  ];
+
+  storyState.currentAnchorId =
+    selectedCheckpoint.currentAnchorId;
+}
 
 function escapeHtml(value = "") {
   return String(value)
@@ -913,4 +1100,68 @@ if (nextButton) {
   });
 }
 
+document.addEventListener("keydown", event => {
+  if (
+    event.key !== "Enter" ||
+    event.isComposing
+  ) {
+    return;
+  }
+
+  const target = event.target;
+
+  const isTextField =
+    target instanceof HTMLInputElement ||
+    target instanceof HTMLTextAreaElement ||
+    target instanceof HTMLSelectElement;
+
+  if (!isTextField) {
+    return;
+  }
+
+  if (
+    target instanceof HTMLInputElement &&
+    ["checkbox", "radio", "button", "submit"].includes(
+      target.type
+    )
+  ) {
+    return;
+  }
+
+  if (
+    target instanceof HTMLTextAreaElement &&
+    event.shiftKey
+  ) {
+    return;
+  }
+
+  const forwardButtons = Array.from(
+    app.querySelectorAll("button")
+  ).filter(button => {
+    const isVisible =
+      button.offsetParent !== null;
+
+    const isBackButton =
+      button.id.toLowerCase().includes("back");
+
+    return (
+      isVisible &&
+      !isBackButton &&
+      !button.disabled
+    );
+  });
+
+  if (forwardButtons.length === 0) {
+    return;
+  }
+
+  event.preventDefault();
+
+  const forwardButton =
+    forwardButtons[forwardButtons.length - 1];
+
+  forwardButton.click();
+});
+
+loadDevelopmentCheckpoint();
 render();
