@@ -3,6 +3,7 @@ import { storyYear2026 } from "../assets/storyYears/2026/annualEvents.js";
 import { houseActivityKeywords } from "../assets/keywords/houseActivityKeywords.js";
 import { planetKeywords } from "../assets/keywords/planetKeywords.js";
 import { houseNarrativeFocus } from "../assets/narratives/houseNarrativeFocus.js";
+import { planetEventLanguage } from "../assets/narratives/planetEventLanguage.js";
 
 function escapeHtml(value = "") {
   return String(value)
@@ -100,19 +101,42 @@ function buildNatalPlanetParagraph(event, response) {
     return "";
   }
 
-  const planetSentences = planetEntries.map(
-    ([planet, qualities]) => {
-      const qualityLanguage = joinNaturally(
-        qualities.map(keyword =>
-          keyword.toLowerCase()
-        )
-      );
+  const eventLanguage =
+    planetEventLanguage[event.id] || {};
 
-      return `Your natal ${planet} in ${event.eventSign} brings a ${qualityLanguage} tone to this chapter.`;
+  const planetParagraphs = planetEntries.map(
+    ([planet, qualities]) => {
+      const planetLanguage =
+        eventLanguage[planet];
+
+      if (!planetLanguage) {
+        const selectedQualities =
+          joinNaturally(
+            qualities.map(quality =>
+              quality.toLowerCase()
+            )
+          );
+
+        return `Your natal ${planet} in ${
+          event.eventSign
+        } brings ${selectedQualities} qualities into this chapter.`;
+      }
+
+      const qualitySentences = qualities
+        .map(
+          quality =>
+            planetLanguage.qualities?.[quality]
+        )
+        .filter(Boolean);
+
+      return [
+        planetLanguage.core,
+        ...qualitySentences
+      ].join(" ");
     }
   );
 
-  return planetSentences.join(" ");
+  return planetParagraphs.join("\n\n");
 }
 
 function buildAnnualEventStory(event, response) {
