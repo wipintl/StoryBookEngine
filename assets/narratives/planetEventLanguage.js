@@ -323,7 +323,7 @@ export const planetEventLanguage = {
           "Across the areas of life you identified, transformation may expand your sense of possibility while asking you to distinguish genuine growth from promises, beliefs, or ambitions that have become too large to sustain."
       }
     },
-    
+
     Saturn: {
     core:
       "Your natal Saturn in Aquarius places structure, responsibility, endurance, limits, and long-term consequences inside Pluto’s field of transformation.",
@@ -380,64 +380,142 @@ export const planetEventLanguage = {
     }
   },
 
-    Uranus: {
-      core:
-        "Your natal Uranus in Aquarius brings individuality, freedom, disruption, and unconventional change into Pluto’s transformational field.",
+  Uranus: {
+    core:
+      "Your natal Uranus in Aquarius brings individuality, freedom, disruption, innovation, and sudden change into Pluto’s transformational field.",
 
-      qualities: {
+    qualities: {
+      Unconventional:
+        "An unconventional expression may help you imagine forms of life and community that do not depend upon inherited rules.",
+
+      Individualistic:
+        "An individualistic expression may strengthen your need to remain distinct while Pluto examines your relationship to collective power.",
+
+      "Freedom-seeking":
+        "A freedom-seeking expression may expose where structures, identities, or alliances have become too restrictive to sustain.",
+
+      Rebellious:
+        "A rebellious expression may challenge entrenched authority, while Pluto asks whether resistance is creating genuine transformation or only opposition."
+    },
+
+    synthesis: {
+      qualityMovements: {
         Unconventional:
-          "An unconventional expression may help you imagine forms of life and community that do not depend upon inherited rules.",
+          "imagining new possibilities that do not depend upon inherited rules or familiar structures",
 
         Individualistic:
-          "An individualistic expression may strengthen your need to remain distinct while Pluto examines your relationship to collective power.",
+          "remaining distinct while reconsidering your relationship to groups, systems, and collective power",
 
         "Freedom-seeking":
-          "A freedom-seeking expression may expose where structures, identities, or alliances have become too restrictive to sustain.",
+          "recognizing where structures, identities, or alliances have become too restrictive to sustain",
 
         Rebellious:
-          "A rebellious expression may challenge entrenched authority, while Pluto asks whether resistance is creating genuine transformation or only opposition."
-      }
+          "challenging entrenched authority while distinguishing genuine transformation from opposition for its own sake"
+      },
+
+      oneQuality:
+        "The {qualities} quality you selected suggests that Uranus may shape this Pluto chapter through {movements}.",
+
+      multipleQualities:
+        "Taken together, the {qualities} qualities you selected suggest that Uranus may shape this Pluto chapter through {movements}.",
+
+      integration:
+        "Across the areas of life you identified, transformation may arrive through disruption, experimentation, and the need to respond differently when familiar structures can no longer contain what is emerging."
+    }
+  },
+
+  Neptune: {
+    core:
+      "Your natal Neptune in Aquarius brings imagination, faith, sacrifice, sensitivity, and blurred boundaries into Pluto’s transformational work.",
+
+    qualities: {
+      Boundless:
+        "A boundless expression may open you to collective possibilities while making clear boundaries especially important.",
+
+      Dreamy:
+        "A dreamy expression may help you envision a different future, though Pluto may test whether that vision can survive contact with reality.",
+
+      "Fantasy-prone":
+        "A fantasy-prone expression may reveal where idealized communities, technologies, or beliefs conceal uncomfortable truths.",
+
+      Sacrificing:
+        "A sacrificing expression may ask whether devotion to a cause or group is genuinely meaningful or has required too much self-erasure."
     },
 
-    Neptune: {
-      core:
-        "Your natal Neptune in Aquarius brings imagination, faith, sacrifice, ideals, and blurred boundaries into Pluto’s transformational work.",
-
-      qualities: {
+    synthesis: {
+      qualityMovements: {
         Boundless:
-          "A boundless expression may open you to collective possibilities while making clear boundaries especially important.",
+          "remaining open to collective possibilities while recognizing where clearer boundaries are needed",
 
         Dreamy:
-          "A dreamy expression may help you envision a different future, though Pluto may test whether that vision can survive contact with reality.",
+          "imagining a different future while testing whether the vision can remain meaningful in practical reality",
 
         "Fantasy-prone":
-          "A fantasy-prone expression may reveal where idealized communities, technologies, or beliefs conceal uncomfortable truths.",
+          "recognizing where idealized groups, technologies, or beliefs may be concealing uncomfortable truths",
 
         Sacrificing:
-          "A sacrificing expression may ask whether devotion to a cause or group is genuinely meaningful or has required too much self-erasure."
-      }
+          "examining whether devotion to a cause, community, or ideal has required too much self-erasure"
+      },
+
+      oneQuality:
+        "The {qualities} quality you selected suggests that Neptune may shape this Pluto chapter through {movements}.",
+
+      multipleQualities:
+        "Taken together, the {qualities} qualities you selected suggest that Neptune may shape this Pluto chapter through {movements}.",
+
+      integration:
+        "Across the areas of life you identified, transformation may ask you to separate genuine inspiration from illusion, clarify where your boundaries belong, and decide which dreams are capable of becoming lived commitments."
+    }
+  },
+
+  Pluto: {
+    core:
+      "Your natal Pluto in Aquarius intensifies the themes of power, healing, depth, shame, and irreversible transformation within this chapter.",
+
+    qualities: {
+      Healing:
+        "A healing expression may support the recovery of power that was previously hidden, rejected, or given away.",
+
+      Intense:
+        "An intense expression may make the changes of this period impossible to treat casually or keep at the surface.",
+
+      Deep:
+        "A deep expression may draw you beneath appearances toward the roots of beliefs, relationships, and collective patterns.",
+
+      Nonrational:
+        "A nonrational expression may bring instincts, symbols, and forces into awareness before they can be explained logically.",
+
+      Shameful:
+        "A shameful expression may expose what has been hidden through fear of judgment, creating the possibility of release and renewal."
     },
 
-    Pluto: {
-      core:
-        "Your natal Pluto in Aquarius intensifies the themes of power, healing, depth, shame, and irreversible transformation within this chapter.",
-
-      qualities: {
+    synthesis: {
+      qualityMovements: {
         Healing:
-          "A healing expression may support the recovery of power that was previously hidden, rejected, or given away.",
+          "recovering power that was previously hidden, rejected, or given away",
 
         Intense:
-          "An intense expression may make the changes of this period impossible to treat casually or keep at the surface.",
+          "meeting changes that cannot be treated casually or kept at the surface",
 
         Deep:
-          "A deep expression may draw you beneath appearances toward the roots of beliefs, relationships, and collective patterns.",
+          "moving beneath appearances toward the roots of beliefs, relationships, and collective patterns",
 
         Nonrational:
-          "A nonrational expression may bring instincts, symbols, and forces into awareness before they can be explained logically.",
+          "allowing instincts, symbols, and unseen forces to enter awareness before they can be explained logically",
 
         Shameful:
-          "A shameful expression may expose what has been hidden through fear of judgment, creating the possibility of release and renewal."
-      }
+          "bringing hidden material shaped by fear of judgment into the possibility of release and renewal"
+      },
+
+      oneQuality:
+        "The {qualities} quality you selected suggests that natal Pluto may deepen this chapter through {movements}.",
+
+      multipleQualities:
+        "Taken together, the {qualities} qualities you selected suggest that natal Pluto may deepen this chapter through {movements}.",
+
+      integration:
+        "Across the areas of life you identified, transformation may become especially concentrated. What has remained buried, disowned, or unresolved may demand a more honest relationship with power, vulnerability, and the possibility of renewal."
     }
+  }
   }
 };

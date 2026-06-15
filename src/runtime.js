@@ -1127,12 +1127,10 @@ document.addEventListener("keydown", event => {
 
   const target = event.target;
 
-  const isTextField =
-    target instanceof HTMLInputElement ||
-    target instanceof HTMLTextAreaElement ||
-    target instanceof HTMLSelectElement;
-
-  if (!isTextField) {
+  if (
+    target instanceof HTMLTextAreaElement &&
+    event.shiftKey
+  ) {
     return;
   }
 
@@ -1141,13 +1139,6 @@ document.addEventListener("keydown", event => {
     ["checkbox", "radio", "button", "submit"].includes(
       target.type
     )
-  ) {
-    return;
-  }
-
-  if (
-    target instanceof HTMLTextAreaElement &&
-    event.shiftKey
   ) {
     return;
   }
