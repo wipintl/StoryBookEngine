@@ -9,6 +9,8 @@ import { renderAnnualEventAnchor } from "./annualEventRuntime.js";
 
 const app = document.getElementById("app");
 const nextButton = document.getElementById("nextButton");
+const titleAttribution =
+  document.getElementById("titleAttribution");
 function loadDevelopmentCheckpoint() {
   const isLocalDevelopment =
     window.location.hostname === "localhost" ||
@@ -690,6 +692,13 @@ function render() {
   nextButton.style.display = "none";
 }
 
+if (titleAttribution) {
+  titleAttribution.style.display =
+    current.id === "welcome"
+      ? "block"
+      : "none";
+}
+
 const annualEventWasRendered =
   renderAnnualEventAnchor({
     anchorId: current.id,
@@ -708,12 +717,6 @@ if (current.id === "welcome") {
 
     <p>
       This is the beginning of your Storybook journey.
-    </p>
-
-    <p>
-      This interactive experience presents the original
-      Storybook process and authored materials created by
-      Donna Woodwell and Kathy Biehl for © Magic and Mastery.
     </p>
 
     <button id="startButton">

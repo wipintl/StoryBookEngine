@@ -2,7 +2,7 @@ export const planetEventLanguage = {
   plutoAquarius: {
     Sun: {
       core:
-        "Your natal Sun in Aquarius places identity, vitality, and conscious purpose inside Pluto’s field of transformation.",
+        "Your natal Sun in Aquarius places identity, vitality, leadership, and conscious purpose inside Pluto’s field of transformation.",
 
       qualities: {
         Robust:
@@ -22,12 +22,43 @@ export const planetEventLanguage = {
 
         Arrogant:
           "An arrogant expression may expose where certainty about your own position prevents deeper transformation or shared understanding."
+      },
+
+      synthesis: {
+        qualityMovements: {
+          Robust:
+            "meeting change with renewed vitality and remaining present through its intensity",
+
+          Leading:
+            "stepping forward while familiar roles and collective expectations are being rewritten",
+
+          Visionary:
+            "recognizing possibilities that existing structures have not yet made visible",
+
+          Conscious:
+            "participating deliberately in change rather than responding by instinct alone",
+
+          "Self-involved":
+            "examining where personal identity has become difficult to separate from group ideals or collective concerns",
+
+          Arrogant:
+            "recognizing where certainty about your own position may prevent deeper change or shared understanding"
+        },
+
+        oneQuality:
+          "The {qualities} quality you selected suggests that the Sun may shape this Pluto chapter through {movements}.",
+
+        multipleQualities:
+          "Taken together, the {qualities} qualities you selected suggest that the Sun may shape this Pluto chapter through {movements}.",
+
+        integration:
+          "Across the areas of life you identified, transformation may ask you to reconsider how you express purpose, exercise leadership, and remain faithful to the person you are becoming."
       }
     },
 
     Moon: {
       core:
-        "Your natal Moon in Aquarius brings emotional needs, intuition, memory, and belonging into Pluto’s transformational work.",
+        "Your natal Moon in Aquarius brings emotional needs, intuition, memory, care, and belonging into Pluto’s transformational work.",
 
       qualities: {
         Nurturing:
@@ -47,6 +78,37 @@ export const planetEventLanguage = {
 
         Needy:
           "A needy expression may expose where belonging or reassurance has become dependent upon groups, approval, or emotional distance."
+      },
+
+      synthesis: {
+        qualityMovements: {
+          Nurturing:
+            "creating emotional safety while relationships and communities are changing shape",
+
+          Gathering:
+            "drawing people, memories, and shared concerns together so that change can be experienced collectively",
+
+          Sentimental:
+            "distinguishing the attachments that still carry meaning from those connected to an earlier version of your life",
+
+          Relaxed:
+            "remaining receptive while deeper changes unfold without immediate explanation",
+
+          Intuitive:
+            "sensing changes in people or communities before their meaning becomes fully visible",
+
+          Needy:
+            "recognizing where reassurance or belonging has become too dependent upon approval, groups, or emotional distance"
+        },
+
+        oneQuality:
+          "The {qualities} quality you selected suggests that the Moon may shape this Pluto chapter through {movements}.",
+
+        multipleQualities:
+          "Taken together, the {qualities} qualities you selected suggest that the Moon may shape this Pluto chapter through {movements}.",
+
+        integration:
+          "Across the areas of life you identified, transformation may deepen your understanding of emotional safety, belonging, and the forms of care that can support genuine change."
       }
     },
 
@@ -69,6 +131,34 @@ export const planetEventLanguage = {
 
         Clever:
           "A clever expression may help you find inventive language for difficult truths, though Pluto may also test whether intelligence is being used to clarify or evade."
+      },
+
+      synthesis: {
+        qualityMovements: {
+          Busy:
+            "sorting through rapidly circulating ideas and deciding which ones deserve sustained attention",
+
+          Chatty:
+            "bringing hidden subjects into conversation and making silence increasingly difficult to maintain",
+
+          Studious:
+            "investigating systems, beliefs, and information that were previously taken for granted",
+
+          Perceptive:
+            "noticing the motives, patterns, and power dynamics operating beneath ordinary communication",
+
+          Clever:
+            "finding inventive language for difficult truths while remaining alert to the difference between clarity and evasion"
+        },
+
+        oneQuality:
+          "The {qualities} quality you selected suggests that Mercury may shape this Pluto chapter through {movements}.",
+
+        multipleQualities:
+          "Taken together, the {qualities} qualities you selected suggest that Mercury may shape this Pluto chapter through {movements}.",
+
+        integration:
+          "Across the areas of life you identified, transformation may change how you gather information, name difficult truths, and decide which ideas are worth carrying forward."
       }
     },
 
@@ -203,9 +293,37 @@ export const planetEventLanguage = {
 
         Excessive:
           "An excessive expression may reveal where beliefs, ambitions, or collective commitments have grown beyond what can be responsibly sustained."
+      },
+
+      synthesis: {
+        qualityMovements: {
+          Enthusiastic:
+            "recognizing possibility even while familiar structures are being dismantled",
+
+          Optimistic:
+            "sustaining faith in what can emerge while keeping hope grounded in truth",
+
+          Merciful:
+            "making room for forgiveness without denying responsibility or consequence",
+
+          Expansive:
+            "widening your involvement with communities, ideas, or causes that reach beyond your personal life",
+
+          Excessive:
+            "recognizing where beliefs, ambitions, or collective commitments have grown beyond what can be responsibly sustained"
+        },
+
+        oneQuality:
+          "The {qualities} quality you selected suggests that Jupiter may shape this Pluto chapter through {movements}.",
+
+        multipleQualities:
+          "Taken together, the {qualities} qualities you selected suggest that Jupiter may shape this Pluto chapter through {movements}.",
+
+        integration:
+          "Across the areas of life you identified, transformation may expand your sense of possibility while asking you to distinguish genuine growth from promises, beliefs, or ambitions that have become too large to sustain."
       }
     },
-
+    
     Saturn: {
     core:
       "Your natal Saturn in Aquarius places structure, responsibility, endurance, limits, and long-term consequences inside Pluto’s field of transformation.",

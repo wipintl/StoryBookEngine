@@ -381,23 +381,10 @@ function renderScene({
 function renderLookupTable(event) {
   const identity = storyState.identity;
 
-  const participantSigns = new Set([
-    identity.sunSign,
-    identity.moonSign,
-    identity.risingSign
-  ]);
-
   const rows = Object.entries(event.houseLookup)
     .map(([sign, house]) => {
-      const isParticipantSign =
-        participantSigns.has(sign);
-
-      const emphasis = isParticipantSign
-        ? 'style="font-weight: 700;"'
-        : "";
-
       return `
-        <tr ${emphasis}>
+        <tr>
           <td style="padding: 8px; border: 1px solid #cccccc;">
             ${escapeHtml(sign)}
           </td>
@@ -459,7 +446,6 @@ function renderContext({
   advanceStory,
   render
 }) {
-  const identity = storyState.identity;
 
   const introduction = event.contextIntroduction
     .map(paragraph => `<p>${escapeHtml(paragraph)}</p>`)
@@ -1164,6 +1150,10 @@ function renderComplete({
     <button id="backToAnnualReflection">
       Back
     </button>
+
+    <button id="continueFromAnnualStory">
+      Continue
+    </button>
   `;
 
   document
@@ -1173,6 +1163,54 @@ function renderComplete({
         "annualEventReflection";
 
       render();
+    });
+
+  document
+    .getElementById("continueFromAnnualStory")
+    .addEventListener("click", () => {
+      const nextEventIndex =
+        storyState.annualJourney.currentEventIndex + 1;
+
+      const nextEvent =
+        storyYear2026.events[nextEventIndex];
+
+      if (nextEvent) {
+        storyState.annualJourney.currentEventIndex =
+          nextEventIndex;
+
+        storyState.currentAnchorId =
+          "annualEventScene";
+
+        render();
+        return;
+      }
+
+      app.innerHTML = `
+        <h2>Pluto Story Complete</h2>
+
+        <p>
+          Your Pluto Story has been completed.
+        </p>
+
+        <p>
+          The next Storybook chamber is ready to be added.
+        </p>
+
+        <button id="backToCompletedPlutoStory">
+          Back
+        </button>
+      `;
+
+      document
+        .getElementById(
+          "backToCompletedPlutoStory"
+        )
+        .addEventListener("click", () => {
+          storyState.currentAnchorId =
+            "annualEventComplete";
+
+          render();
+        });
     });
 }
 
