@@ -160,10 +160,10 @@ function buildNatalPlanetParagraph(event, response) {
             )
             .filter(Boolean);
 
-        const movementLanguage =
-          planet === "Mars" && movements.length === 2
-            ? `${movements[0]}, while ${movements[1]}`
-            : joinNaturally(movements);
+            const movementLanguage =
+              movements.length === 2
+                ? `${movements[0]}, while ${movements[1]}`
+                : joinNaturally(movements);
 
         const synthesisTemplate =
           qualities.length === 1
@@ -446,6 +446,7 @@ function renderContext({
   advanceStory,
   render
 }) {
+  const identity = storyState.identity;
 
   const introduction = event.contextIntroduction
     .map(paragraph => `<p>${escapeHtml(paragraph)}</p>`)
@@ -861,13 +862,15 @@ function renderChoices({
   document
     .getElementById("backToAnnualContext")
     .addEventListener("click", () => {
-      saveActivities();
-      saveNatalPlanets();
+      try {
+        saveActivities();
+        saveNatalPlanets();
+      } finally {
+        storyState.currentAnchorId =
+          "annualEventContext";
 
-      storyState.currentAnchorId =
-        "annualEventContext";
-
-      render();
+        render();
+      }
     });
 
   document
