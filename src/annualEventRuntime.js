@@ -160,10 +160,10 @@ function buildNatalPlanetParagraph(event, response) {
             )
             .filter(Boolean);
 
-            const movementLanguage =
-              movements.length === 2
-                ? `${movements[0]}, while ${movements[1]}`
-                : joinNaturally(movements);
+        const movementLanguage =
+          movements.length === 2
+            ? `${movements[0]}, while ${movements[1]}`
+            : joinNaturally(movements);
 
         const synthesisTemplate =
           qualities.length === 1
@@ -281,35 +281,91 @@ function getCurrentEvent() {
   ];
 }
 
-function getEventResponse(eventId) {
+function getEventResponse(event) {
+  const eventId = event.id;
+
   if (!storyState.annualJourney.responses[eventId]) {
-    storyState.annualJourney.responses[eventId] = {
-      houses: {
-        sun: "",
-        moon: "",
-        rising: ""
-      },
+    if (event.type === "transitionHouse") {
+      storyState.annualJourney.responses[eventId] = {
+        houses: {
+          from: {
+            sun: "",
+            moon: "",
+            rising: ""
+          },
 
-      activities: {
-        sun: [],
-        moon: [],
-        rising: []
-      },
+          to: {
+            sun: "",
+            moon: "",
+            rising: ""
+          }
+        },
 
-      natalPlanets: {},
+        activities: {
+          from: {
+            sun: [],
+            moon: [],
+            rising: []
+          },
 
-      reflections: {
-        sun: "",
-        moon: "",
-        rising: ""
-      }
-    };
+          to: {
+            sun: [],
+            moon: [],
+            rising: []
+          }
+        },
+
+        natalPlanets: {
+          from: {},
+          to: {}
+        },
+
+        reflections: {
+          from: {
+            sun: "",
+            moon: "",
+            rising: ""
+          },
+
+          to: {
+            sun: "",
+            moon: "",
+            rising: ""
+          }
+        }
+      };
+    } else {
+      storyState.annualJourney.responses[eventId] = {
+        houses: {
+          sun: "",
+          moon: "",
+          rising: ""
+        },
+
+        activities: {
+          sun: [],
+          moon: [],
+          rising: []
+        },
+
+        natalPlanets: {},
+
+        reflections: {
+          sun: "",
+          moon: "",
+          rising: ""
+        }
+      };
+    }
   }
 
   const response =
     storyState.annualJourney.responses[eventId];
 
-  if (!response.natalPlanets) {
+  if (
+    event.type !== "transitionHouse" &&
+    !response.natalPlanets
+  ) {
     response.natalPlanets = {};
   }
 
@@ -325,7 +381,9 @@ function getHouseOptions(selectedHouse = "") {
     const value = String(house);
 
     const selected =
-      value === selectedHouse ? "selected" : "";
+      value === selectedHouse
+        ? "selected"
+        : "";
 
     options.push(
       `<option value="${value}" ${selected}>${ordinalHouse(
@@ -344,7 +402,10 @@ function renderScene({
   render
 }) {
   const narrative = event.narrative
-    .map(paragraph => `<p>${escapeHtml(paragraph)}</p>`)
+    .map(
+      paragraph =>
+        `<p>${escapeHtml(paragraph)}</p>`
+    )
     .join("");
 
   app.innerHTML = `
@@ -379,7 +440,88 @@ function renderScene({
 }
 
 function renderLookupTable(event) {
-  const identity = storyState.identity;
+  if (event.type === "transitionHouse") {
+    const rows = Object.entries(event.houseLookup)
+      .map(([sign, houses]) => {
+        return `
+          <tr>
+            <td style="padding: 8px; border: 1px solid #cccccc;">
+              ${escapeHtml(sign)}
+            </td>
+
+            <td style="padding: 8px; border: 1px solid #cccccc;">
+              ${escapeHtml(
+                ordinalHouse(houses.from)
+              )}
+            </td>
+
+            <td style="padding: 8px; border: 1px solid #cccccc;">
+              ${escapeHtml(
+                ordinalHouse(houses.to)
+              )}
+            </td>
+          </tr>
+        `;
+      })
+      .join("");
+
+    return `
+      <h3>${escapeHtml(event.lookupTitle)}</h3>
+
+      <table
+        style="
+          width: 100%;
+          max-width: 850px;
+          border-collapse: collapse;
+          margin-bottom: 24px;
+        "
+      >
+        <thead>
+          <tr>
+            <th
+              style="
+                text-align: left;
+                padding: 8px;
+                border: 1px solid #cccccc;
+              "
+            >
+              ${escapeHtml(
+                event.lookupColumns.sign
+              )}
+            </th>
+
+            <th
+              style="
+                text-align: left;
+                padding: 8px;
+                border: 1px solid #cccccc;
+              "
+            >
+              ${escapeHtml(
+                event.lookupColumns.fromHouse
+              )}
+            </th>
+
+            <th
+              style="
+                text-align: left;
+                padding: 8px;
+                border: 1px solid #cccccc;
+              "
+            >
+              ${escapeHtml(
+                event.lookupColumns.toHouse
+              )}
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          ${rows}
+        </tbody>
+      </table>
+    `;
+  }
 
   const rows = Object.entries(event.houseLookup)
     .map(([sign, house]) => {
@@ -390,7 +532,9 @@ function renderLookupTable(event) {
           </td>
 
           <td style="padding: 8px; border: 1px solid #cccccc;">
-            ${escapeHtml(ordinalHouse(house))}
+            ${escapeHtml(
+              ordinalHouse(house)
+            )}
           </td>
         </tr>
       `;
@@ -417,7 +561,9 @@ function renderLookupTable(event) {
               border: 1px solid #cccccc;
             "
           >
-            ${escapeHtml(event.lookupColumns.sign)}
+            ${escapeHtml(
+              event.lookupColumns.sign
+            )}
           </th>
 
           <th
@@ -427,7 +573,9 @@ function renderLookupTable(event) {
               border: 1px solid #cccccc;
             "
           >
-            ${escapeHtml(event.lookupColumns.house)}
+            ${escapeHtml(
+              event.lookupColumns.house
+            )}
           </th>
         </tr>
       </thead>
@@ -439,7 +587,7 @@ function renderLookupTable(event) {
   `;
 }
 
-function renderContext({
+function renderSingleHouseContext({
   app,
   event,
   response,
@@ -449,11 +597,17 @@ function renderContext({
   const identity = storyState.identity;
 
   const introduction = event.contextIntroduction
-    .map(paragraph => `<p>${escapeHtml(paragraph)}</p>`)
+    .map(
+      paragraph =>
+        `<p>${escapeHtml(paragraph)}</p>`
+    )
     .join("");
 
   const instructions = event.contextInstructions
-    .map(instruction => `<li>${escapeHtml(instruction)}</li>`)
+    .map(
+      instruction =>
+        `<li>${escapeHtml(instruction)}</li>`
+    )
     .join("");
 
   app.innerHTML = `
@@ -470,32 +624,50 @@ function renderContext({
     </ul>
 
     <p>
-      ${escapeHtml(event.contextLanguage.sun.prefix)}
-      <strong>${escapeHtml(identity.sunSign)}</strong>,
+      ${escapeHtml(
+        event.contextLanguage.sun.prefix
+      )}
+      <strong>${escapeHtml(
+        identity.sunSign
+      )}</strong>,
       so Pluto is traveling through my solar
 
       <select id="sunHouseInput">
-        ${getHouseOptions(response.houses.sun)}
+        ${getHouseOptions(
+          response.houses.sun
+        )}
       </select>.
     </p>
 
     <p>
-      ${escapeHtml(event.contextLanguage.moon.prefix)}
-      <strong>${escapeHtml(identity.moonSign)}</strong>,
+      ${escapeHtml(
+        event.contextLanguage.moon.prefix
+      )}
+      <strong>${escapeHtml(
+        identity.moonSign
+      )}</strong>,
       so Pluto is traveling through my lunar
 
       <select id="moonHouseInput">
-        ${getHouseOptions(response.houses.moon)}
+        ${getHouseOptions(
+          response.houses.moon
+        )}
       </select>.
     </p>
 
     <p>
-      ${escapeHtml(event.contextLanguage.rising.prefix)}
-      <strong>${escapeHtml(identity.risingSign)}</strong>,
+      ${escapeHtml(
+        event.contextLanguage.rising.prefix
+      )}
+      <strong>${escapeHtml(
+        identity.risingSign
+      )}</strong>,
       so Pluto is traveling through my natal
 
       <select id="risingHouseInput">
-        ${getHouseOptions(response.houses.rising)}
+        ${getHouseOptions(
+          response.houses.rising
+        )}
       </select>.
     </p>
 
@@ -514,13 +686,19 @@ function renderContext({
 
   function saveHouses() {
     response.houses.sun =
-      document.getElementById("sunHouseInput").value;
+      document.getElementById(
+        "sunHouseInput"
+      ).value;
 
     response.houses.moon =
-      document.getElementById("moonHouseInput").value;
+      document.getElementById(
+        "moonHouseInput"
+      ).value;
 
     response.houses.rising =
-      document.getElementById("risingHouseInput").value;
+      document.getElementById(
+        "risingHouseInput"
+      ).value;
   }
 
   document
@@ -557,6 +735,208 @@ function renderContext({
     });
 }
 
+function renderTransitionHouseContext({
+  app,
+  event,
+  response,
+  advanceStory,
+  render
+}) {
+  const identity = storyState.identity;
+
+  const introduction = event.contextIntroduction
+    .map(
+      paragraph =>
+        `<p>${escapeHtml(paragraph)}</p>`
+    )
+    .join("");
+
+  const instructions = event.contextInstructions
+    .map(
+      instruction =>
+        `<li>${escapeHtml(instruction)}</li>`
+    )
+    .join("");
+
+  app.innerHTML = `
+    <h2>${escapeHtml(event.contextTitle)}</h2>
+
+    ${introduction}
+
+    ${renderLookupTable(event)}
+
+    <h3>Enter Your Houses</h3>
+
+    <ul>
+      ${instructions}
+    </ul>
+
+    <p>
+      ${escapeHtml(
+        event.contextLanguage.sun.prefix
+      )}
+      <strong>${escapeHtml(
+        identity.sunSign
+      )}</strong>,
+      so Neptune is moving from my solar
+
+      <select id="sunFromHouseInput">
+        ${getHouseOptions(
+          response.houses.from.sun
+        )}
+      </select>
+
+      to my solar
+
+      <select id="sunToHouseInput">
+        ${getHouseOptions(
+          response.houses.to.sun
+        )}
+      </select>.
+    </p>
+
+    <p>
+      ${escapeHtml(
+        event.contextLanguage.moon.prefix
+      )}
+      <strong>${escapeHtml(
+        identity.moonSign
+      )}</strong>,
+      so Neptune is moving from my lunar
+
+      <select id="moonFromHouseInput">
+        ${getHouseOptions(
+          response.houses.from.moon
+        )}
+      </select>
+
+      to my lunar
+
+      <select id="moonToHouseInput">
+        ${getHouseOptions(
+          response.houses.to.moon
+        )}
+      </select>.
+    </p>
+
+    <p>
+      ${escapeHtml(
+        event.contextLanguage.rising.prefix
+      )}
+      <strong>${escapeHtml(
+        identity.risingSign
+      )}</strong>,
+      so Neptune is moving from my natal
+
+      <select id="risingFromHouseInput">
+        ${getHouseOptions(
+          response.houses.from.rising
+        )}
+      </select>
+
+      to my natal
+
+      <select id="risingToHouseInput">
+        ${getHouseOptions(
+          response.houses.to.rising
+        )}
+      </select>.
+    </p>
+
+    <p id="annualContextError" style="display: none;">
+      Please select all six houses before continuing.
+    </p>
+
+    <button id="backToAnnualScene">
+      Back
+    </button>
+
+    <button id="continueAnnualContext">
+      Continue
+    </button>
+  `;
+
+  function saveHouses() {
+    response.houses.from.sun =
+      document.getElementById(
+        "sunFromHouseInput"
+      ).value;
+
+    response.houses.to.sun =
+      document.getElementById(
+        "sunToHouseInput"
+      ).value;
+
+    response.houses.from.moon =
+      document.getElementById(
+        "moonFromHouseInput"
+      ).value;
+
+    response.houses.to.moon =
+      document.getElementById(
+        "moonToHouseInput"
+      ).value;
+
+    response.houses.from.rising =
+      document.getElementById(
+        "risingFromHouseInput"
+      ).value;
+
+    response.houses.to.rising =
+      document.getElementById(
+        "risingToHouseInput"
+      ).value;
+  }
+
+  document
+    .getElementById("backToAnnualScene")
+    .addEventListener("click", () => {
+      saveHouses();
+
+      storyState.currentAnchorId =
+        "annualEventScene";
+
+      render();
+    });
+
+  document
+    .getElementById("continueAnnualContext")
+    .addEventListener("click", () => {
+      saveHouses();
+
+      const allComplete =
+        response.houses.from.sun &&
+        response.houses.to.sun &&
+        response.houses.from.moon &&
+        response.houses.to.moon &&
+        response.houses.from.rising &&
+        response.houses.to.rising;
+
+      if (!allComplete) {
+        document.getElementById(
+          "annualContextError"
+        ).style.display = "block";
+
+        return;
+      }
+
+      advanceStory();
+      render();
+    });
+}
+
+function renderContext(options) {
+  if (
+    options.event.type ===
+    "transitionHouse"
+  ) {
+    renderTransitionHouseContext(options);
+    return;
+  }
+
+  renderSingleHouseContext(options);
+}
+
 function renderActivityGroup({
   lens,
   heading,
@@ -571,7 +951,9 @@ function renderActivityGroup({
       <h3>${escapeHtml(heading)}</h3>
 
       <p>
-        <strong>${escapeHtml(ordinalHouse(house))}</strong>
+        <strong>${escapeHtml(
+          ordinalHouse(house)
+        )}</strong>
       </p>
 
       ${activities
@@ -693,7 +1075,9 @@ function renderNatalPlanetLayer(event, response) {
   return `
     <section style="margin-top: 36px;">
       <h3>
-        ${escapeHtml(event.natalPlanetLayer.title)}
+        ${escapeHtml(
+          event.natalPlanetLayer.title
+        )}
       </h3>
 
       <p>
@@ -707,7 +1091,7 @@ function renderNatalPlanetLayer(event, response) {
   `;
 }
 
-function renderChoices({
+function renderSingleHouseChoices({
   app,
   event,
   response,
@@ -715,7 +1099,10 @@ function renderChoices({
   render
 }) {
   const guidance = event.choicesGuidance
-    .map(paragraph => `<p>${escapeHtml(paragraph)}</p>`)
+    .map(
+      paragraph =>
+        `<p>${escapeHtml(paragraph)}</p>`
+    )
     .join("");
 
   app.innerHTML = `
@@ -725,7 +1112,9 @@ function renderChoices({
 
     <p>
       <strong>
-        ${escapeHtml(event.choicesIntroduction)}
+        ${escapeHtml(
+          event.choicesIntroduction
+        )}
       </strong>
     </p>
 
@@ -733,24 +1122,30 @@ function renderChoices({
       lens: "sun",
       heading: "My Sun",
       house: response.houses.sun,
-      selectedActivities: response.activities.sun
+      selectedActivities:
+        response.activities.sun
     })}
 
     ${renderActivityGroup({
       lens: "moon",
       heading: "My Moon",
       house: response.houses.moon,
-      selectedActivities: response.activities.moon
+      selectedActivities:
+        response.activities.moon
     })}
 
     ${renderActivityGroup({
       lens: "rising",
       heading: "My Rising Sign",
       house: response.houses.rising,
-      selectedActivities: response.activities.rising
+      selectedActivities:
+        response.activities.rising
     })}
 
-    ${renderNatalPlanetLayer(event, response)}
+    ${renderNatalPlanetLayer(
+      event,
+      response
+    )}
 
     <p id="annualChoicesError" style="display: none;">
       Please select at least one house activity for
@@ -775,18 +1170,24 @@ function renderChoices({
     .querySelectorAll(".natalPlanetToggle")
     .forEach(toggle => {
       toggle.addEventListener("change", () => {
-        const planet = toggle.dataset.planet;
+        const planet =
+          toggle.dataset.planet;
 
-        const options = document.getElementById(
-          `${planet}QualityOptions`
-        );
+        const options =
+          document.getElementById(
+            `${planet}QualityOptions`
+          );
 
         options.style.display =
-          toggle.checked ? "block" : "none";
+          toggle.checked
+            ? "block"
+            : "none";
 
         if (!toggle.checked) {
           options
-            .querySelectorAll('input[type="checkbox"]')
+            .querySelectorAll(
+              'input[type="checkbox"]'
+            )
             .forEach(input => {
               input.checked = false;
             });
@@ -794,7 +1195,10 @@ function renderChoices({
       });
     });
 
-  function getSelectedActivities(lens, house) {
+  function getSelectedActivities(
+    lens,
+    house
+  ) {
     const activities =
       houseActivityKeywords[house] || [];
 
@@ -802,7 +1206,10 @@ function renderChoices({
       document.querySelectorAll(
         `input[name="${lens}Activity"]:checked`
       )
-    ).map(input => activities[Number(input.value)]);
+    ).map(
+      input =>
+        activities[Number(input.value)]
+    );
   }
 
   function saveActivities() {
@@ -833,44 +1240,56 @@ function renderChoices({
         ".natalPlanetToggle:checked"
       )
       .forEach(toggle => {
-        const planet = toggle.dataset.planet;
+        const planet =
+          toggle.dataset.planet;
 
         const availableKeywords =
           planetKeywords[planet] || [];
 
-        const selectedKeywords = Array.from(
-          document.querySelectorAll(
-            `input[name="${planet}Quality"]:checked`
-          )
-        ).map(
-          input =>
-            availableKeywords[Number(input.value)]
-        );
+        const selectedKeywords =
+          Array.from(
+            document.querySelectorAll(
+              `input[name="${planet}Quality"]:checked`
+            )
+          ).map(
+            input =>
+              availableKeywords[
+                Number(input.value)
+              ]
+          );
 
-        savedPlanets[planet] = selectedKeywords;
+        savedPlanets[planet] =
+          selectedKeywords;
       });
 
-    response.natalPlanets = savedPlanets;
+    response.natalPlanets =
+      savedPlanets;
   }
 
   function selectedPlanetsAreComplete() {
     return Object.values(
       response.natalPlanets
-    ).every(keywords => keywords.length > 0);
+    ).every(
+      keywords =>
+        keywords.length > 0
+    );
   }
 
   document
     .getElementById("backToAnnualContext")
     .addEventListener("click", () => {
-      try {
+      if (
+        event.type !==
+        "transitionHouse"
+      ) {
         saveActivities();
         saveNatalPlanets();
-      } finally {
-        storyState.currentAnchorId =
-          "annualEventContext";
-
-        render();
       }
+
+      storyState.currentAnchorId =
+        "annualEventContext";
+
+      render();
     });
 
   document
@@ -905,6 +1324,210 @@ function renderChoices({
     });
 }
 
+function renderTransitionHouseChoices({
+  app,
+  event,
+  response,
+  advanceStory,
+  render
+}) {
+  const guidance = event.choicesGuidance
+    .map(
+      paragraph =>
+        `<p>${escapeHtml(paragraph)}</p>`
+    )
+    .join("");
+
+  app.innerHTML = `
+    <h2>${escapeHtml(event.choicesTitle)}</h2>
+
+    ${guidance}
+
+    <section style="margin-bottom: 40px;">
+      <h3>Neptune in ${escapeHtml(event.fromSign)}</h3>
+
+      <p>
+        <strong>
+          ${escapeHtml(event.fromChoicesIntroduction)}
+        </strong>
+      </p>
+
+      ${renderActivityGroup({
+        lens: "fromSun",
+        heading: "My Sun",
+        house: response.houses.from.sun,
+        selectedActivities:
+          response.activities.from.sun
+      })}
+
+      ${renderActivityGroup({
+        lens: "fromMoon",
+        heading: "My Moon",
+        house: response.houses.from.moon,
+        selectedActivities:
+          response.activities.from.moon
+      })}
+
+      ${renderActivityGroup({
+        lens: "fromRising",
+        heading: "My Rising Sign",
+        house: response.houses.from.rising,
+        selectedActivities:
+          response.activities.from.rising
+      })}
+    </section>
+
+    <section style="margin-bottom: 40px;">
+      <h3>Neptune in ${escapeHtml(event.toSign)}</h3>
+
+      <p>
+        <strong>
+          ${escapeHtml(event.toChoicesIntroduction)}
+        </strong>
+      </p>
+
+      ${renderActivityGroup({
+        lens: "toSun",
+        heading: "My Sun",
+        house: response.houses.to.sun,
+        selectedActivities:
+          response.activities.to.sun
+      })}
+
+      ${renderActivityGroup({
+        lens: "toMoon",
+        heading: "My Moon",
+        house: response.houses.to.moon,
+        selectedActivities:
+          response.activities.to.moon
+      })}
+
+      ${renderActivityGroup({
+        lens: "toRising",
+        heading: "My Rising Sign",
+        house: response.houses.to.rising,
+        selectedActivities:
+          response.activities.to.rising
+      })}
+    </section>
+
+    <p id="annualChoicesError" style="display: none;">
+      Please select at least one activity for all six placements.
+    </p>
+
+    <button id="backToAnnualContext">
+      Back
+    </button>
+
+    <button id="continueAnnualChoices">
+      Continue
+    </button>
+  `;
+
+  function getSelectedActivities(
+    lens,
+    house
+  ) {
+    const activities =
+      houseActivityKeywords[house] || [];
+
+    return Array.from(
+      document.querySelectorAll(
+        `input[name="${lens}Activity"]:checked`
+      )
+    ).map(
+      input =>
+        activities[Number(input.value)]
+    );
+  }
+
+  function saveActivities() {
+    response.activities.from.sun =
+      getSelectedActivities(
+        "fromSun",
+        response.houses.from.sun
+      );
+
+    response.activities.from.moon =
+      getSelectedActivities(
+        "fromMoon",
+        response.houses.from.moon
+      );
+
+    response.activities.from.rising =
+      getSelectedActivities(
+        "fromRising",
+        response.houses.from.rising
+      );
+
+    response.activities.to.sun =
+      getSelectedActivities(
+        "toSun",
+        response.houses.to.sun
+      );
+
+    response.activities.to.moon =
+      getSelectedActivities(
+        "toMoon",
+        response.houses.to.moon
+      );
+
+    response.activities.to.rising =
+      getSelectedActivities(
+        "toRising",
+        response.houses.to.rising
+      );
+  }
+
+  document
+    .getElementById("backToAnnualContext")
+    .addEventListener("click", () => {
+      saveActivities();
+
+      storyState.currentAnchorId =
+        "annualEventContext";
+
+      render();
+    });
+
+  document
+    .getElementById("continueAnnualChoices")
+    .addEventListener("click", () => {
+      saveActivities();
+
+      const allComplete =
+        response.activities.from.sun.length > 0 &&
+        response.activities.from.moon.length > 0 &&
+        response.activities.from.rising.length > 0 &&
+        response.activities.to.sun.length > 0 &&
+        response.activities.to.moon.length > 0 &&
+        response.activities.to.rising.length > 0;
+
+      if (!allComplete) {
+        document.getElementById(
+          "annualChoicesError"
+        ).style.display = "block";
+
+        return;
+      }
+
+      advanceStory();
+      render();
+    });
+}
+
+function renderChoices(options) {
+  if (
+    options.event.type ===
+    "transitionHouse"
+  ) {
+    renderTransitionHouseChoices(options);
+    return;
+  }
+
+  renderSingleHouseChoices(options);
+}
+
 function renderSelectedNatalPlanets(response) {
   const entries =
     Object.entries(response.natalPlanets);
@@ -917,8 +1540,12 @@ function renderSelectedNatalPlanets(response) {
     .map(
       ([planet, keywords]) => `
         <li>
-          <strong>${escapeHtml(planet)}:</strong>
-          ${escapeHtml(keywords.join(", "))}
+          <strong>${escapeHtml(
+            planet
+          )}:</strong>
+          ${escapeHtml(
+            keywords.join(", ")
+          )}
         </li>
       `
     )
@@ -975,28 +1602,42 @@ function renderReflection({
   render
 }) {
   app.innerHTML = `
-    <h2>${escapeHtml(event.reflectionTitle)}</h2>
+    <h2>${escapeHtml(
+      event.reflectionTitle
+    )}</h2>
 
     <p>
-      ${escapeHtml(event.reflectionIntroduction)}
+      ${escapeHtml(
+        event.reflectionIntroduction
+      )}
     </p>
 
-    ${renderSelectedNatalPlanets(response)}
+    ${renderSelectedNatalPlanets(
+      response
+    )}
 
     ${renderReflectionField({
       lens: "sun",
-      heading: event.reflectionPrompts.sun.heading,
-      prompt: event.reflectionPrompts.sun.prompt,
-      selectedActivities: response.activities.sun,
-      value: response.reflections.sun
+      heading:
+        event.reflectionPrompts.sun.heading,
+      prompt:
+        event.reflectionPrompts.sun.prompt,
+      selectedActivities:
+        response.activities.sun,
+      value:
+        response.reflections.sun
     })}
 
     ${renderReflectionField({
       lens: "moon",
-      heading: event.reflectionPrompts.moon.heading,
-      prompt: event.reflectionPrompts.moon.prompt,
-      selectedActivities: response.activities.moon,
-      value: response.reflections.moon
+      heading:
+        event.reflectionPrompts.moon.heading,
+      prompt:
+        event.reflectionPrompts.moon.prompt,
+      selectedActivities:
+        response.activities.moon,
+      value:
+        response.reflections.moon
     })}
 
     ${renderReflectionField({
@@ -1007,7 +1648,8 @@ function renderReflection({
         event.reflectionPrompts.rising.prompt,
       selectedActivities:
         response.activities.rising,
-      value: response.reflections.rising
+      value:
+        response.reflections.rising
     })}
 
     <p
@@ -1030,13 +1672,17 @@ function renderReflection({
   function saveReflections() {
     response.reflections.sun =
       document
-        .getElementById("sunAnnualReflection")
+        .getElementById(
+          "sunAnnualReflection"
+        )
         .value
         .trim();
 
     response.reflections.moon =
       document
-        .getElementById("moonAnnualReflection")
+        .getElementById(
+          "moonAnnualReflection"
+        )
         .value
         .trim();
 
@@ -1078,18 +1724,20 @@ function renderReflection({
         return;
       }
 
-      const narrative = buildAnnualEventStory(
-        event,
-        response
-      );
+      const narrative =
+        buildAnnualEventStory(
+          event,
+          response
+        );
 
       storyState.outputs.annualEventStories[
         event.id
       ] = {
-        title: event.reflectionTitle.replace(
-          /^Write\s+/i,
-          ""
-        ),
+        title:
+          event.reflectionTitle.replace(
+            /^Write\s+/i,
+            ""
+          ),
 
         narrative,
 
@@ -1128,7 +1776,10 @@ function renderComplete({
 
   const narrative =
     savedStory?.narrative ||
-    buildAnnualEventStory(event, response);
+    buildAnnualEventStory(
+      event,
+      response
+    );
 
   const storyTitle =
     savedStory?.title ||
@@ -1137,13 +1788,16 @@ function renderComplete({
       ""
     );
 
-  const narrativeParagraphs = narrative
-    .split("\n\n")
-    .map(
-      paragraph =>
-        `<p>${escapeHtml(paragraph)}</p>`
-    )
-    .join("");
+  const narrativeParagraphs =
+    narrative
+      .split("\n\n")
+      .map(
+        paragraph =>
+          `<p>${escapeHtml(
+            paragraph
+          )}</p>`
+      )
+      .join("");
 
   app.innerHTML = `
     <h2>${escapeHtml(storyTitle)}</h2>
@@ -1160,7 +1814,9 @@ function renderComplete({
   `;
 
   document
-    .getElementById("backToAnnualReflection")
+    .getElementById(
+      "backToAnnualReflection"
+    )
     .addEventListener("click", () => {
       storyState.currentAnchorId =
         "annualEventReflection";
@@ -1169,16 +1825,22 @@ function renderComplete({
     });
 
   document
-    .getElementById("continueFromAnnualStory")
+    .getElementById(
+      "continueFromAnnualStory"
+    )
     .addEventListener("click", () => {
       const nextEventIndex =
-        storyState.annualJourney.currentEventIndex + 1;
+        storyState.annualJourney
+          .currentEventIndex + 1;
 
       const nextEvent =
-        storyYear2026.events[nextEventIndex];
+        storyYear2026.events[
+          nextEventIndex
+        ];
 
       if (nextEvent) {
-        storyState.annualJourney.currentEventIndex =
+        storyState.annualJourney
+          .currentEventIndex =
           nextEventIndex;
 
         storyState.currentAnchorId =
@@ -1246,7 +1908,8 @@ export function renderAnnualEventAnchor({
     return true;
   }
 
-  const response = getEventResponse(event.id);
+  const response =
+    getEventResponse(event);
 
   if (anchorId === "annualEventScene") {
     renderScene({

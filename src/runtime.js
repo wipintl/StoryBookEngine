@@ -11,194 +11,334 @@ const app = document.getElementById("app");
 const nextButton = document.getElementById("nextButton");
 const titleAttribution =
   document.getElementById("titleAttribution");
-function loadDevelopmentCheckpoint() {
-  const isLocalDevelopment =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
+  function loadDevelopmentCheckpoint() {
+    const isLocalDevelopment =
+      window.location.hostname === "localhost" ||
+      window.location.hostname === "127.0.0.1";
 
-  if (!isLocalDevelopment) {
-    return;
-  }
-
-  const checkpoint =
-    new URLSearchParams(window.location.search).get("test");
-
-  const checkpointAnchors = {
-    pluto: {
-      currentAnchorId: "annualEventScene",
-      completedAnchors: [
-        "welcome",
-        "identityCollection",
-        "sunSignSelection",
-        "moonSignSelection",
-        "risingSignSelection",
-        "sunKeywordSelection",
-        "moonKeywordSelection",
-        "risingKeywordSelection",
-        "sunReflection",
-        "moonReflection",
-        "risingReflection",
-        "characterSketch",
-        "characterReflection"
-      ]
-    },
-
-    "pluto-context": {
-      currentAnchorId: "annualEventContext",
-      completedAnchors: [
-        "welcome",
-        "identityCollection",
-        "sunSignSelection",
-        "moonSignSelection",
-        "risingSignSelection",
-        "sunKeywordSelection",
-        "moonKeywordSelection",
-        "risingKeywordSelection",
-        "sunReflection",
-        "moonReflection",
-        "risingReflection",
-        "characterSketch",
-        "characterReflection",
-        "annualEventScene"
-      ]
-    },
-
-    "pluto-choices": {
-      currentAnchorId: "annualEventChoices",
-      completedAnchors: [
-        "welcome",
-        "identityCollection",
-        "sunSignSelection",
-        "moonSignSelection",
-        "risingSignSelection",
-        "sunKeywordSelection",
-        "moonKeywordSelection",
-        "risingKeywordSelection",
-        "sunReflection",
-        "moonReflection",
-        "risingReflection",
-        "characterSketch",
-        "characterReflection",
-        "annualEventScene",
-        "annualEventContext"
-      ]
-    },
-
-    "pluto-story": {
-      currentAnchorId: "annualEventReflection",
-      completedAnchors: [
-        "welcome",
-        "identityCollection",
-        "sunSignSelection",
-        "moonSignSelection",
-        "risingSignSelection",
-        "sunKeywordSelection",
-        "moonKeywordSelection",
-        "risingKeywordSelection",
-        "sunReflection",
-        "moonReflection",
-        "risingReflection",
-        "characterSketch",
-        "characterReflection",
-        "annualEventScene",
-        "annualEventContext",
-        "annualEventChoices"
-      ]
+    if (!isLocalDevelopment) {
+      return;
     }
-  };
 
-  const selectedCheckpoint =
-    checkpointAnchors[checkpoint];
+    const checkpoint =
+      new URLSearchParams(
+        window.location.search
+      ).get("test");
 
-  if (!selectedCheckpoint) {
-    return;
-  }
+    const checkpointAnchors = {
+      neptune: {
+        currentAnchorId: "annualEventScene",
+        currentEventIndex: 1,
+        completedAnchors: [
+          "welcome",
+          "identityCollection",
+          "sunSignSelection",
+          "moonSignSelection",
+          "risingSignSelection",
+          "sunKeywordSelection",
+          "moonKeywordSelection",
+          "risingKeywordSelection",
+          "sunReflection",
+          "moonReflection",
+          "risingReflection",
+          "characterSketch",
+          "characterReflection",
+          "annualEventScene",
+          "annualEventContext",
+          "annualEventChoices",
+          "annualEventReflection",
+          "annualEventComplete"
+        ]
+      },
 
-  storyState.identity = {
-    name: "Tracy",
-    sunSign: "Taurus",
-    moonSign: "Scorpio",
-    risingSign: "Aquarius"
-  };
+      "neptune-context": {
+        currentAnchorId: "annualEventContext",
+        currentEventIndex: 1,
+        completedAnchors: [
+          "welcome",
+          "identityCollection",
+          "sunSignSelection",
+          "moonSignSelection",
+          "risingSignSelection",
+          "sunKeywordSelection",
+          "moonKeywordSelection",
+          "risingKeywordSelection",
+          "sunReflection",
+          "moonReflection",
+          "risingReflection",
+          "characterSketch",
+          "characterReflection",
+          "annualEventScene",
+          "annualEventContext",
+          "annualEventChoices",
+          "annualEventReflection",
+          "annualEventComplete",
+          "annualEventScene"
+        ]
+      },
 
-  storyState.selections = {
-    sunKeyword: "Pleasure-seeking",
-    moonKeyword: "Passionate",
-    risingKeyword: "Detached",
-    reflection:
-      "This broadly reflects how I understand myself."
-  };
+      "neptune-choices": {
+        currentAnchorId: "annualEventChoices",
+        currentEventIndex: 1,
+        completedAnchors: [
+          "welcome",
+          "identityCollection",
+          "sunSignSelection",
+          "moonSignSelection",
+          "risingSignSelection",
+          "sunKeywordSelection",
+          "moonKeywordSelection",
+          "risingKeywordSelection",
+          "sunReflection",
+          "moonReflection",
+          "risingReflection",
+          "characterSketch",
+          "characterReflection",
+          "annualEventScene",
+          "annualEventContext",
+          "annualEventChoices",
+          "annualEventReflection",
+          "annualEventComplete",
+          "annualEventScene",
+          "annualEventContext"
+        ]
+      },
 
-  storyState.characterResponses = {
-    sunShine:
-      "I allow myself to experience new and exciting things.",
-    sunPride:
-      "I make time to do the things I love.",
-    moonEase:
-      "I express my softer emotions in an unguarded way.",
-    moonMotivation:
-      "I follow through on my promises to the people I care about.",
-    risingStyle:
-      "friendly yet independent",
-    risingActions:
-      "directed toward fulfilling a personal desire"
-  };
+      pluto: {
+        currentAnchorId: "annualEventScene",
+        currentEventIndex: 0,
+        completedAnchors: [
+          "welcome",
+          "identityCollection",
+          "sunSignSelection",
+          "moonSignSelection",
+          "risingSignSelection",
+          "sunKeywordSelection",
+          "moonKeywordSelection",
+          "risingKeywordSelection",
+          "sunReflection",
+          "moonReflection",
+          "risingReflection",
+          "characterSketch",
+          "characterReflection"
+        ]
+      },
 
-  storyState.annualJourney = {
-    year: 2026,
-    currentEventIndex: 0,
+      "pluto-context": {
+        currentAnchorId: "annualEventContext",
+        currentEventIndex: 0,
+        completedAnchors: [
+          "welcome",
+          "identityCollection",
+          "sunSignSelection",
+          "moonSignSelection",
+          "risingSignSelection",
+          "sunKeywordSelection",
+          "moonKeywordSelection",
+          "risingKeywordSelection",
+          "sunReflection",
+          "moonReflection",
+          "risingReflection",
+          "characterSketch",
+          "characterReflection",
+          "annualEventScene"
+        ]
+      },
 
-    responses: {
-      plutoAquarius: {
-        houses: {
-          sun: "10",
-          moon: "4",
-          rising: "1"
+      "pluto-choices": {
+        currentAnchorId: "annualEventChoices",
+        currentEventIndex: 0,
+        completedAnchors: [
+          "welcome",
+          "identityCollection",
+          "sunSignSelection",
+          "moonSignSelection",
+          "risingSignSelection",
+          "sunKeywordSelection",
+          "moonKeywordSelection",
+          "risingKeywordSelection",
+          "sunReflection",
+          "moonReflection",
+          "risingReflection",
+          "characterSketch",
+          "characterReflection",
+          "annualEventScene",
+          "annualEventContext"
+        ]
+      },
+
+      "pluto-story": {
+        currentAnchorId: "annualEventReflection",
+        currentEventIndex: 0,
+        completedAnchors: [
+          "welcome",
+          "identityCollection",
+          "sunSignSelection",
+          "moonSignSelection",
+          "risingSignSelection",
+          "sunKeywordSelection",
+          "moonKeywordSelection",
+          "risingKeywordSelection",
+          "sunReflection",
+          "moonReflection",
+          "risingReflection",
+          "characterSketch",
+          "characterReflection",
+          "annualEventScene",
+          "annualEventContext",
+          "annualEventChoices"
+        ]
+      }
+    };
+
+    const selectedCheckpoint =
+      checkpointAnchors[checkpoint];
+
+    if (!selectedCheckpoint) {
+      return;
+    }
+
+    storyState.identity = {
+      name: "Tracy",
+      sunSign: "Taurus",
+      moonSign: "Scorpio",
+      risingSign: "Aquarius"
+    };
+
+    storyState.selections = {
+      sunKeyword: "Pleasure-seeking",
+      moonKeyword: "Passionate",
+      risingKeyword: "Detached",
+      reflection:
+        "This broadly reflects how I understand myself."
+    };
+
+    storyState.characterResponses = {
+      sunShine:
+        "I allow myself to experience new and exciting things.",
+
+      sunPride:
+        "I make time to do the things I love.",
+
+      moonEase:
+        "I express my softer emotions in an unguarded way.",
+
+      moonMotivation:
+        "I follow through on my promises to the people I care about.",
+
+      risingStyle:
+        "friendly yet independent",
+
+      risingActions:
+        "directed toward fulfilling a personal desire"
+    };
+
+    storyState.annualJourney = {
+      year: 2026,
+
+      currentEventIndex:
+        selectedCheckpoint.currentEventIndex ?? 0,
+
+      responses: {
+        neptunePiscesAries: {
+          houses: {
+            from: {
+              sun: "11",
+              moon: "5",
+              rising: "2"
+            },
+
+            to: {
+              sun: "12",
+              moon: "6",
+              rising: "3"
+            }
+          },
+
+          activities: {
+            from: {
+              sun: [],
+              moon: [],
+              rising: []
+            },
+
+            to: {
+              sun: [],
+              moon: [],
+              rising: []
+            }
+          },
+
+          natalPlanets: {
+            from: {},
+            to: {}
+          },
+
+          reflections: {
+            from: {
+              sun: "",
+              moon: "",
+              rising: ""
+            },
+
+            to: {
+              sun: "",
+              moon: "",
+              rising: ""
+            }
+          }
         },
 
-        activities: {
-          sun: [
-            "Ask for a raise or a promotion"
-          ],
+        plutoAquarius: {
+          houses: {
+            sun: "10",
+            moon: "4",
+            rising: "1"
+          },
 
-          moon: [
-            "Spend time with my family"
-          ],
+          activities: {
+            sun: [
+              "Ask for a raise or a promotion"
+            ],
 
-          rising: [
-            "Refresh my look with new clothes, a haircut, or a makeover"
-          ]
-        },
+            moon: [
+              "Spend time with my family"
+            ],
 
-        natalPlanets: {
-          Saturn: [
-            "Grounded",
-            "Patient"
-          ]
-        },
+            rising: [
+              "Refresh my look with new clothes, a haircut, or a makeover"
+            ]
+          },
 
-        reflections: {
-          sun: "",
-          moon: "",
-          rising: ""
+          natalPlanets: {
+            Saturn: [
+              "Grounded",
+              "Patient"
+            ]
+          },
+
+          reflections: {
+            sun: "",
+            moon: "",
+            rising: ""
+          }
         }
       }
-    }
-  };
+    };
 
-  storyState.outputs = {
-    characterSketch: null,
-    annualEventStories: {}
-  };
+    storyState.outputs = {
+      characterSketch: null,
+      annualEventStories: {}
+    };
 
-  storyState.completedAnchors = [
-    ...selectedCheckpoint.completedAnchors
-  ];
+    storyState.completedAnchors = [
+      ...selectedCheckpoint.completedAnchors
+    ];
 
-  storyState.currentAnchorId =
-    selectedCheckpoint.currentAnchorId;
-}
-
+    storyState.currentAnchorId =
+      selectedCheckpoint.currentAnchorId;
+  }
+  
 function escapeHtml(value = "") {
   return String(value)
     .replaceAll("&", "&amp;")
