@@ -61,6 +61,14 @@ function joinNaturally(items = []) {
     .join(", ")}, and ${cleanItems.at(-1)}`;
 }
 
+function fillTemplate(template = "", values = {}) {
+  return Object.entries(values).reduce(
+    (result, [key, value]) =>
+      result.replaceAll(`{${key}}`, value),
+    template
+  );
+}
+
 function prepareAnnualAction(value = "", prompt = "") {
   let response = String(value).trim();
 
@@ -104,6 +112,15 @@ function buildNatalPlanetParagraph(event, response) {
   const eventLanguage =
     planetEventLanguage[event.id] || {};
 
+  const selectedFocuses = [
+    houseNarrativeFocus[response.houses.sun],
+    houseNarrativeFocus[response.houses.moon],
+    houseNarrativeFocus[response.houses.rising]
+  ].filter(Boolean);
+
+  const focusLanguage =
+    joinNaturally([...new Set(selectedFocuses)]);
+
   const planetParagraphs = planetEntries.map(
     ([planet, qualities]) => {
       const planetLanguage =
@@ -122,10 +139,67 @@ function buildNatalPlanetParagraph(event, response) {
         } brings ${selectedQualities} qualities into this chapter.`;
       }
 
+      const synthesis =
+        planetLanguage.synthesis;
+
+      if (synthesis) {
+        const qualityLanguage =
+          joinNaturally(
+            qualities.map(quality =>
+              quality.toLowerCase()
+            )
+          );
+
+        const movements =
+          qualities
+            .map(
+              quality =>
+                synthesis.qualityMovements?.[
+                  quality
+                ]
+            )
+            .filter(Boolean);
+
+        const movementLanguage =
+          planet === "Mars" && movements.length === 2
+            ? `${movements[0]}, while ${movements[1]}`
+            : joinNaturally(movements);
+
+        const synthesisTemplate =
+          qualities.length === 1
+            ? synthesis.oneQuality
+            : synthesis.multipleQualities;
+
+        const synthesisSentence =
+          fillTemplate(
+            synthesisTemplate,
+            {
+              qualities: qualityLanguage,
+              movements: movementLanguage
+            }
+          );
+
+        const integrationSentence =
+          fillTemplate(
+            synthesis.integration,
+            {
+              focuses: focusLanguage
+            }
+          );
+
+        return [
+          planetLanguage.core,
+          synthesisSentence,
+          integrationSentence
+        ].join(" ");
+      }
+
       const qualitySentences = qualities
         .map(
           quality =>
-            planetLanguage.qualities?.[quality]
+            planetLanguage.qualities?.[
+              quality
+            ]
         )
         .filter(Boolean);
 
@@ -173,7 +247,7 @@ function buildAnnualEventStory(event, response) {
     event.reflectionPrompts.rising.prompt
   );
 
-  const paragraphs = [
+  const mainStoryParagraph = [
     `${name}, Pluto’s movement through your solar ${ordinalHouse(
       sunHouse
     )} turns your attention toward ${sunFocus}. In this part of your life, greater vitality and meaning may come as you ${sunAction}.`,
@@ -185,6 +259,10 @@ function buildAnnualEventStory(event, response) {
     `Through your natal ${ordinalHouse(
       risingHouse
     )}, transformation enters the circumstances through which you meet the world, especially ${risingFocus}. Your life begins to shift as you ${risingAction}.`
+  ].join(" ");
+
+  const paragraphs = [
+    mainStoryParagraph
   ];
 
   const natalPlanetParagraph =

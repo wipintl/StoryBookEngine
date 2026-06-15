@@ -703,19 +703,33 @@ if (annualEventWasRendered) {
 }
 
 if (current.id === "welcome") {
-    app.innerHTML = `
-      <h2>Welcome</h2>
-      <p>This is the beginning of your Storybook journey.</p>
-      <button id="startButton">Begin</button>
-    `;
+  app.innerHTML = `
+    <h2>Welcome</h2>
 
-    document.getElementById("startButton").addEventListener("click", () => {
+    <p>
+      This is the beginning of your Storybook journey.
+    </p>
+
+    <p>
+      This interactive experience presents the original
+      Storybook process and authored materials created by
+      Donna Woodwell and Kathy Biehl for © Magic and Mastery.
+    </p>
+
+    <button id="startButton">
+      Begin
+    </button>
+  `;
+
+  document
+    .getElementById("startButton")
+    .addEventListener("click", () => {
       advanceStory();
       render();
     });
 
-    return;
-  }
+  return;
+}
 
   if (current.id === "identityCollection") {
     app.innerHTML = `

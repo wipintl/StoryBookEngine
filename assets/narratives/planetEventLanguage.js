@@ -94,6 +94,37 @@ export const planetEventLanguage = {
 
         Jealous:
           "A jealous expression may bring hidden fears of loss, exclusion, or unequal power to the surface so they can be addressed."
+      },
+
+      synthesis: {
+        qualityMovements: {
+          Loving:
+            "deepening bonds that can hold greater honesty, freedom, and shared growth",
+
+          Lusty:
+            "recognizing the desires and unspoken needs carried within attraction",
+
+          Beautiful:
+            "reshaping your sense of harmony, pleasure, and what feels genuinely worthy of appreciation",
+
+          "Self-indulgent":
+            "examining where pleasure, comfort, or spending has been asked to provide more than it can",
+
+          "Conflict-averse":
+            "recognizing where keeping the peace has delayed an important change in relationships or values",
+
+          Jealous:
+            "bringing fears of loss, exclusion, or unequal power into clearer view"
+        },
+
+        oneQuality:
+          "The {qualities} quality you selected suggests that Venus may shape this Pluto chapter through {movements}.",
+
+        multipleQualities:
+          "Taken together, the {qualities} qualities you selected suggest that Venus may shape this Pluto chapter through {movements}.",
+
+        integration:
+          "Across the areas of life you identified, transformation may ask you to reconsider what you value, what brings genuine pleasure, and which relationships can grow with greater honesty."
       }
     },
 
@@ -119,6 +150,37 @@ export const planetEventLanguage = {
 
         Angry:
           "An angry expression may expose buried frustration with power, exclusion, or restriction, asking that it be used consciously rather than destructively."
+      },
+
+      synthesis: {
+        qualityMovements: {
+          Energetic:
+            "directing your energy toward changes that have been postponed or avoided",
+
+          Restless:
+            "recognizing where stagnation has become more difficult to tolerate than change itself",
+
+          Strong:
+            "remaining steady under pressure while using your power with purpose",
+
+          Bold:
+            "challenging expectations openly and acting from conviction",
+
+          Divisive:
+            "distinguishing between necessary separation and conflict that only deepens division",
+
+          Angry:
+            "bringing buried frustration with power, exclusion, or restriction into conscious action"
+        },
+
+        oneQuality:
+          "The {qualities} quality you selected suggests that Mars may shape this Pluto chapter through {movements}.",
+
+          multipleQualities:
+          "Taken together, the {qualities} qualities you selected suggest that Mars may shape this Pluto chapter through a combination of {movements}.",
+
+        integration:
+          "Across the areas of life you identified, transformation may require decisive action. The challenge is not simply to exert more force, but to understand where your energy can create purposeful change and where it may need greater direction."
       }
     },
 
@@ -145,29 +207,60 @@ export const planetEventLanguage = {
     },
 
     Saturn: {
-      core:
-        "Your natal Saturn in Aquarius places structure, responsibility, endurance, limits, and long-term consequences inside Pluto’s field of transformation.",
+    core:
+      "Your natal Saturn in Aquarius places structure, responsibility, endurance, limits, and long-term consequences inside Pluto’s field of transformation.",
 
-      qualities: {
+    qualities: {
+      Grounded:
+        "A grounded expression may help you turn deep change into practical foundations that can support what comes next.",
+
+      Pragmatic:
+        "A pragmatic expression may keep transformation connected to what can actually be built, maintained, and used.",
+
+      Patient:
+        "A patient expression may allow necessary change to unfold over time without forcing a premature resolution.",
+
+      Mature:
+        "A mature expression may help you accept responsibility for what must be preserved, repaired, or released.",
+
+      Resistant:
+        "A resistant expression may reveal where familiar structures have become protective even though they no longer support growth.",
+
+      Depressed:
+        "A depressed expression may make transformation feel heavy or slow, drawing attention to burdens that have been carried without renewal."
+    },
+
+    synthesis: {
+      qualityMovements: {
         Grounded:
-          "A grounded expression may help you turn deep change into practical foundations that can support what comes next.",
+          "building practical foundations beneath the changes already underway",
 
         Pragmatic:
-          "A pragmatic expression may keep transformation connected to what can actually be built, maintained, and used.",
+          "distinguishing what can be repaired and sustained from what no longer works",
 
         Patient:
-          "A patient expression may allow necessary change to unfold over time without forcing a premature resolution.",
+          "allowing transformation to develop at the pace required for lasting change",
 
         Mature:
-          "A mature expression may help you accept responsibility for what must be preserved, repaired, or released.",
+          "accepting responsibility for what must be preserved, rebuilt, or released",
 
         Resistant:
-          "A resistant expression may reveal where familiar structures have become protective even though they no longer support growth.",
+          "recognizing where familiar structures are being defended beyond their usefulness",
 
         Depressed:
-          "A depressed expression may make transformation feel heavy or slow, drawing attention to burdens that have been carried without renewal."
-      }
-    },
+          "acknowledging burdens, limitations, or discouragement that have gone too long without renewal"
+      },
+
+      oneQuality:
+        "The {qualities} quality you selected suggests that Saturn may shape this Pluto chapter through {movements}.",
+
+      multipleQualities:
+        "Taken together, the {qualities} qualities you selected suggest that Saturn may shape this Pluto chapter through {movements}.",
+
+      integration:
+        "Across the areas of life you identified, transformation may arrive less as one dramatic break and more as a long-term restructuring. This may shape your public direction, your foundations at home, and the way you choose to present yourself and move through the world."
+    }
+  },
 
     Uranus: {
       core:
