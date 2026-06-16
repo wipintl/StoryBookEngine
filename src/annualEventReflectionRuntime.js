@@ -56,6 +56,13 @@ function prepareAnnualAction(value = "", prompt = "") {
   response = response
     .replace(/\bI am\b/gi, "you are")
     .replace(/\bI'm\b/gi, "you're")
+    .replace(/\bI’m\b/gi, "you’re")
+    .replace(/\bI've\b/gi, "you've")
+    .replace(/\bI’ve\b/gi, "you’ve")
+    .replace(/\bI'll\b/gi, "you'll")
+    .replace(/\bI’ll\b/gi, "you’ll")
+    .replace(/\bI'd\b/gi, "you'd")
+    .replace(/\bI’d\b/gi, "you’d")
     .replace(/\bmyself\b/gi, "yourself")
     .replace(/\bmine\b/gi, "yours")
     .replace(/\bmy\b/gi, "your")
@@ -73,25 +80,82 @@ function prepareAnnualAction(value = "", prompt = "") {
 }
 
 function toPastTensePhrase(value = "") {
-  const phrase = String(value).trim();
+  let phrase = String(value).trim();
 
   if (!phrase) return "";
 
-  const authoredPhraseReplacements = [
-    [
-      /\breach out and help\b/gi,
-      "reached out and helped"
-    ],
-    [
-      /\bdo something that will give\b/gi,
-      "did something that gave"
-    ]
+  const authoredPastTensePhrases = [
+    ["refresh your look with new clothes, a haircut, or a makeover", "refreshed your look with new clothes, a haircut, or a makeover"],
+    ["start a new diet or exercise routine", "started a new diet or exercise routine"],
+    ["make a big change, like move to a new home or buy a car", "made a big change, like moved to a new home or bought a car"],
+    ["clean out your closets, pantry, garage, etc.", "cleaned out your closets, pantry, garage, etc."],
+    ["get your financial stuff in order", "got your financial stuff in order"],
+    ["reflect on your talents, resources, and what you earn", "reflected on your talents, resources, and what you earned"],
+    ["reflect on what’s important to you, and if you make time for it", "reflected on what was important to you, and whether you made time for it"],
+    ["write in your journal daily", "wrote in your journal daily"],
+    ["create healthier daily habits", "created healthier daily habits"],
+    ["clear out your mail piles, email inbox, or files", "cleared out your mail piles, email inbox, or files"],
+    ["clean up your self-talk, social media feed, and information sources", "cleaned up your self-talk, social media feed, and information sources"],
+    ["learn a new skill that you’ll use in your daily life", "learned a new skill that you used in your daily life"],
+    ["tune up your car", "tuned up your car"],
+    ["get in touch with siblings or neighbors", "got in touch with siblings or neighbors"],
+    ["spend time with your family", "spent time with your family"],
+    ["take care of your yard or property", "took care of your yard or property"],
+    ["make peace with your past", "made peace with your past"],
+    ["learn about your ancestors", "learned about your ancestors"],
+    ["do something that will give you pleasure", "did something that gave you pleasure"],
+    ["go to the day spa and relax", "went to the day spa and relaxed"],
+    ["go out on a romantic date", "went out on a romantic date"],
+    ["express your creativity: sing, dance, paint, write", "expressed your creativity: sang, danced, painted, wrote"],
+    ["laugh more", "laughed more"],
+    ["roll up your sleeves and tackle something hard", "rolled up your sleeves and tackled something hard"],
+    ["be brave and do something you’ve been procrastinating on", "were brave and did something you had been procrastinating on"],
+    ["hire someone to help with a project you’ve been stuck on", "hired someone to help with a project you had been stuck on"],
+    ["take care of your body: exercise, eat well, and schedule doctor visits", "took care of your body: exercised, ate well, and scheduled doctor visits"],
+    ["schedule date night or a couple’s holiday", "scheduled date night or a couple’s holiday"],
+    ["go out and mingle with interesting humans", "went out and mingled with interesting humans"],
+    ["catch up with a good friend", "caught up with a good friend"],
+    ["do shadow work", "did shadow work"],
+    ["research something hidden or occult", "researched something hidden or occult"],
+    ["update your will or estate plan", "updated your will or estate plan"],
+    ["reflect on what you’re investing in and what you’re getting out of it", "reflected on what you were investing in and what you were getting out of it"],
+    ["get outside of your comfort zone", "got outside of your comfort zone"],
+    ["learn something completely new", "learned something completely new"],
+    ["go to a place you’ve never been before", "went to a place you had never been before"],
+    ["refresh your assumptions, attitudes, and beliefs", "refreshed your assumptions, attitudes, and beliefs"],
+    ["ask for a raise or a promotion", "asked for a raise or a promotion"],
+    ["apply for a new job", "applied for a new job"],
+    ["update your resume, biography, or social media profiles", "updated your resume, biography, or social media profiles"],
+    ["reach out and help a friend", "reached out and helped a friend"],
+    ["give your time or treasure to help others", "gave your time or treasure to help others"],
+    ["get involved in an organization", "got involved in an organization"],
+    ["hang out with friends", "hung out with friends"],
+    ["consider your long-term hopes, wishes, and plans", "considered your long-term hopes, wishes, and plans"],
+    ["practice self-care", "practiced self-care"],
+    ["step back from the world, and rest", "stepped back from the world, and rested"],
+    ["keep a dream journal", "kept a dream journal"],
+    ["forgive yourself", "forgave yourself"],
   ];
 
-  for (const [pattern, replacement] of authoredPhraseReplacements) {
-    if (pattern.test(phrase)) {
-      return phrase.replace(pattern, replacement);
+  let changedByAuthoredPhrase = false;
+
+  for (const [presentPhrase, pastPhrase] of authoredPastTensePhrases) {
+    const pattern = new RegExp(
+      escapeRegExp(presentPhrase),
+      "gi"
+    );
+
+    const updatedPhrase =
+      phrase.replace(pattern, pastPhrase);
+
+    if (updatedPhrase !== phrase) {
+      changedByAuthoredPhrase = true;
+      phrase = updatedPhrase;
     }
+  }
+
+  if (changedByAuthoredPhrase) {
+    return phrase;
   }
 
   const irregularVerbs = {
