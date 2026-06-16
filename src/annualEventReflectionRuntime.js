@@ -2,6 +2,10 @@ import { storyState } from "./state.js";
 import { houseNarrativeFocus } from "../assets/narratives/houseNarrativeFocus.js";
 import { planetEventLanguage } from "../assets/narratives/planetEventLanguage.js";
 import {
+  natalPlanetCoreThemes,
+  transitionNatalPlanetLanguage
+} from "../assets/narratives/transitionPlanetEventLanguage.js";
+import {
   escapeHtml,
   ordinalHouse
 } from "./annualEventShared.js";
@@ -249,6 +253,135 @@ function toPastTensePhrase(value = "") {
   }
 
   return `${pastWord}${remainder}`;
+}
+
+function buildTransitionNatalPlanetParagraphs({
+  event,
+  response,
+  side
+}) {
+  const selectedPlanets =
+    response.natalPlanets?.[side] || {};
+
+  const entries =
+    Object.entries(selectedPlanets);
+
+  if (entries.length === 0) {
+    return "";
+  }
+
+  const sideLanguage =
+    transitionNatalPlanetLanguage[
+      event.id
+    ]?.[side];
+
+  if (!sideLanguage) {
+    return "";
+  }
+
+  const sign =
+    side === "from"
+      ? event.fromSign
+      : event.toSign;
+
+  const isPast =
+    side === "from";
+
+  const planetParagraphs = entries.map(
+    ([planet, qualities]) => {
+      const coreThemes =
+        natalPlanetCoreThemes[planet] ||
+        "its characteristic needs and functions";
+
+      const movement =
+        sideLanguage.movements[planet] ||
+        "responding to the changes unfolding through this planetary chapter";
+
+      const qualityLanguage =
+        joinNaturally(
+          qualities.map(quality =>
+            quality.toLowerCase()
+          )
+        );
+
+      const qualityWord =
+        qualities.length === 1
+          ? "quality"
+          : "qualities";
+
+      const placementVerb =
+        isPast
+          ? "placed"
+          : "places";
+
+      const chapterVerb =
+        isPast
+          ? "suggests that this part of the story may have worked through"
+          : "suggests that this part of the story may work through";
+
+      return [
+        `Your natal ${planet} in ${sign} ${placementVerb} ${coreThemes} inside ${sideLanguage.field}.`,
+        `The ${qualityLanguage} ${qualityWord} you selected ${chapterVerb} ${movement}.`
+      ].join(" ");
+    }
+  );
+
+  if (entries.length === 1) {
+    return [
+      planetParagraphs[0],
+      sideLanguage.integration
+    ].join(" ");
+  }
+
+  return [
+    sideLanguage.groupIntroduction,
+    ...planetParagraphs,
+    sideLanguage.groupIntegration
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+
+function renderSelectedTransitionPlanets({
+  event,
+  response,
+  side
+}) {
+  const selectedPlanets =
+    response.natalPlanets?.[side] || {};
+
+  const entries =
+    Object.entries(selectedPlanets);
+
+  if (entries.length === 0) {
+    return "";
+  }
+
+  const sign =
+    side === "from"
+      ? event.fromSign
+      : event.toSign;
+
+  const items = entries
+    .map(
+      ([planet, qualities]) => `
+        <li>
+          <strong>${escapeHtml(planet)}:</strong>
+          ${escapeHtml(qualities.join(", "))}
+        </li>
+      `
+    )
+    .join("");
+
+  return `
+    <section style="margin-bottom: 30px;">
+      <h4>
+        Natal planets in ${escapeHtml(sign)}
+      </h4>
+      <ul>${items}</ul>
+    </section>
+  `;
 }
 
 function buildNatalPlanetParagraph(event, response) {
@@ -524,7 +657,28 @@ function buildTransitionHouseStory(event, response) {
     )}, ${language.toRising} ${houseNarrativeFocus[toRisingHouse] || "the circumstances through which you meet the world"}. Your life circumstances may improve as you ${toRisingAction}.`
   ].join(" ");
 
-  return `${fromParagraph}\n\n${toParagraph}`;
+  const fromNatalParagraphs =
+    buildTransitionNatalPlanetParagraphs({
+      event,
+      response,
+      side: "from"
+    });
+
+  const toNatalParagraphs =
+    buildTransitionNatalPlanetParagraphs({
+      event,
+      response,
+      side: "to"
+    });
+
+  return [
+    fromParagraph,
+    fromNatalParagraphs,
+    toParagraph,
+    toNatalParagraphs
+  ]
+    .filter(Boolean)
+    .join("\n\n");
 }
 
 export function buildAnnualEventStory(event, response) {
@@ -662,6 +816,12 @@ function renderTransitionHouseReflection({
         ${escapeHtml(event.fromSign)}
       </h3>
 
+      ${renderSelectedTransitionPlanets({
+        event,
+        response,
+        side: "from"
+      })}
+
       ${renderReflectionField({
         id: "fromSunAnnualReflection",
         heading: "My Sun",
@@ -692,6 +852,12 @@ function renderTransitionHouseReflection({
         ${escapeHtml(event.planetName)} in
         ${escapeHtml(event.toSign)}
       </h3>
+
+      ${renderSelectedTransitionPlanets({
+        event,
+        response,
+        side: "to"
+      })}
 
       ${renderReflectionField({
         id: "toSunAnnualReflection",

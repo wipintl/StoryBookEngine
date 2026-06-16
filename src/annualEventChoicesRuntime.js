@@ -6,10 +6,11 @@ import {
   renderActivityGroup
 } from "./annualEventShared.js";
 
-function renderPlanetKeywordOptions(
+function renderPlanetKeywordOptions({
   planet,
-  selectedKeywords
-) {
+  selectedKeywords,
+  inputName
+}) {
   const keywords = planetKeywords[planet] || [];
 
   return keywords
@@ -23,7 +24,7 @@ function renderPlanetKeywordOptions(
         <label>
           <input
             type="checkbox"
-            name="${planet}Quality"
+            name="${inputName}"
             value="${index}"
             ${checked}
           >
@@ -35,17 +36,14 @@ function renderPlanetKeywordOptions(
     .join("");
 }
 
-function renderNatalPlanetLayer(event, response) {
-  if (!event.natalPlanetLayer?.enabled) {
-    return "";
-  }
-
-  const planets = Object.keys(planetKeywords);
-
-  const planetSections = planets
+function renderPlanetSections({
+  selectedPlanets,
+  side = ""
+}) {
+  return Object.keys(planetKeywords)
     .map(planet => {
       const selectedKeywords =
-        response.natalPlanets[planet] || [];
+        selectedPlanets[planet] || [];
 
       const checked =
         selectedKeywords.length > 0
@@ -56,6 +54,14 @@ function renderNatalPlanetLayer(event, response) {
         selectedKeywords.length > 0
           ? "block"
           : "none";
+
+      const key = side
+        ? `${side}-${planet}`
+        : planet;
+
+      const inputName = side
+        ? `${side}-${planet}Quality`
+        : `${planet}Quality`;
 
       return `
         <section
@@ -69,14 +75,16 @@ function renderNatalPlanetLayer(event, response) {
             <input
               type="checkbox"
               class="natalPlanetToggle"
+              data-side="${side}"
               data-planet="${planet}"
+              data-key="${key}"
               ${checked}
             >
             <strong>${escapeHtml(planet)}</strong>
           </label>
 
           <div
-            id="${planet}QualityOptions"
+            id="${key}QualityOptions"
             style="display: ${display}; margin-top: 14px;"
           >
             <p>
@@ -85,20 +93,32 @@ function renderNatalPlanetLayer(event, response) {
               )} qualities:
             </p>
 
-            ${renderPlanetKeywordOptions(
+            ${renderPlanetKeywordOptions({
               planet,
-              selectedKeywords
-            )}
+              selectedKeywords,
+              inputName
+            })}
           </div>
         </section>
       `;
     })
     .join("");
+}
+
+function renderSingleNatalPlanetLayer(
+  event,
+  response
+) {
+  if (!event.natalPlanetLayer?.enabled) {
+    return "";
+  }
 
   return `
     <section style="margin-top: 36px;">
       <h3>
-        ${escapeHtml(event.natalPlanetLayer.title)}
+        ${escapeHtml(
+          event.natalPlanetLayer.title
+        )}
       </h3>
 
       <p>
@@ -107,9 +127,135 @@ function renderNatalPlanetLayer(event, response) {
         )}
       </p>
 
-      ${planetSections}
+      ${renderPlanetSections({
+        selectedPlanets:
+          response.natalPlanets
+      })}
     </section>
   `;
+}
+
+function renderTransitionNatalPlanetLayer({
+  event,
+  response,
+  side
+}) {
+  if (!event.natalPlanetLayers?.enabled) {
+    return "";
+  }
+
+  const layer = event.natalPlanetLayers[side];
+
+  if (!layer) {
+    return "";
+  }
+
+  return `
+    <section style="margin-top: 36px;">
+      <h3>${escapeHtml(layer.title)}</h3>
+
+      <p>
+        ${escapeHtml(layer.introduction)}
+      </p>
+
+      ${renderPlanetSections({
+        selectedPlanets:
+          response.natalPlanets[side],
+        side
+      })}
+    </section>
+  `;
+}
+
+function wireNatalPlanetToggles() {
+  document
+    .querySelectorAll(".natalPlanetToggle")
+    .forEach(toggle => {
+      toggle.addEventListener("change", () => {
+        const key = toggle.dataset.key;
+
+        const options =
+          document.getElementById(
+            `${key}QualityOptions`
+          );
+
+        options.style.display =
+          toggle.checked
+            ? "block"
+            : "none";
+
+        if (!toggle.checked) {
+          options
+            .querySelectorAll(
+              'input[type="checkbox"]'
+            )
+            .forEach(input => {
+              input.checked = false;
+            });
+        }
+      });
+    });
+}
+
+function collectSelectedPlanets(side = "") {
+  const savedPlanets = {};
+
+  const selector = side
+    ? `.natalPlanetToggle[data-side="${side}"]:checked`
+    : '.natalPlanetToggle[data-side=""]:checked';
+
+  document
+    .querySelectorAll(selector)
+    .forEach(toggle => {
+      const planet = toggle.dataset.planet;
+      const availableKeywords =
+        planetKeywords[planet] || [];
+
+      const inputName = side
+        ? `${side}-${planet}Quality`
+        : `${planet}Quality`;
+
+      const selectedKeywords = Array.from(
+        document.querySelectorAll(
+          `input[name="${inputName}"]:checked`
+        )
+      ).map(
+        input =>
+          availableKeywords[
+            Number(input.value)
+          ]
+      );
+
+      savedPlanets[planet] =
+        selectedKeywords;
+    });
+
+  return savedPlanets;
+}
+
+function selectedPlanetsAreComplete(
+  selectedPlanets
+) {
+  return Object.values(
+    selectedPlanets
+  ).every(
+    keywords =>
+      keywords.length > 0
+  );
+}
+
+function getSelectedActivities(lens, house) {
+  const activities =
+    houseActivityKeywords[house] || [];
+
+  return Array.from(
+    document.querySelectorAll(
+      `input[name="${lens}Activity"]:checked`
+    )
+  ).map(
+    input =>
+      activities[Number(input.value)]
+  );
 }
 
 function renderSingleHouseChoices({
@@ -120,7 +266,10 @@ function renderSingleHouseChoices({
   render
 }) {
   const guidance = event.choicesGuidance
-    .map(paragraph => `<p>${escapeHtml(paragraph)}</p>`)
+    .map(
+      paragraph =>
+        `<p>${escapeHtml(paragraph)}</p>`
+    )
     .join("");
 
   app.innerHTML = `
@@ -129,7 +278,9 @@ function renderSingleHouseChoices({
 
     <p>
       <strong>
-        ${escapeHtml(event.choicesIntroduction)}
+        ${escapeHtml(
+          event.choicesIntroduction
+        )}
       </strong>
     </p>
 
@@ -137,72 +288,57 @@ function renderSingleHouseChoices({
       lens: "sun",
       heading: "My Sun",
       house: response.houses.sun,
-      selectedActivities: response.activities.sun
+      selectedActivities:
+        response.activities.sun
     })}
 
     ${renderActivityGroup({
       lens: "moon",
       heading: "My Moon",
       house: response.houses.moon,
-      selectedActivities: response.activities.moon
+      selectedActivities:
+        response.activities.moon
     })}
 
     ${renderActivityGroup({
       lens: "rising",
       heading: "My Rising Sign",
       house: response.houses.rising,
-      selectedActivities: response.activities.rising
+      selectedActivities:
+        response.activities.rising
     })}
 
-    ${renderNatalPlanetLayer(event, response)}
+    ${renderSingleNatalPlanetLayer(
+      event,
+      response
+    )}
 
-    <p id="annualChoicesError" style="display: none;">
-      Please select at least one house activity for each placement.
+    <p
+      id="annualChoicesError"
+      style="display: none;"
+    >
+      Please select at least one house activity
+      for each placement.
     </p>
 
-    <p id="planetChoicesError" style="display: none;">
-      For each natal planet selected, choose at least one planet quality.
+    <p
+      id="planetChoicesError"
+      style="display: none;"
+    >
+      For each natal planet selected, choose
+      at least one planet quality.
     </p>
 
-    <button id="backToAnnualContext">Back</button>
-    <button id="continueAnnualChoices">Continue</button>
+    <button id="backToAnnualContext">
+      Back
+    </button>
+
+    <button id="continueAnnualChoices">
+      Continue
+    </button>
   `;
 
-  document
-    .querySelectorAll(".natalPlanetToggle")
-    .forEach(toggle => {
-      toggle.addEventListener("change", () => {
-        const planet = toggle.dataset.planet;
-        const options = document.getElementById(
-          `${planet}QualityOptions`
-        );
-
-        options.style.display =
-          toggle.checked ? "block" : "none";
-
-        if (!toggle.checked) {
-          options
-            .querySelectorAll('input[type="checkbox"]')
-            .forEach(input => {
-              input.checked = false;
-            });
-        }
-      });
-    });
-
-  function getSelectedActivities(lens, house) {
-    const activities =
-      houseActivityKeywords[house] || [];
-
-    return Array.from(
-      document.querySelectorAll(
-        `input[name="${lens}Activity"]:checked`
-      )
-    ).map(
-      input =>
-        activities[Number(input.value)]
-    );
-  }
+  wireNatalPlanetToggles();
 
   function saveActivities() {
     response.activities.sun =
@@ -225,43 +361,8 @@ function renderSingleHouseChoices({
   }
 
   function saveNatalPlanets() {
-    const savedPlanets = {};
-
-    document
-      .querySelectorAll(
-        ".natalPlanetToggle:checked"
-      )
-      .forEach(toggle => {
-        const planet = toggle.dataset.planet;
-        const availableKeywords =
-          planetKeywords[planet] || [];
-
-        const selectedKeywords = Array.from(
-          document.querySelectorAll(
-            `input[name="${planet}Quality"]:checked`
-          )
-        ).map(
-          input =>
-            availableKeywords[
-              Number(input.value)
-            ]
-        );
-
-        savedPlanets[planet] =
-          selectedKeywords;
-      });
-
     response.natalPlanets =
-      savedPlanets;
-  }
-
-  function selectedPlanetsAreComplete() {
-    return Object.values(
-      response.natalPlanets
-    ).every(
-      keywords =>
-        keywords.length > 0
-    );
+      collectSelectedPlanets();
   }
 
   document
@@ -269,8 +370,10 @@ function renderSingleHouseChoices({
     .addEventListener("click", () => {
       saveActivities();
       saveNatalPlanets();
+
       storyState.currentAnchorId =
         "annualEventContext";
+
       render();
     });
 
@@ -289,13 +392,19 @@ function renderSingleHouseChoices({
         document.getElementById(
           "annualChoicesError"
         ).style.display = "block";
+
         return;
       }
 
-      if (!selectedPlanetsAreComplete()) {
+      if (
+        !selectedPlanetsAreComplete(
+          response.natalPlanets
+        )
+      ) {
         document.getElementById(
           "planetChoicesError"
         ).style.display = "block";
+
         return;
       }
 
@@ -312,24 +421,27 @@ function renderTransitionHouseChoices({
   render
 }) {
   const guidance = event.choicesGuidance
-    .map(paragraph => `<p>${escapeHtml(paragraph)}</p>`)
+    .map(
+      paragraph =>
+        `<p>${escapeHtml(paragraph)}</p>`
+    )
     .join("");
-
-  const planetName = event.planetName;
 
   app.innerHTML = `
     <h2>${escapeHtml(event.choicesTitle)}</h2>
     ${guidance}
 
-    <section style="margin-bottom: 40px;">
+    <section style="margin-bottom: 48px;">
       <h3>
-        ${escapeHtml(planetName)} in
+        ${escapeHtml(event.planetName)} in
         ${escapeHtml(event.fromSign)}
       </h3>
 
       <p>
         <strong>
-          ${escapeHtml(event.fromChoicesIntroduction)}
+          ${escapeHtml(
+            event.fromChoicesIntroduction
+          )}
         </strong>
       </p>
 
@@ -337,33 +449,44 @@ function renderTransitionHouseChoices({
         lens: "fromSun",
         heading: "My Sun",
         house: response.houses.from.sun,
-        selectedActivities: response.activities.from.sun
+        selectedActivities:
+          response.activities.from.sun
       })}
 
       ${renderActivityGroup({
         lens: "fromMoon",
         heading: "My Moon",
         house: response.houses.from.moon,
-        selectedActivities: response.activities.from.moon
+        selectedActivities:
+          response.activities.from.moon
       })}
 
       ${renderActivityGroup({
         lens: "fromRising",
         heading: "My Rising Sign",
         house: response.houses.from.rising,
-        selectedActivities: response.activities.from.rising
+        selectedActivities:
+          response.activities.from.rising
+      })}
+
+      ${renderTransitionNatalPlanetLayer({
+        event,
+        response,
+        side: "from"
       })}
     </section>
 
-    <section style="margin-bottom: 40px;">
+    <section style="margin-bottom: 48px;">
       <h3>
-        ${escapeHtml(planetName)} in
+        ${escapeHtml(event.planetName)} in
         ${escapeHtml(event.toSign)}
       </h3>
 
       <p>
         <strong>
-          ${escapeHtml(event.toChoicesIntroduction)}
+          ${escapeHtml(
+            event.toChoicesIntroduction
+          )}
         </strong>
       </p>
 
@@ -371,45 +494,59 @@ function renderTransitionHouseChoices({
         lens: "toSun",
         heading: "My Sun",
         house: response.houses.to.sun,
-        selectedActivities: response.activities.to.sun
+        selectedActivities:
+          response.activities.to.sun
       })}
 
       ${renderActivityGroup({
         lens: "toMoon",
         heading: "My Moon",
         house: response.houses.to.moon,
-        selectedActivities: response.activities.to.moon
+        selectedActivities:
+          response.activities.to.moon
       })}
 
       ${renderActivityGroup({
         lens: "toRising",
         heading: "My Rising Sign",
         house: response.houses.to.rising,
-        selectedActivities: response.activities.to.rising
+        selectedActivities:
+          response.activities.to.rising
+      })}
+
+      ${renderTransitionNatalPlanetLayer({
+        event,
+        response,
+        side: "to"
       })}
     </section>
 
-    <p id="annualChoicesError" style="display: none;">
-      Please select at least one activity for all six placements.
+    <p
+      id="annualChoicesError"
+      style="display: none;"
+    >
+      Please select at least one activity for
+      all six placements.
     </p>
 
-    <button id="backToAnnualContext">Back</button>
-    <button id="continueAnnualChoices">Continue</button>
+    <p
+      id="planetChoicesError"
+      style="display: none;"
+    >
+      For each natal planet selected, choose
+      at least one planet quality.
+    </p>
+
+    <button id="backToAnnualContext">
+      Back
+    </button>
+
+    <button id="continueAnnualChoices">
+      Continue
+    </button>
   `;
 
-  function getSelectedActivities(lens, house) {
-    const activities =
-      houseActivityKeywords[house] || [];
-
-    return Array.from(
-      document.querySelectorAll(
-        `input[name="${lens}Activity"]:checked`
-      )
-    ).map(
-      input =>
-        activities[Number(input.value)]
-    );
-  }
+  wireNatalPlanetToggles();
 
   function saveActivities() {
     response.activities.from.sun =
@@ -449,12 +586,34 @@ function renderTransitionHouseChoices({
       );
   }
 
+  function saveNatalPlanets() {
+    response.natalPlanets.from =
+      collectSelectedPlanets("from");
+
+    response.natalPlanets.to =
+      collectSelectedPlanets("to");
+  }
+
+  function transitionPlanetsAreComplete() {
+    return (
+      selectedPlanetsAreComplete(
+        response.natalPlanets.from
+      ) &&
+      selectedPlanetsAreComplete(
+        response.natalPlanets.to
+      )
+    );
+  }
+
   document
     .getElementById("backToAnnualContext")
     .addEventListener("click", () => {
       saveActivities();
+      saveNatalPlanets();
+
       storyState.currentAnchorId =
         "annualEventContext";
+
       render();
     });
 
@@ -462,6 +621,7 @@ function renderTransitionHouseChoices({
     .getElementById("continueAnnualChoices")
     .addEventListener("click", () => {
       saveActivities();
+      saveNatalPlanets();
 
       const allComplete =
         response.activities.from.sun.length > 0 &&
@@ -475,6 +635,15 @@ function renderTransitionHouseChoices({
         document.getElementById(
           "annualChoicesError"
         ).style.display = "block";
+
+        return;
+      }
+
+      if (!transitionPlanetsAreComplete()) {
+        document.getElementById(
+          "planetChoicesError"
+        ).style.display = "block";
+
         return;
       }
 
@@ -483,8 +652,13 @@ function renderTransitionHouseChoices({
     });
 }
 
-export function renderAnnualEventChoices(options) {
-  if (options.event.type === "transitionHouse") {
+export function renderAnnualEventChoices(
+  options
+) {
+  if (
+    options.event.type ===
+    "transitionHouse"
+  ) {
     renderTransitionHouseChoices(options);
     return;
   }

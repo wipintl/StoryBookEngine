@@ -192,6 +192,20 @@ export const storyYear2026 = {
       toChoicesIntroduction:
         "Beginning in 2026, Neptune invites me to let go and have faith when I…",
 
+      natalPlanetLayers: {
+        enabled: true,
+        from: {
+          title: "Optional: Natal planets in Pisces",
+          introduction:
+            "If you know that you have natal planets in Pisces, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        },
+        to: {
+          title: "Optional: Natal planets in Aries",
+          introduction:
+            "If you know that you have natal planets in Aries, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        }
+      },
+
       reflectionTitle:
         "Write My Neptune Story",
 
@@ -299,6 +313,20 @@ export const storyYear2026 = {
 
       toChoicesIntroduction:
         "Beginning in 2025, Uranus invites me to express my unique individuality in my…",
+
+      natalPlanetLayers: {
+        enabled: true,
+        from: {
+          title: "Optional: Natal planets in Taurus",
+          introduction:
+            "If you know that you have natal planets in Taurus, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        },
+        to: {
+          title: "Optional: Natal planets in Gemini",
+          introduction:
+            "If you know that you have natal planets in Gemini, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        }
+      },
 
       reflectionTitle:
         "Write My Uranus Story",
