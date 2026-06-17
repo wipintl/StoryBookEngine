@@ -90,6 +90,75 @@ export const transitionNatalPlanetLanguage = {
     }
   },
 
+  jupiterCancerLeo: {
+    from: {
+      field:
+        "Jupiter’s nourishing and protective field in Cancer",
+      movements: {
+        Sun:
+          "allowing identity and purpose to grow through care, belonging, emotional honesty, and attention to what creates a genuine sense of home",
+        Moon:
+          "expanding emotional confidence through nourishment, family connection, memory, and a deeper trust in what provides safety",
+        Mercury:
+          "giving thought and language more emotional intelligence, with learning shaped by memory, care, and the stories that create belonging",
+        Venus:
+          "enlarging the capacity to receive and offer affection, pleasure, and support while clarifying which relationships feel like home",
+        Mars:
+          "directing action toward protection, family, emotional truth, and the courage required to care for what matters",
+        Jupiter:
+          "amplifying faith, generosity, and growth through emotional rootedness, family wisdom, and a more expansive understanding of belonging",
+        Saturn:
+          "building dependable emotional foundations and learning how responsibility, boundaries, and care can support one another",
+        Uranus:
+          "opening unexpected pathways toward home, family, nourishment, and emotional freedom while redefining what security can mean",
+        Neptune:
+          "deepening intuition, compassion, and imaginative connection to home and ancestry while requiring discernment around emotional idealization",
+        Pluto:
+          "transforming the roots of belonging, family power, memory, and emotional security so that growth can arise from a more truthful foundation"
+      },
+      integration:
+        "While Jupiter moves through Cancer, the planet you selected may become a place where growth is supported by care, belonging, and a stronger emotional foundation.",
+      groupIntroduction:
+        "With several natal planets in Cancer, Jupiter’s passage through this sign is expanding multiple parts of your chart.",
+      groupIntegration:
+        "Taken together, these placements suggest that Jupiter’s Cancer chapter may be enlarging several dimensions of your life through care, belonging, emotional truth, and the foundations that allow growth to feel sustainable."
+    },
+
+    to: {
+      field:
+        "Jupiter’s confident and expressive field in Leo",
+      movements: {
+        Sun:
+          "encouraging identity and purpose to become more visible, joyful, creative, and willing to occupy space without apology",
+        Moon:
+          "supporting emotional confidence through play, warmth, creative expression, and the freedom to be seen as you truly feel",
+        Mercury:
+          "making language bolder, more expressive, and more personally authoritative while inviting ideas to reach a wider audience",
+        Venus:
+          "expanding pleasure, attraction, creativity, and self-worth through generosity, visibility, romance, and wholehearted expression",
+        Mars:
+          "energizing courageous action, leadership, desire, and the willingness to pursue what brings pride, joy, and creative vitality",
+        Jupiter:
+          "magnifying confidence, generosity, leadership, and creative possibility while encouraging faith in the right to shine",
+        Saturn:
+          "giving discipline and durability to creative ambition, leadership, and public expression so that confidence can become sustained achievement",
+        Uranus:
+          "awakening original forms of creativity, visibility, and leadership while encouraging a more liberated relationship with recognition",
+        Neptune:
+          "bringing imagination, spiritual inspiration, and sensitivity into creative or public expression while preserving discernment around admiration",
+        Pluto:
+          "intensifying creative power, leadership, and visibility while transforming the deeper motives attached to recognition and self-expression"
+      },
+      integration:
+        "As Jupiter moves into Leo, the planet you selected may become a place where growth asks to be expressed, enjoyed, and seen.",
+      groupIntroduction:
+        "With several natal planets in Leo, Jupiter’s entrance into this sign begins to expand multiple parts of your chart.",
+      groupIntegration:
+        "Taken together, these placements suggest that Jupiter’s Leo chapter may invite several parts of your life to become more visible, confident, creative, and willing to receive joy."
+    }
+  },
+
+
   uranusTaurusGemini: {
     from: {
       field:

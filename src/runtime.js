@@ -11,334 +11,421 @@ const app = document.getElementById("app");
 const nextButton = document.getElementById("nextButton");
 const titleAttribution =
   document.getElementById("titleAttribution");
-  function loadDevelopmentCheckpoint() {
-    const isLocalDevelopment =
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1";
 
-    if (!isLocalDevelopment) {
-      return;
+function loadDevelopmentCheckpoint() {
+  const isLocalDevelopment =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  if (!isLocalDevelopment) {
+    return;
+  }
+
+  const checkpoint =
+    new URLSearchParams(
+      window.location.search
+    ).get("test");
+
+  const baseCompletedAnchors = [
+    "welcome",
+    "identityCollection",
+    "sunSignSelection",
+    "moonSignSelection",
+    "risingSignSelection",
+    "sunKeywordSelection",
+    "moonKeywordSelection",
+    "risingKeywordSelection",
+    "sunReflection",
+    "moonReflection",
+    "risingReflection",
+    "characterSketch",
+    "characterReflection"
+  ];
+
+  const annualAnchorSequence = [
+    "annualEventScene",
+    "annualEventContext",
+    "annualEventChoices",
+    "annualEventReflection",
+    "annualEventComplete"
+  ];
+
+  function completedThroughEvent(eventIndex) {
+    const completed = [
+      ...baseCompletedAnchors
+    ];
+
+    for (
+      let index = 0;
+      index < eventIndex;
+      index += 1
+    ) {
+      completed.push(
+        ...annualAnchorSequence
+      );
     }
 
-    const checkpoint =
-      new URLSearchParams(
-        window.location.search
-      ).get("test");
+    return completed;
+  }
 
-    const checkpointAnchors = {
-      neptune: {
-        currentAnchorId: "annualEventScene",
-        currentEventIndex: 1,
-        completedAnchors: [
-          "welcome",
-          "identityCollection",
-          "sunSignSelection",
-          "moonSignSelection",
-          "risingSignSelection",
-          "sunKeywordSelection",
-          "moonKeywordSelection",
-          "risingKeywordSelection",
-          "sunReflection",
-          "moonReflection",
-          "risingReflection",
-          "characterSketch",
-          "characterReflection",
-          "annualEventScene",
-          "annualEventContext",
-          "annualEventChoices",
-          "annualEventReflection",
-          "annualEventComplete"
-        ]
-      },
+  function createCheckpoint(
+    currentEventIndex,
+    currentAnchorId
+  ) {
+    const completedAnchors =
+      completedThroughEvent(
+        currentEventIndex
+      );
 
-      "neptune-context": {
-        currentAnchorId: "annualEventContext",
-        currentEventIndex: 1,
-        completedAnchors: [
-          "welcome",
-          "identityCollection",
-          "sunSignSelection",
-          "moonSignSelection",
-          "risingSignSelection",
-          "sunKeywordSelection",
-          "moonKeywordSelection",
-          "risingKeywordSelection",
-          "sunReflection",
-          "moonReflection",
-          "risingReflection",
-          "characterSketch",
-          "characterReflection",
-          "annualEventScene",
-          "annualEventContext",
-          "annualEventChoices",
-          "annualEventReflection",
-          "annualEventComplete",
-          "annualEventScene"
-        ]
-      },
+    const anchorIndex =
+      annualAnchorSequence.indexOf(
+        currentAnchorId
+      );
 
-      "neptune-choices": {
-        currentAnchorId: "annualEventChoices",
-        currentEventIndex: 1,
-        completedAnchors: [
-          "welcome",
-          "identityCollection",
-          "sunSignSelection",
-          "moonSignSelection",
-          "risingSignSelection",
-          "sunKeywordSelection",
-          "moonKeywordSelection",
-          "risingKeywordSelection",
-          "sunReflection",
-          "moonReflection",
-          "risingReflection",
-          "characterSketch",
-          "characterReflection",
-          "annualEventScene",
-          "annualEventContext",
-          "annualEventChoices",
-          "annualEventReflection",
-          "annualEventComplete",
-          "annualEventScene",
-          "annualEventContext"
-        ]
-      },
-
-      pluto: {
-        currentAnchorId: "annualEventScene",
-        currentEventIndex: 0,
-        completedAnchors: [
-          "welcome",
-          "identityCollection",
-          "sunSignSelection",
-          "moonSignSelection",
-          "risingSignSelection",
-          "sunKeywordSelection",
-          "moonKeywordSelection",
-          "risingKeywordSelection",
-          "sunReflection",
-          "moonReflection",
-          "risingReflection",
-          "characterSketch",
-          "characterReflection"
-        ]
-      },
-
-      "pluto-context": {
-        currentAnchorId: "annualEventContext",
-        currentEventIndex: 0,
-        completedAnchors: [
-          "welcome",
-          "identityCollection",
-          "sunSignSelection",
-          "moonSignSelection",
-          "risingSignSelection",
-          "sunKeywordSelection",
-          "moonKeywordSelection",
-          "risingKeywordSelection",
-          "sunReflection",
-          "moonReflection",
-          "risingReflection",
-          "characterSketch",
-          "characterReflection",
-          "annualEventScene"
-        ]
-      },
-
-      "pluto-choices": {
-        currentAnchorId: "annualEventChoices",
-        currentEventIndex: 0,
-        completedAnchors: [
-          "welcome",
-          "identityCollection",
-          "sunSignSelection",
-          "moonSignSelection",
-          "risingSignSelection",
-          "sunKeywordSelection",
-          "moonKeywordSelection",
-          "risingKeywordSelection",
-          "sunReflection",
-          "moonReflection",
-          "risingReflection",
-          "characterSketch",
-          "characterReflection",
-          "annualEventScene",
-          "annualEventContext"
-        ]
-      },
-
-      "pluto-story": {
-        currentAnchorId: "annualEventReflection",
-        currentEventIndex: 0,
-        completedAnchors: [
-          "welcome",
-          "identityCollection",
-          "sunSignSelection",
-          "moonSignSelection",
-          "risingSignSelection",
-          "sunKeywordSelection",
-          "moonKeywordSelection",
-          "risingKeywordSelection",
-          "sunReflection",
-          "moonReflection",
-          "risingReflection",
-          "characterSketch",
-          "characterReflection",
-          "annualEventScene",
-          "annualEventContext",
-          "annualEventChoices"
-        ]
-      }
-    };
-
-    const selectedCheckpoint =
-      checkpointAnchors[checkpoint];
-
-    if (!selectedCheckpoint) {
-      return;
+    if (anchorIndex > 0) {
+      completedAnchors.push(
+        ...annualAnchorSequence.slice(
+          0,
+          anchorIndex
+        )
+      );
     }
 
-    storyState.identity = {
-      name: "Tracy",
-      sunSign: "Taurus",
-      moonSign: "Scorpio",
-      risingSign: "Aquarius"
+    return {
+      currentAnchorId,
+      currentEventIndex,
+      completedAnchors
     };
+  }
 
-    storyState.selections = {
-      sunKeyword: "Pleasure-seeking",
-      moonKeyword: "Passionate",
-      risingKeyword: "Detached",
-      reflection:
-        "This broadly reflects how I understand myself."
-    };
+  const checkpointAnchors = {
+    pluto:
+      createCheckpoint(
+        0,
+        "annualEventScene"
+      ),
 
-    storyState.characterResponses = {
-      sunShine:
-        "I allow myself to experience new and exciting things.",
+    "pluto-context":
+      createCheckpoint(
+        0,
+        "annualEventContext"
+      ),
 
-      sunPride:
-        "I make time to do the things I love.",
+    "pluto-choices":
+      createCheckpoint(
+        0,
+        "annualEventChoices"
+      ),
 
-      moonEase:
-        "I express my softer emotions in an unguarded way.",
+    "pluto-story":
+      createCheckpoint(
+        0,
+        "annualEventReflection"
+      ),
 
-      moonMotivation:
-        "I follow through on my promises to the people I care about.",
+    neptune:
+      createCheckpoint(
+        1,
+        "annualEventScene"
+      ),
 
-      risingStyle:
-        "friendly yet independent",
+    "neptune-context":
+      createCheckpoint(
+        1,
+        "annualEventContext"
+      ),
 
-      risingActions:
-        "directed toward fulfilling a personal desire"
-    };
+    "neptune-choices":
+      createCheckpoint(
+        1,
+        "annualEventChoices"
+      ),
 
-    storyState.annualJourney = {
-      year: 2026,
+    "neptune-story":
+      createCheckpoint(
+        1,
+        "annualEventReflection"
+      ),
 
-      currentEventIndex:
-        selectedCheckpoint.currentEventIndex ?? 0,
+    uranus:
+      createCheckpoint(
+        2,
+        "annualEventScene"
+      ),
 
-      responses: {
-        neptunePiscesAries: {
-          houses: {
-            from: {
-              sun: "11",
-              moon: "5",
-              rising: "2"
-            },
+    "uranus-context":
+      createCheckpoint(
+        2,
+        "annualEventContext"
+      ),
 
-            to: {
-              sun: "12",
-              moon: "6",
-              rising: "3"
-            }
+    "uranus-choices":
+      createCheckpoint(
+        2,
+        "annualEventChoices"
+      ),
+
+    "uranus-story":
+      createCheckpoint(
+        2,
+        "annualEventReflection"
+      ),
+
+    jupiter:
+      createCheckpoint(
+        3,
+        "annualEventScene"
+      ),
+
+    "jupiter-context":
+      createCheckpoint(
+        3,
+        "annualEventContext"
+      ),
+
+    "jupiter-choices":
+      createCheckpoint(
+        3,
+        "annualEventChoices"
+      ),
+
+    "jupiter-story":
+      createCheckpoint(
+        3,
+        "annualEventReflection"
+      )
+  };
+
+  const selectedCheckpoint =
+    checkpointAnchors[checkpoint];
+
+  if (!selectedCheckpoint) {
+    return;
+  }
+
+  storyState.identity = {
+    name: "Tracy",
+    sunSign: "Taurus",
+    moonSign: "Scorpio",
+    risingSign: "Aquarius"
+  };
+
+  storyState.selections = {
+    sunKeyword: "Pleasure-seeking",
+    moonKeyword: "Passionate",
+    risingKeyword: "Detached",
+    reflection:
+      "This broadly reflects how I understand myself."
+  };
+
+  storyState.characterResponses = {
+    sunShine:
+      "I allow myself to experience new and exciting things.",
+    sunPride:
+      "I make time to do the things I love.",
+    moonEase:
+      "I express my softer emotions in an unguarded way.",
+    moonMotivation:
+      "I follow through on my promises to the people I care about.",
+    risingStyle:
+      "friendly yet independent",
+    risingActions:
+      "directed toward fulfilling a personal desire"
+  };
+
+  storyState.annualJourney = {
+    year: 2026,
+
+    currentEventIndex:
+      selectedCheckpoint.currentEventIndex,
+
+    responses: {
+      plutoAquarius: {
+        houses: {
+          sun: "10",
+          moon: "4",
+          rising: "1"
+        },
+
+        activities: {
+          sun: [
+            "Ask for a raise or a promotion"
+          ],
+          moon: [
+            "Spend time with my family"
+          ],
+          rising: [
+            "Refresh my look with new clothes, a haircut, or a makeover"
+          ]
+        },
+
+        natalPlanets: {
+          Saturn: [
+            "Grounded",
+            "Patient"
+          ]
+        },
+
+        reflections: {
+          sun: "",
+          moon: "",
+          rising: ""
+        }
+      },
+
+      neptunePiscesAries: {
+        houses: {
+          from: {
+            sun: "11",
+            moon: "5",
+            rising: "2"
           },
-
-          activities: {
-            from: {
-              sun: [],
-              moon: [],
-              rising: []
-            },
-
-            to: {
-              sun: [],
-              moon: [],
-              rising: []
-            }
-          },
-
-          natalPlanets: {
-            from: {},
-            to: {}
-          },
-
-          reflections: {
-            from: {
-              sun: "",
-              moon: "",
-              rising: ""
-            },
-
-            to: {
-              sun: "",
-              moon: "",
-              rising: ""
-            }
+          to: {
+            sun: "12",
+            moon: "6",
+            rising: "3"
           }
         },
 
-        plutoAquarius: {
-          houses: {
-            sun: "10",
-            moon: "4",
-            rising: "1"
+        activities: {
+          from: {
+            sun: [],
+            moon: [],
+            rising: []
           },
+          to: {
+            sun: [],
+            moon: [],
+            rising: []
+          }
+        },
 
-          activities: {
-            sun: [
-              "Ask for a raise or a promotion"
-            ],
+        natalPlanets: {
+          from: {},
+          to: {}
+        },
 
-            moon: [
-              "Spend time with my family"
-            ],
-
-            rising: [
-              "Refresh my look with new clothes, a haircut, or a makeover"
-            ]
+        reflections: {
+          from: {
+            sun: "",
+            moon: "",
+            rising: ""
           },
+          to: {
+            sun: "",
+            moon: "",
+            rising: ""
+          }
+        }
+      },
 
-          natalPlanets: {
-            Saturn: [
-              "Grounded",
-              "Patient"
-            ]
+      uranusTaurusGemini: {
+        houses: {
+          from: {
+            sun: "1",
+            moon: "7",
+            rising: "4"
           },
+          to: {
+            sun: "2",
+            moon: "8",
+            rising: "5"
+          }
+        },
 
-          reflections: {
+        activities: {
+          from: {
+            sun: [],
+            moon: [],
+            rising: []
+          },
+          to: {
+            sun: [],
+            moon: [],
+            rising: []
+          }
+        },
+
+        natalPlanets: {
+          from: {},
+          to: {}
+        },
+
+        reflections: {
+          from: {
+            sun: "",
+            moon: "",
+            rising: ""
+          },
+          to: {
+            sun: "",
+            moon: "",
+            rising: ""
+          }
+        }
+      },
+
+      jupiterCancerLeo: {
+        houses: {
+          from: {
+            sun: "3",
+            moon: "9",
+            rising: "6"
+          },
+          to: {
+            sun: "4",
+            moon: "10",
+            rising: "7"
+          }
+        },
+
+        activities: {
+          from: {
+            sun: [],
+            moon: [],
+            rising: []
+          },
+          to: {
+            sun: [],
+            moon: [],
+            rising: []
+          }
+        },
+
+        natalPlanets: {
+          from: {},
+          to: {}
+        },
+
+        reflections: {
+          from: {
+            sun: "",
+            moon: "",
+            rising: ""
+          },
+          to: {
             sun: "",
             moon: "",
             rising: ""
           }
         }
       }
-    };
+    }
+  };
 
-    storyState.outputs = {
-      characterSketch: null,
-      annualEventStories: {}
-    };
+  storyState.outputs = {
+    characterSketch: null,
+    annualEventStories: {}
+  };
 
-    storyState.completedAnchors = [
-      ...selectedCheckpoint.completedAnchors
-    ];
+  storyState.completedAnchors = [
+    ...selectedCheckpoint.completedAnchors
+  ];
 
-    storyState.currentAnchorId =
-      selectedCheckpoint.currentAnchorId;
-  }
-  
+  storyState.currentAnchorId =
+    selectedCheckpoint.currentAnchorId;
+}
+
 function escapeHtml(value = "") {
   return String(value)
     .replaceAll("&", "&amp;")
@@ -350,18 +437,19 @@ function escapeHtml(value = "") {
 
 function capitalizeFirst(value = "") {
   if (!value) return "";
-
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
 function lowercaseFirst(value = "") {
   if (!value) return "";
-
   return value.charAt(0).toLowerCase() + value.slice(1);
 }
 
 function escapeRegExp(value = "") {
-  return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  return String(value).replace(
+    /[.*+?^${}()|[\]\\]/g,
+    "\\$&"
+  );
 }
 
 function removePromptStem(value = "", stems = []) {
@@ -476,39 +564,18 @@ function buildMoonEaseSentence(value = "") {
   }
 
   const actionVerbs = [
-    "accept",
-    "allow",
-    "care",
-    "choose",
-    "connect",
-    "create",
-    "express",
-    "feel",
-    "focus",
-    "follow",
-    "give",
-    "have",
-    "help",
-    "learn",
-    "listen",
-    "make",
-    "move",
-    "protect",
-    "pursue",
-    "rest",
-    "share",
-    "speak",
-    "spend",
-    "stay",
-    "take",
-    "trust",
-    "work",
-    "write"
+    "accept", "allow", "care", "choose", "connect",
+    "create", "express", "feel", "focus", "follow",
+    "give", "have", "help", "learn", "listen",
+    "make", "move", "protect", "pursue", "rest",
+    "share", "speak", "spend", "stay", "take",
+    "trust", "work", "write"
   ];
 
-  const beginsWithAction = actionVerbs.some(verb =>
-    response.toLowerCase().startsWith(`${verb} `)
-  );
+  const beginsWithAction =
+    actionVerbs.some(verb =>
+      response.toLowerCase().startsWith(`${verb} `)
+    );
 
   if (beginsWithAction) {
     return `You feel most at ease when you ${lowercaseFirst(response)}.`;
@@ -661,7 +728,6 @@ function getRelationshipLanguage(relationship) {
 
 function buildCharacterSketch() {
   const name = storyState.identity.name;
-
   const sunSign = storyState.identity.sunSign;
   const moonSign = storyState.identity.moonSign;
 
@@ -679,52 +745,45 @@ function buildCharacterSketch() {
     return `${name}, your Character Sketch could not be completed because one or more narrative selections are missing.`;
   }
 
-  const sunShineSentence = buildSunShineSentence(
-    responses.sunShine
-  );
-
-  const sunPrideSentence = buildSunPrideSentence(
-    responses.sunPride
-  );
-
-  const moonEaseSentence = buildMoonEaseSentence(
-    responses.moonEase
-  );
-
-  const moonMotivationSentence =
-    buildMoonMotivationSentence(
-      responses.moonMotivation
-    );
-
-  const risingStyleSentence = buildRisingStyleSentence(
-    responses.risingStyle
-  );
-
-  const risingActionsSentence =
-    buildRisingActionsSentence(
-      responses.risingActions
-    );
-
-  const relationship = determineRelationship(
-    sunSign,
-    moonSign
-  );
-
-  const relationshipLanguage =
-    getRelationshipLanguage(relationship);
-
   const paragraphs = [
-    `${name}, ${sunLanguage.sun} ${sunShineSentence} ${sunPrideSentence}`,
+    `${name}, ${sunLanguage.sun} ${buildSunShineSentence(
+      responses.sunShine
+    )} ${buildSunPrideSentence(
+      responses.sunPride
+    )}`,
 
-    `${relationshipLanguage.interior} ${capitalizeFirst(
+    `${getRelationshipLanguage(
+      determineRelationship(
+        sunSign,
+        moonSign
+      )
+    ).interior} ${capitalizeFirst(
       moonLanguage.moon
-    )} ${moonEaseSentence} ${moonMotivationSentence}`,
+    )} ${buildMoonEaseSentence(
+      responses.moonEase
+    )} ${buildMoonMotivationSentence(
+      responses.moonMotivation
+    )}`,
 
-    `${relationshipLanguage.threshold} ${capitalizeFirst(
+    `${getRelationshipLanguage(
+      determineRelationship(
+        sunSign,
+        moonSign
+      )
+    ).threshold} ${capitalizeFirst(
       risingLanguage.rising
-    )} ${risingStyleSentence} ${risingActionsSentence}`,
+    )} ${buildRisingStyleSentence(
+      responses.risingStyle
+    )} ${buildRisingActionsSentence(
+      responses.risingActions
+    )}`,
 
-    relationshipLanguage.integration
+    getRelationshipLanguage(
+      determineRelationship(
+        sunSign,
+        moonSign
+      )
+    ).integration
   ];
 
   return paragraphs.join("\n\n");
@@ -732,14 +791,22 @@ function buildCharacterSketch() {
 
 function getSignOptions() {
   return Object.keys(zodiacKeywords)
-    .map(sign => `<option value="${sign}">${sign}</option>`)
+    .map(
+      sign =>
+        `<option value="${sign}">${sign}</option>`
+    )
     .join("");
 }
 
 function savePromptResponses(fields) {
   fields.forEach(field => {
-    storyState.characterResponses[field.stateKey] =
-      document.getElementById(field.id).value.trim();
+    storyState.characterResponses[
+      field.stateKey
+    ] =
+      document
+        .getElementById(field.id)
+        .value
+        .trim();
   });
 }
 
@@ -753,7 +820,6 @@ function renderCharacterPromptPage({
 }) {
   app.innerHTML = `
     <h2>${escapeHtml(title)}</h2>
-
     <p>${escapeHtml(subtitle)}</p>
 
     <p>
@@ -765,7 +831,9 @@ function renderCharacterPromptPage({
       .map(
         field => `
           <label for="${field.id}">
-            <strong>${escapeHtml(field.label)}</strong>
+            <strong>
+              ${escapeHtml(field.label)}
+            </strong>
           </label>
 
           <textarea
@@ -774,7 +842,9 @@ function renderCharacterPromptPage({
             style="width: 100%;"
             placeholder="Complete this sentence in your own words."
           >${escapeHtml(
-            storyState.characterResponses[field.stateKey] || ""
+            storyState.characterResponses[
+              field.stateKey
+            ] || ""
           )}</textarea>
 
           <br><br>
@@ -786,10 +856,7 @@ function renderCharacterPromptPage({
       Please respond to both prompts before continuing.
     </p>
 
-    <button id="backPromptButton">
-      Back
-    </button>
-
+    <button id="backPromptButton">Back</button>
     <button id="continuePromptButton">
       Continue
     </button>
@@ -799,7 +866,8 @@ function renderCharacterPromptPage({
     .getElementById("backPromptButton")
     .addEventListener("click", () => {
       savePromptResponses(fields);
-      storyState.currentAnchorId = backAnchor;
+      storyState.currentAnchorId =
+        backAnchor;
       render();
     });
 
@@ -808,13 +876,20 @@ function renderCharacterPromptPage({
     .addEventListener("click", () => {
       savePromptResponses(fields);
 
-      const allComplete = fields.every(
-        field =>
-          storyState.characterResponses[field.stateKey].length > 0
-      );
+      const allComplete =
+        fields.every(
+          field =>
+            storyState
+              .characterResponses[
+                field.stateKey
+              ].length > 0
+        );
 
       if (!allComplete) {
-        document.getElementById("promptError").style.display = "block";
+        document.getElementById(
+          "promptError"
+        ).style.display = "block";
+
         return;
       }
 
@@ -826,53 +901,54 @@ function renderCharacterPromptPage({
 function render() {
   const current = getCurrentAnchor();
 
-  console.log("Current Anchor ID:", current.id);
+  console.log(
+    "Current Anchor ID:",
+    current.id
+  );
 
   if (nextButton) {
-  nextButton.style.display = "none";
-}
+    nextButton.style.display = "none";
+  }
 
-if (titleAttribution) {
-  titleAttribution.style.display =
-    current.id === "welcome"
-      ? "block"
-      : "none";
-}
+  if (titleAttribution) {
+    titleAttribution.style.display =
+      current.id === "welcome"
+        ? "block"
+        : "none";
+  }
 
-const annualEventWasRendered =
-  renderAnnualEventAnchor({
-    anchorId: current.id,
-    app,
-    advanceStory,
-    render
-  });
-
-if (annualEventWasRendered) {
-  return;
-}
-
-if (current.id === "welcome") {
-  app.innerHTML = `
-    <h2>Welcome</h2>
-
-    <p>
-      This is the beginning of your Storybook journey.
-    </p>
-
-    <button id="startButton">
-      Begin
-    </button>
-  `;
-
-  document
-    .getElementById("startButton")
-    .addEventListener("click", () => {
-      advanceStory();
-      render();
+  const annualEventWasRendered =
+    renderAnnualEventAnchor({
+      anchorId: current.id,
+      app,
+      advanceStory,
+      render
     });
 
-  return;
-}
+  if (annualEventWasRendered) {
+    return;
+  }
+
+  if (current.id === "welcome") {
+    app.innerHTML = `
+      <h2>Welcome</h2>
+
+      <p>
+        This is the beginning of your Storybook journey.
+      </p>
+
+      <button id="startButton">Begin</button>
+    `;
+
+    document
+      .getElementById("startButton")
+      .addEventListener("click", () => {
+        advanceStory();
+        render();
+      });
+
+    return;
+  }
 
   if (current.id === "identityCollection") {
     app.innerHTML = `
@@ -881,17 +957,23 @@ if (current.id === "welcome") {
       <button id="submitName">Submit</button>
     `;
 
-    document.getElementById("submitName").addEventListener("click", () => {
-      const name = document.getElementById("nameInput").value.trim();
+    document
+      .getElementById("submitName")
+      .addEventListener("click", () => {
+        const name =
+          document
+            .getElementById("nameInput")
+            .value
+            .trim();
 
-      if (!name) {
-        return;
-      }
+        if (!name) {
+          return;
+        }
 
-      storyState.identity.name = name;
-      advanceStory();
-      render();
-    });
+        storyState.identity.name = name;
+        advanceStory();
+        render();
+      });
 
     return;
   }
@@ -912,13 +994,17 @@ if (current.id === "welcome") {
       .getElementById("submitSunSign")
       .addEventListener("click", () => {
         const sunSign =
-          document.getElementById("sunSignInput").value;
+          document
+            .getElementById("sunSignInput")
+            .value;
 
         if (!sunSign) {
           return;
         }
 
-        storyState.identity.sunSign = sunSign;
+        storyState.identity.sunSign =
+          sunSign;
+
         advanceStory();
         render();
       });
@@ -942,13 +1028,17 @@ if (current.id === "welcome") {
       .getElementById("submitMoonSign")
       .addEventListener("click", () => {
         const moonSign =
-          document.getElementById("moonSignInput").value;
+          document
+            .getElementById("moonSignInput")
+            .value;
 
         if (!moonSign) {
           return;
         }
 
-        storyState.identity.moonSign = moonSign;
+        storyState.identity.moonSign =
+          moonSign;
+
         advanceStory();
         render();
       });
@@ -972,13 +1062,19 @@ if (current.id === "welcome") {
       .getElementById("submitRisingSign")
       .addEventListener("click", () => {
         const risingSign =
-          document.getElementById("risingSignInput").value;
+          document
+            .getElementById(
+              "risingSignInput"
+            )
+            .value;
 
         if (!risingSign) {
           return;
         }
 
-        storyState.identity.risingSign = risingSign;
+        storyState.identity.risingSign =
+          risingSign;
+
         advanceStory();
         render();
       });
@@ -988,7 +1084,9 @@ if (current.id === "welcome") {
 
   if (current.id === "sunKeywordSelection") {
     const keywords =
-      zodiacKeywords[storyState.identity.sunSign] || [];
+      zodiacKeywords[
+        storyState.identity.sunSign
+      ] || [];
 
     app.innerHTML = `
       <h2>Select Your Sun Keyword</h2>
@@ -1001,22 +1099,30 @@ if (current.id === "welcome") {
         .join("")}
     `;
 
-    document.querySelectorAll(".kw").forEach(button => {
-      button.addEventListener("click", () => {
-        storyState.selections.sunKeyword =
-          button.dataset.keyword;
+    document
+      .querySelectorAll(".kw")
+      .forEach(button => {
+        button.addEventListener(
+          "click",
+          () => {
+            storyState.selections
+              .sunKeyword =
+                button.dataset.keyword;
 
-        advanceStory();
-        render();
+            advanceStory();
+            render();
+          }
+        );
       });
-    });
 
     return;
   }
 
   if (current.id === "moonKeywordSelection") {
     const keywords =
-      zodiacKeywords[storyState.identity.moonSign] || [];
+      zodiacKeywords[
+        storyState.identity.moonSign
+      ] || [];
 
     app.innerHTML = `
       <h2>Select Your Moon Keyword</h2>
@@ -1029,22 +1135,30 @@ if (current.id === "welcome") {
         .join("")}
     `;
 
-    document.querySelectorAll(".kw").forEach(button => {
-      button.addEventListener("click", () => {
-        storyState.selections.moonKeyword =
-          button.dataset.keyword;
+    document
+      .querySelectorAll(".kw")
+      .forEach(button => {
+        button.addEventListener(
+          "click",
+          () => {
+            storyState.selections
+              .moonKeyword =
+                button.dataset.keyword;
 
-        advanceStory();
-        render();
+            advanceStory();
+            render();
+          }
+        );
       });
-    });
 
     return;
   }
 
   if (current.id === "risingKeywordSelection") {
     const keywords =
-      zodiacKeywords[storyState.identity.risingSign] || [];
+      zodiacKeywords[
+        storyState.identity.risingSign
+      ] || [];
 
     app.innerHTML = `
       <h2>Select Your Rising Keyword</h2>
@@ -1057,15 +1171,21 @@ if (current.id === "welcome") {
         .join("")}
     `;
 
-    document.querySelectorAll(".kw").forEach(button => {
-      button.addEventListener("click", () => {
-        storyState.selections.risingKeyword =
-          button.dataset.keyword;
+    document
+      .querySelectorAll(".kw")
+      .forEach(button => {
+        button.addEventListener(
+          "click",
+          () => {
+            storyState.selections
+              .risingKeyword =
+                button.dataset.keyword;
 
-        advanceStory();
-        render();
+            advanceStory();
+            render();
+          }
+        );
       });
-    });
 
     return;
   }
@@ -1075,19 +1195,24 @@ if (current.id === "welcome") {
       title: "Your Sun",
       subtitle:
         "Your Sun describes vitality, meaning, and purpose. Complete both sentences in your own words.",
-      keywordLabel: "Your selected Sun keyword",
-      keyword: storyState.selections.sunKeyword,
-      backAnchor: "risingKeywordSelection",
+      keywordLabel:
+        "Your selected Sun keyword",
+      keyword:
+        storyState.selections.sunKeyword,
+      backAnchor:
+        "risingKeywordSelection",
       fields: [
         {
           id: "sunShineInput",
           stateKey: "sunShine",
-          label: "I shine in the world when I…"
+          label:
+            "I shine in the world when I…"
         },
         {
           id: "sunPrideInput",
           stateKey: "sunPride",
-          label: "I am proud of myself when I…"
+          label:
+            "I am proud of myself when I…"
         }
       ]
     });
@@ -1100,19 +1225,25 @@ if (current.id === "welcome") {
       title: "Your Moon",
       subtitle:
         "Your Moon describes emotional needs, comfort, and motivation. Complete both sentences in your own words.",
-      keywordLabel: "Your selected Moon keyword",
-      keyword: storyState.selections.moonKeyword,
-      backAnchor: "sunReflection",
+      keywordLabel:
+        "Your selected Moon keyword",
+      keyword:
+        storyState.selections.moonKeyword,
+      backAnchor:
+        "sunReflection",
       fields: [
         {
           id: "moonEaseInput",
           stateKey: "moonEase",
-          label: "I feel most at ease when I am…"
+          label:
+            "I feel most at ease when I am…"
         },
         {
           id: "moonMotivationInput",
-          stateKey: "moonMotivation",
-          label: "I am motivated by the need to…"
+          stateKey:
+            "moonMotivation",
+          label:
+            "I am motivated by the need to…"
         }
       ]
     });
@@ -1125,9 +1256,12 @@ if (current.id === "welcome") {
       title: "Your Rising Sign",
       subtitle:
         "Your Rising sign describes style, behavior, and how others experience you. Complete both sentences in your own words.",
-      keywordLabel: "Your selected Rising keyword",
-      keyword: storyState.selections.risingKeyword,
-      backAnchor: "moonReflection",
+      keywordLabel:
+        "Your selected Rising keyword",
+      keyword:
+        storyState.selections.risingKeyword,
+      backAnchor:
+        "moonReflection",
       fields: [
         {
           id: "risingStyleInput",
@@ -1136,8 +1270,10 @@ if (current.id === "welcome") {
         },
         {
           id: "risingActionsInput",
-          stateKey: "risingActions",
-          label: "Others would describe my actions as…"
+          stateKey:
+            "risingActions",
+          label:
+            "Others would describe my actions as…"
         }
       ]
     });
@@ -1146,13 +1282,18 @@ if (current.id === "welcome") {
   }
 
   if (current.id === "characterSketch") {
-    const sketch = buildCharacterSketch();
+    const sketch =
+      buildCharacterSketch();
 
-    storyState.outputs.characterSketch = sketch;
+    storyState.outputs.characterSketch =
+      sketch;
 
     const sketchParagraphs = sketch
       .split("\n\n")
-      .map(paragraph => `<p>${escapeHtml(paragraph)}</p>`)
+      .map(
+        paragraph =>
+          `<p>${escapeHtml(paragraph)}</p>`
+      )
       .join("");
 
     app.innerHTML = `
@@ -1170,14 +1311,20 @@ if (current.id === "welcome") {
     `;
 
     document
-      .getElementById("backToRisingReflection")
+      .getElementById(
+        "backToRisingReflection"
+      )
       .addEventListener("click", () => {
-        storyState.currentAnchorId = "risingReflection";
+        storyState.currentAnchorId =
+          "risingReflection";
+
         render();
       });
 
     document
-      .getElementById("continueToReflection")
+      .getElementById(
+        "continueToReflection"
+      )
       .addEventListener("click", () => {
         advanceStory();
         render();
@@ -1218,24 +1365,42 @@ if (current.id === "welcome") {
     `;
 
     document
-      .getElementById("backToCharacterSketch")
+      .getElementById(
+        "backToCharacterSketch"
+      )
       .addEventListener("click", () => {
         const text =
-          document.getElementById("reflectionInput").value.trim();
+          document
+            .getElementById(
+              "reflectionInput"
+            )
+            .value
+            .trim();
 
-        storyState.selections.reflection = text;
-        storyState.currentAnchorId = "characterSketch";
+        storyState.selections.reflection =
+          text;
+
+        storyState.currentAnchorId =
+          "characterSketch";
 
         render();
       });
 
     document
-      .getElementById("submitReflection")
+      .getElementById(
+        "submitReflection"
+      )
       .addEventListener("click", () => {
         const text =
-          document.getElementById("reflectionInput").value.trim();
+          document
+            .getElementById(
+              "reflectionInput"
+            )
+            .value
+            .trim();
 
-        storyState.selections.reflection = text;
+        storyState.selections.reflection =
+          text;
 
         advanceStory();
         render();
@@ -1251,65 +1416,75 @@ if (current.id === "welcome") {
 }
 
 if (nextButton) {
-  nextButton.addEventListener("click", () => {
-    advanceStory();
-    render();
-  });
+  nextButton.addEventListener(
+    "click",
+    () => {
+      advanceStory();
+      render();
+    }
+  );
 }
 
-document.addEventListener("keydown", event => {
-  if (
-    event.key !== "Enter" ||
-    event.isComposing
-  ) {
-    return;
+document.addEventListener(
+  "keydown",
+  event => {
+    if (
+      event.key !== "Enter" ||
+      event.isComposing
+    ) {
+      return;
+    }
+
+    const target = event.target;
+
+    if (
+      target instanceof HTMLTextAreaElement &&
+      event.shiftKey
+    ) {
+      return;
+    }
+
+    if (
+      target instanceof HTMLInputElement &&
+      [
+        "checkbox",
+        "radio",
+        "button",
+        "submit"
+      ].includes(target.type)
+    ) {
+      return;
+    }
+
+    const forwardButtons = Array.from(
+      app.querySelectorAll("button")
+    ).filter(button => {
+      const isVisible =
+        button.offsetParent !== null;
+
+      const isBackButton =
+        button.id
+          .toLowerCase()
+          .includes("back");
+
+      return (
+        isVisible &&
+        !isBackButton &&
+        !button.disabled
+      );
+    });
+
+    if (forwardButtons.length === 0) {
+      return;
+    }
+
+    event.preventDefault();
+
+    forwardButtons[
+      forwardButtons.length - 1
+    ].click();
   }
-
-  const target = event.target;
-
-  if (
-    target instanceof HTMLTextAreaElement &&
-    event.shiftKey
-  ) {
-    return;
-  }
-
-  if (
-    target instanceof HTMLInputElement &&
-    ["checkbox", "radio", "button", "submit"].includes(
-      target.type
-    )
-  ) {
-    return;
-  }
-
-  const forwardButtons = Array.from(
-    app.querySelectorAll("button")
-  ).filter(button => {
-    const isVisible =
-      button.offsetParent !== null;
-
-    const isBackButton =
-      button.id.toLowerCase().includes("back");
-
-    return (
-      isVisible &&
-      !isBackButton &&
-      !button.disabled
-    );
-  });
-
-  if (forwardButtons.length === 0) {
-    return;
-  }
-
-  event.preventDefault();
-
-  const forwardButton =
-    forwardButtons[forwardButtons.length - 1];
-
-  forwardButton.click();
-});
+);
 
 loadDevelopmentCheckpoint();
 render();

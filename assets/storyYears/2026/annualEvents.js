@@ -357,5 +357,115 @@ export const storyYear2026 = {
         }
       }
     }
+    ,
+
+    {
+      id: "jupiterCancerLeo",
+      title: "The Jupiter Scene",
+      type: "transitionHouse",
+      planetName: "Jupiter",
+      fromSign: "Cancer",
+      toSign: "Leo",
+      fromTense: "present",
+
+      narrative: [
+        "Enthusiastic Jupiter brings growth, opportunity, and a sense of possibility wherever he travels. While Jupiter moves through Cancer, attention turns toward home, family, emotional security, and nourishment, both literal and emotional. Growth comes through care, belonging, and tending what supports you.",
+        "As Jupiter shifts into Leo, the focus changes. Confidence expands, self-expression grows bolder, and creativity wants to be seen. This phase encourages visibility, joy, and taking up space in a more public or expressive way.",
+        "Jupiter in Cancer: June 10, 2025–June 30, 2026.",
+        "Jupiter in Leo: July 1, 2026–July 27, 2027."
+      ],
+
+      contextTitle: "Where is Jupiter affecting my life?",
+
+      contextIntroduction: [
+        "Jupiter highlights where growth, opportunity, and expansion are unfolding, and how those themes evolve as he moves from Cancer into Leo.",
+        "To understand how this energy affects you personally, we’ll look at which houses Jupiter is moving through in your chart."
+      ],
+
+      lookupTitle: "Jupiter from Cancer to Leo House Lookup",
+
+      lookupColumns: {
+        sign: "If a planet or angle is in the sign:",
+        fromHouse: "Then Jupiter in Cancer is in its:",
+        toHouse: "And Jupiter in Leo is in its:"
+      },
+
+      houseLookup: {
+        Aries: { from: "4", to: "5" },
+        Taurus: { from: "3", to: "4" },
+        Gemini: { from: "2", to: "3" },
+        Cancer: { from: "1", to: "2" },
+        Leo: { from: "12", to: "1" },
+        Virgo: { from: "11", to: "12" },
+        Libra: { from: "10", to: "11" },
+        Scorpio: { from: "9", to: "10" },
+        Sagittarius: { from: "8", to: "9" },
+        Capricorn: { from: "7", to: "8" },
+        Aquarius: { from: "6", to: "7" },
+        Pisces: { from: "5", to: "6" }
+      },
+
+      contextInstructions: [
+        "Find the Zodiac signs you identified earlier for your Sun, Moon, and Rising Sign.",
+        "Locate each sign in the left column of the chart.",
+        "Note the corresponding house for Jupiter in Cancer and for Jupiter in Leo."
+      ],
+
+      contextLanguage: {
+        sun: { prefix: "My Sun is in", houseType: "solar" },
+        moon: { prefix: "My Moon is in", houseType: "lunar" },
+        rising: { prefix: "My Rising Sign is", houseType: "natal" }
+      },
+
+      choicesTitle: "How is Jupiter reshaping my world?",
+
+      choicesGuidance: [
+        "Jupiter highlights where growth, confidence, and opportunity are expanding, and how that expansion shifts as he moves from Cancer into Leo.",
+        "Use the house selections below to reflect on how Jupiter has been encouraging you to grow over the past year and where that growth is becoming more expressive and joyful going forward.",
+        "Optional: If you know that you have natal planets in Cancer or Leo, select those planets and choose qualities from the Planet Reference List.",
+        "You do not need to fill every optional box. Choose only what feels relevant."
+      ],
+
+      fromChoicesIntroduction:
+        "Over the past year, Jupiter has encouraged me to speak and act on my Truth in…",
+
+      toChoicesIntroduction:
+        "Beginning July 1, I’ll need to expand myself by finding joy and gratitude in…",
+
+      natalPlanetLayers: {
+        enabled: true,
+        from: {
+          title: "Optional: Natal planets in Cancer",
+          introduction:
+            "If you know that you have natal planets in Cancer, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        },
+        to: {
+          title: "Optional: Natal planets in Leo",
+          introduction:
+            "If you know that you have natal planets in Leo, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        }
+      },
+
+      reflectionTitle: "Write My Jupiter Story",
+
+      reflectionIntroduction:
+        "Now, turn what you’ve learned into clear, practical sentences that describe how Jupiter’s energy supports growth, confidence, and opportunity in your life, and how that support is shifting. For each placement, choose the actions or themes that stand out most to you. One sentence is enough. More than one is fine. Special note: It may help to think back to June 2013–July 2014, the last time Jupiter was in Cancer, and July 2014–August 2015, the last time Jupiter was in Leo.",
+
+      reflectionPrompts: {
+        sun: {
+          from: "While Jupiter is in Cancer, I will find more vitality or meaning when I…",
+          to: "As Jupiter moves into Leo, I will find more vitality or meaning when I…"
+        },
+        moon: {
+          from: "While Jupiter is in Cancer, I will nurture myself when I…",
+          to: "As Jupiter moves into Leo, I will nurture myself when I…"
+        },
+        rising: {
+          from: "While Jupiter is in Cancer, I will improve my life circumstances when I…",
+          to: "As Jupiter moves into Leo, I will improve my life circumstances when I…"
+        }
+      }
+    }
+
   ]
 };

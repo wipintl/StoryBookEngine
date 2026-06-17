@@ -80,6 +80,24 @@ function prepareAnnualAction(value = "", prompt = "") {
     .replace(/^will\s+/i, "")
     .trim();
 
+  const sentenceReadyPhrases = [
+    [
+      /^be brave and do something you(?:'|’)ve been procrastinating on$/i,
+      "are brave and do something you’ve been procrastinating on"
+    ]
+  ];
+
+  for (const [pattern, replacement] of sentenceReadyPhrases) {
+    if (pattern.test(response)) {
+      response = response.replace(
+        pattern,
+        replacement
+      );
+
+      break;
+    }
+  }
+
   return lowercaseFirst(response);
 }
 
@@ -547,6 +565,23 @@ function buildSingleHouseStory(event, response) {
 }
 
 function getTransitionNarrativeLanguage(event) {
+  if (event.id === "jupiterCancerLeo") {
+    return {
+      fromOpening:
+        "its nourishing and expansive influence works through",
+      fromMoon:
+        "Jupiter encourages emotional growth and greater confidence around",
+      fromRising:
+        "growth, opportunity, and a stronger sense of possibility support",
+      toOpening:
+        "confidence, visibility, and creative expansion become more active within",
+      toMoon:
+        "joy, self-expression, and emotional generosity become more active around",
+      toRising:
+        "growth begins to move through visibility, creativity, and a greater willingness to take up space within"
+    };
+  }
+
   if (event.id === "uranusTaurusGemini") {
     return {
       fromOpening:
@@ -593,26 +628,38 @@ function buildTransitionHouseStory(event, response) {
   const toMoonHouse = response.houses.to.moon;
   const toRisingHouse = response.houses.to.rising;
 
-  const fromSunAction = toPastTensePhrase(
+  const preparedFromSunAction =
     prepareAnnualAction(
       response.reflections.from.sun,
       event.reflectionPrompts.sun.from
-    )
-  );
+    );
 
-  const fromMoonAction = toPastTensePhrase(
+  const preparedFromMoonAction =
     prepareAnnualAction(
       response.reflections.from.moon,
       event.reflectionPrompts.moon.from
-    )
-  );
+    );
 
-  const fromRisingAction = toPastTensePhrase(
+  const preparedFromRisingAction =
     prepareAnnualAction(
       response.reflections.from.rising,
       event.reflectionPrompts.rising.from
-    )
-  );
+    );
+
+  const fromSunAction =
+    event.fromTense === "present"
+      ? preparedFromSunAction
+      : toPastTensePhrase(preparedFromSunAction);
+
+  const fromMoonAction =
+    event.fromTense === "present"
+      ? preparedFromMoonAction
+      : toPastTensePhrase(preparedFromMoonAction);
+
+  const fromRisingAction =
+    event.fromTense === "present"
+      ? preparedFromRisingAction
+      : toPastTensePhrase(preparedFromRisingAction);
 
   const toSunAction = prepareAnnualAction(
     response.reflections.to.sun,
@@ -629,18 +676,33 @@ function buildTransitionHouseStory(event, response) {
     event.reflectionPrompts.rising.to
   );
 
+  const fromIsPresent =
+    event.fromTense === "present";
+
+  const fromPlanetVerb =
+    fromIsPresent ? "moves" : "moved";
+
+  const vitalityVerb =
+    fromIsPresent ? "may find" : "found";
+
+  const nurtureVerb =
+    fromIsPresent ? "nurture" : "nurtured";
+
+  const circumstancesVerb =
+    fromIsPresent ? "may improve" : "improved";
+
   const fromParagraph = [
-    `${name}, while ${event.planetName} moved through ${event.fromSign} and your solar ${ordinalHouse(
+    `${name}, while ${event.planetName} ${fromPlanetVerb} through ${event.fromSign} and your solar ${ordinalHouse(
       fromSunHouse
-    )}, ${language.fromOpening} ${houseNarrativeFocus[fromSunHouse] || "this area of your life"}. You found greater vitality or meaning as you ${fromSunAction}.`,
+    )}, ${language.fromOpening} ${houseNarrativeFocus[fromSunHouse] || "this area of your life"}. You ${vitalityVerb} greater vitality or meaning as you ${fromSunAction}.`,
 
     `In your lunar ${ordinalHouse(
       fromMoonHouse
-    )}, ${language.fromMoon} ${houseNarrativeFocus[fromMoonHouse] || "this area of your inner life"}. You nurtured yourself as you ${fromMoonAction}.`,
+    )}, ${language.fromMoon} ${houseNarrativeFocus[fromMoonHouse] || "this area of your inner life"}. You ${nurtureVerb} yourself as you ${fromMoonAction}.`,
 
     `Through your natal ${ordinalHouse(
       fromRisingHouse
-    )}, ${language.fromRising} ${houseNarrativeFocus[fromRisingHouse] || "the circumstances through which you met the world"}. You improved your life circumstances as you ${fromRisingAction}.`
+    )}, ${language.fromRising} ${houseNarrativeFocus[fromRisingHouse] || "the circumstances through which you met the world"}. You ${circumstancesVerb} your life circumstances as you ${fromRisingAction}.`
   ].join(" ");
 
   const toParagraph = [
