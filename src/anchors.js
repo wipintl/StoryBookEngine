@@ -4,71 +4,94 @@ export const anchors = {
     type: "presentation",
     purpose:
       "Welcome the participant and establish the beginning of the Storybook journey.",
-    completionType: "narrativePresentation",
-    unlocks: "identityCollection"
+    completionType:
+      "narrativePresentation",
+    unlocks:
+      "identityCollection"
   },
 
   identityCollection: {
     id: "identityCollection",
     type: "collection",
-    purpose: "Collect the participant's name.",
-    completionType: "participantResponse",
+    purpose:
+      "Collect the participant's name.",
+    completionType:
+      "participantResponse",
     requires: ["welcome"],
-    unlocks: "sunSignSelection"
+    unlocks:
+      "sunSignSelection"
   },
 
   sunSignSelection: {
     id: "sunSignSelection",
     type: "collection",
-    purpose: "Collect the participant's Sun sign.",
-    completionType: "participantResponse",
+    purpose:
+      "Collect the participant's Sun sign.",
+    completionType:
+      "participantResponse",
     requires: ["identityCollection"],
-    unlocks: "moonSignSelection"
+    unlocks:
+      "moonSignSelection"
   },
 
   moonSignSelection: {
     id: "moonSignSelection",
     type: "collection",
-    purpose: "Collect the participant's Moon sign.",
-    completionType: "participantResponse",
+    purpose:
+      "Collect the participant's Moon sign.",
+    completionType:
+      "participantResponse",
     requires: ["sunSignSelection"],
-    unlocks: "risingSignSelection"
+    unlocks:
+      "risingSignSelection"
   },
 
   risingSignSelection: {
     id: "risingSignSelection",
     type: "collection",
-    purpose: "Collect the participant's Rising sign.",
-    completionType: "participantResponse",
+    purpose:
+      "Collect the participant's Rising sign.",
+    completionType:
+      "participantResponse",
     requires: ["moonSignSelection"],
-    unlocks: "sunKeywordSelection"
+    unlocks:
+      "sunKeywordSelection"
   },
 
   sunKeywordSelection: {
     id: "sunKeywordSelection",
     type: "collection",
-    purpose: "Select the participant's Sun keyword.",
-    completionType: "participantResponse",
+    purpose:
+      "Select the participant's Sun keyword.",
+    completionType:
+      "participantResponse",
     requires: ["risingSignSelection"],
-    unlocks: "moonKeywordSelection"
+    unlocks:
+      "moonKeywordSelection"
   },
 
   moonKeywordSelection: {
     id: "moonKeywordSelection",
     type: "collection",
-    purpose: "Select the participant's Moon keyword.",
-    completionType: "participantResponse",
+    purpose:
+      "Select the participant's Moon keyword.",
+    completionType:
+      "participantResponse",
     requires: ["sunKeywordSelection"],
-    unlocks: "risingKeywordSelection"
+    unlocks:
+      "risingKeywordSelection"
   },
 
   risingKeywordSelection: {
     id: "risingKeywordSelection",
     type: "collection",
-    purpose: "Select the participant's Rising keyword.",
-    completionType: "participantResponse",
+    purpose:
+      "Select the participant's Rising keyword.",
+    completionType:
+      "participantResponse",
     requires: ["moonKeywordSelection"],
-    unlocks: "sunReflection"
+    unlocks:
+      "sunReflection"
   },
 
   sunReflection: {
@@ -76,9 +99,11 @@ export const anchors = {
     type: "collection",
     purpose:
       "Invite the participant to describe how their Sun operates in lived experience.",
-    completionType: "participantResponse",
+    completionType:
+      "participantResponse",
     requires: ["risingKeywordSelection"],
-    unlocks: "moonReflection"
+    unlocks:
+      "moonReflection"
   },
 
   moonReflection: {
@@ -86,9 +111,11 @@ export const anchors = {
     type: "collection",
     purpose:
       "Invite the participant to describe their emotional needs and motivations.",
-    completionType: "participantResponse",
+    completionType:
+      "participantResponse",
     requires: ["sunReflection"],
-    unlocks: "risingReflection"
+    unlocks:
+      "risingReflection"
   },
 
   risingReflection: {
@@ -96,9 +123,11 @@ export const anchors = {
     type: "collection",
     purpose:
       "Invite the participant to describe their style and outward behavior.",
-    completionType: "participantResponse",
+    completionType:
+      "participantResponse",
     requires: ["moonReflection"],
-    unlocks: "characterSketch"
+    unlocks:
+      "characterSketch"
   },
 
   characterSketch: {
@@ -106,9 +135,11 @@ export const anchors = {
     type: "generation",
     purpose:
       "Create a unified portrait from the participant's astrological and personal responses.",
-    completionType: "narrativeGeneration",
+    completionType:
+      "narrativeGeneration",
     requires: ["risingReflection"],
-    unlocks: "characterReflection"
+    unlocks:
+      "characterReflection"
   },
 
   characterReflection: {
@@ -116,9 +147,11 @@ export const anchors = {
     type: "collection",
     purpose:
       "Capture participant reflection on the Character Sketch.",
-    completionType: "participantResponse",
+    completionType:
+      "participantResponse",
     requires: ["characterSketch"],
-    unlocks: "annualEventScene"
+    unlocks:
+      "annualEventScene"
   },
 
   annualEventScene: {
@@ -126,9 +159,11 @@ export const anchors = {
     type: "presentation",
     purpose:
       "Present Donna and Kathy's authored annual event narrative.",
-    completionType: "narrativePresentation",
+    completionType:
+      "narrativePresentation",
     requires: ["characterReflection"],
-    unlocks: "annualEventContext"
+    unlocks:
+      "annualEventContext"
   },
 
   annualEventContext: {
@@ -136,9 +171,11 @@ export const anchors = {
     type: "collection",
     purpose:
       "Collect the participant's chart-specific house context for the annual event.",
-    completionType: "participantResponse",
+    completionType:
+      "participantResponse",
     requires: ["annualEventScene"],
-    unlocks: "annualEventChoices"
+    unlocks:
+      "annualEventChoices"
   },
 
   annualEventChoices: {
@@ -146,9 +183,11 @@ export const anchors = {
     type: "collection",
     purpose:
       "Collect the participant's house activity selections.",
-    completionType: "participantResponse",
+    completionType:
+      "participantResponse",
     requires: ["annualEventContext"],
-    unlocks: "annualEventReflection"
+    unlocks:
+      "annualEventReflection"
   },
 
   annualEventReflection: {
@@ -156,9 +195,11 @@ export const anchors = {
     type: "collection",
     purpose:
       "Capture the participant's personal annual-event story.",
-    completionType: "participantResponse",
+    completionType:
+      "participantResponse",
     requires: ["annualEventChoices"],
-    unlocks: "annualEventComplete"
+    unlocks:
+      "annualEventComplete"
   },
 
   annualEventComplete: {
@@ -166,8 +207,45 @@ export const anchors = {
     type: "presentation",
     purpose:
       "Present the participant's completed annual-event chapter.",
-    completionType: "narrativePresentation",
+    completionType:
+      "narrativePresentation",
     requires: ["annualEventReflection"],
+    unlocks:
+      "yearStory"
+  },
+
+  yearStory: {
+    id: "yearStory",
+    type: "collection",
+    purpose:
+      "Invite the participant to review the completed chapters and author a coherent story for 2026.",
+    completionType:
+      "participantResponse",
+    requires: ["annualEventComplete"],
+    unlocks:
+      "closingReflection"
+  },
+
+  closingReflection: {
+    id: "closingReflection",
+    type: "collection",
+    purpose:
+      "Gather the participant's final reflections, intention, release, remembrance, and guiding principle.",
+    completionType:
+      "participantResponse",
+    requires: ["yearStory"],
+    unlocks:
+      "storybookComplete"
+  },
+
+  storybookComplete: {
+    id: "storybookComplete",
+    type: "presentation",
+    purpose:
+      "Close the Storybook journey and present the participant's final words.",
+    completionType:
+      "narrativePresentation",
+    requires: ["closingReflection"],
     unlocks: null
   }
 };

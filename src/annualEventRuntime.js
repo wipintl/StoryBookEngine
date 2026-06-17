@@ -22,6 +22,7 @@ function renderComplete({
   app,
   event,
   response,
+  advanceStory,
   render
 }) {
   const savedStory =
@@ -138,26 +139,8 @@ function renderComplete({
         return;
       }
 
-      app.innerHTML = `
-        <h2>${escapeHtml(storyTitle)} Complete</h2>
-
-        <p>Your story has been completed.</p>
-
-        <p>
-          The next Storybook chamber is ready to be added.
-        </p>
-
-        <button id="backToCompletedStory">Back</button>
-      `;
-
-      document
-        .getElementById("backToCompletedStory")
-        .addEventListener("click", () => {
-          storyState.currentAnchorId =
-            "annualEventComplete";
-
-          render();
-        });
+      advanceStory();
+      render();
     });
 }
 
@@ -236,6 +219,7 @@ export function renderAnnualEventAnchor({
       app,
       event,
       response,
+      advanceStory,
       render
     });
   }

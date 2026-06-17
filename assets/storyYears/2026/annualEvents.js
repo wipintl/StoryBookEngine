@@ -833,5 +833,142 @@ export const storyYear2026 = {
       }
     }
 
+    ,
+
+    {
+      id: "venusRetrogradeScorpioLibra",
+      title: "The Venus Retrograde",
+      type: "retrogradePair",
+      planetName: "Venus",
+      fromSign: "Scorpio",
+      toSign: "Libra",
+      fromLabel: "Venus Retrograde in Scorpio",
+      toLabel: "Venus Retrograde in Libra",
+
+      narrative: [
+        "Venus governs our values, desires, relationships, aesthetics, and how we spend money. When Venus is retrograde, she invites comparison between what once mattered and who we are becoming now. This is a time to revisit people, projects, and priorities from the past and to notice what still resonates, what has changed, and what needs revision.",
+        "Like all retrogrades, Venus retrograde offers opportunities for do-overs and for completing unfinished emotional or relational business. Rather than pushing forward, it asks for careful review and honest reassessment.",
+        "This particular retrograde encourages exploration of desire in all its forms, from fierce, feral, and non-rational attractions to more refined, socially acceptable expressions of connection and beauty.",
+        "In Scorpio, Venus exposes our deepest desires, fears, and subconscious motivations, as well as our instinctive relationship to intimacy, vulnerability, and power. As she moves back into Libra, the focus shifts toward relationships themselves, reviewing agreements, boundaries, and unspoken rules, especially around balance, fairness, and reciprocity.",
+        "Venus Retrograde: October 3–November 13, from 8° Scorpio to 23° Libra.",
+        "Venus reenters Libra: November 25–December 4."
+      ],
+
+      contextTitle:
+        "Where is the Venus Retrograde affecting my life?",
+
+      contextIntroduction: [
+        "Venus retrograde brings review and reconsideration around desire, relationships, values, and attachments.",
+        "To understand how this energy affects you personally, we’ll look at the houses Venus moves through as she backtracks from Scorpio into Libra."
+      ],
+
+      lookupTitle:
+        "Venus Retrograde from Scorpio to Libra House Lookup",
+
+      lookupColumns: {
+        sign:
+          "If a planet or angle is in the sign:",
+        fromHouse:
+          "Then Venus in Scorpio is in its:",
+        toHouse:
+          "And Venus in Libra is in its:"
+      },
+
+      houseLookup: {
+        Aries: { from: "8", to: "7" },
+        Taurus: { from: "7", to: "6" },
+        Gemini: { from: "6", to: "5" },
+        Cancer: { from: "5", to: "4" },
+        Leo: { from: "4", to: "3" },
+        Virgo: { from: "3", to: "2" },
+        Libra: { from: "2", to: "1" },
+        Scorpio: { from: "1", to: "12" },
+        Sagittarius: { from: "12", to: "11" },
+        Capricorn: { from: "11", to: "10" },
+        Aquarius: { from: "10", to: "9" },
+        Pisces: { from: "9", to: "8" }
+      },
+
+      contextInstructions: [
+        "Find the Zodiac signs you identified earlier for your Sun, Moon, and Rising Sign.",
+        "Locate each sign in the left column of the chart.",
+        "Note the corresponding house for Venus in Scorpio and for Venus in Libra."
+      ],
+
+      contextLanguage: {
+        sun: {
+          prefix: "My Sun is in",
+          houseType: "solar"
+        },
+        moon: {
+          prefix: "My Moon is in",
+          houseType: "lunar"
+        },
+        rising: {
+          prefix: "My Rising Sign is",
+          houseType: "natal"
+        }
+      },
+
+      choicesTitle:
+        "How is Venus Retrograde reshaping my world?",
+
+      choicesGuidance: [
+        "Venus retrograde brings review and reconsideration around desire, relationships, values, and attachments.",
+        "Use the house selections below to reflect on how this retrograde may be working in your life as Venus backtracks from Scorpio into Libra.",
+        "Optional: If you know that you have natal planets in Scorpio or Libra, select those planets and choose qualities from the Planet Reference List.",
+        "You do not need to fill every optional box. Choose only what feels relevant."
+      ],
+
+      fromChoicesIntroduction:
+        "During her retrograde in Scorpio, Venus urges me to review the roots of my desires and loves in the…",
+
+      toChoicesIntroduction:
+        "During her retrograde in Libra, Venus urges me to review the roots of my desires and loves in the…",
+
+      natalPlanetLayers: {
+        enabled: true,
+        from: {
+          title:
+            "Optional: Natal planets in Scorpio",
+          introduction:
+            "If you know that you have natal planets in Scorpio, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        },
+        to: {
+          title:
+            "Optional: Natal planets in Libra",
+          introduction:
+            "If you know that you have natal planets in Libra, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        }
+      },
+
+      reflectionTitle:
+        "Write My Venus Retrograde Story",
+
+      reflectionIntroduction:
+        "Now, turn what you’ve learned into clear, reflective sentences that describe how you can work consciously with Venus retrograde. For each placement, choose the actions or themes that stand out most to you. One sentence is enough. More than one is fine.",
+
+      reflectionPrompts: {
+        sun: {
+          from:
+            "When Venus is in Scorpio, I will find more vitality when I review or let go of…",
+          to:
+            "As Venus backtracks into Libra, I will find more vitality when I review or let go of…"
+        },
+        moon: {
+          from:
+            "When Venus is in Scorpio, I will nurture myself when I review or release…",
+          to:
+            "As Venus backtracks into Libra, I will nurture myself when I review or release…"
+        },
+        rising: {
+          from:
+            "When Venus is in Scorpio, I will improve my life circumstances by reviewing or releasing…",
+          to:
+            "As Venus backtracks into Libra, I will improve my life circumstances if I review or release…"
+        }
+      }
+    }
+
   ]
 };

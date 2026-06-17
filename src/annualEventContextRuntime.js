@@ -361,7 +361,10 @@ export function renderAnnualEventContext(options) {
     return;
   }
 
-  if (options.event.type === "transitionHouse") {
+  if (
+    options.event.type === "transitionHouse" ||
+    options.event.type === "retrogradePair"
+  ) {
     renderTransitionHouseContext(options);
     return;
   }

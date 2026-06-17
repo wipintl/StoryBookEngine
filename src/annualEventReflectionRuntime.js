@@ -10,6 +10,10 @@ import {
   eclipseEventLanguage
 } from "../assets/narratives/eclipseEventLanguage.js";
 import {
+  venusRetrogradeCoreThemes,
+  venusRetrogradeLanguage
+} from "../assets/narratives/venusRetrogradeLanguage.js";
+import {
   escapeHtml,
   ordinalHouse
 } from "./annualEventShared.js";
@@ -533,6 +537,61 @@ function toEclipseActivityPhrase(value = "") {
     return authoredActivityPhrases.get(phrase);
   }
 
+  const normalizedPhrase =
+    phrase.toLowerCase();
+
+  for (
+    const [source, replacement]
+    of authoredActivityPhrases.entries()
+  ) {
+    if (
+      source.toLowerCase() ===
+      normalizedPhrase
+    ) {
+      return replacement;
+    }
+  }
+
+  const additionalPhraseForms = [
+    [
+      /^are brave and do something you(?:'|’)ve been procrastinating on$/i,
+      "being brave and doing something you’ve been procrastinating on"
+    ],
+    [
+      /^forgive yourself$/i,
+      "forgiving yourself"
+    ],
+    [
+      /^refresh your assumptions, attitudes, and beliefs$/i,
+      "refreshing your assumptions, attitudes, and beliefs"
+    ],
+    [
+      /^schedule date night or a couple(?:'|’)s holiday$/i,
+      "scheduling date night or a couple’s holiday"
+    ],
+    [
+      /^refresh your look with new clothes, a haircut, or a makeover$/i,
+      "refreshing your look with new clothes, a haircut, or a makeover"
+    ],
+    [
+      /^update your resume, biography, or social media profiles$/i,
+      "updating your resume, biography, or social media profiles"
+    ],
+    [
+      /^update your résumé, biography, or social media profiles$/i,
+      "updating your résumé, biography, or social media profiles"
+    ]
+  ];
+
+  for (
+    const [pattern, replacement]
+    of additionalPhraseForms
+  ) {
+    if (pattern.test(phrase)) {
+      return replacement;
+    }
+  }
+
   return lowercaseFirst(phrase);
 }
 
@@ -540,6 +599,376 @@ function joinEclipseActivities(activities = []) {
   return joinNaturally(
     activities.map(toEclipseActivityPhrase)
   );
+}
+
+function buildVenusRetrogradeNatalParagraphs({
+  event,
+  response,
+  side
+}) {
+  const selectedPlanets =
+    response.natalPlanets?.[side] || {};
+
+  const entries =
+    Object.entries(selectedPlanets);
+
+  if (entries.length === 0) {
+    return "";
+  }
+
+  const sideLanguage =
+    venusRetrogradeLanguage[side];
+
+  const sign =
+    side === "from"
+      ? event.fromSign
+      : event.toSign;
+
+  const paragraphs = entries.map(
+    ([planet, qualities]) => {
+      const coreThemes =
+        venusRetrogradeCoreThemes[planet] ||
+        "its characteristic needs and functions";
+
+      const qualityLanguage =
+        joinNaturally(
+          qualities.map(quality =>
+            quality.toLowerCase()
+          )
+        );
+
+      const qualityWord =
+        qualities.length === 1
+          ? "quality"
+          : "qualities";
+
+      const qualityVerb =
+        qualities.length === 1
+          ? "suggests"
+          : "suggest";
+
+      const movement =
+        sideLanguage.movements[planet] ||
+        "reconsidering how this part of life relates to desire, value, and relationship";
+
+      return [
+        `Your natal ${planet} in ${sign} places ${coreThemes} inside ${sideLanguage.field}.`,
+        `The ${qualityLanguage} ${qualityWord} you selected ${qualityVerb} that this retrograde may work through ${movement}.`
+      ].join(" ");
+    }
+  );
+
+  if (entries.length === 1) {
+    return [
+      paragraphs[0],
+      sideLanguage.integration
+    ].join(" ");
+  }
+
+  return [
+    sideLanguage.groupIntroduction,
+    ...paragraphs,
+    sideLanguage.groupIntegration
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+function normalizeVenusRetrogradeAction(value = "") {
+  const phrase = String(value).trim();
+
+  if (!phrase) {
+    return "";
+  }
+
+  const normalized =
+    typeof toEclipseActivityPhrase === "function"
+      ? toEclipseActivityPhrase(phrase)
+      : lowercaseFirst(phrase);
+
+  return normalized;
+}
+
+function buildVenusRetrogradeStory(event, response) {
+  const name = storyState.identity.name;
+
+  const fromSunAction =
+    normalizeVenusRetrogradeAction(
+      prepareAnnualAction(
+        response.reflections.from.sun,
+        event.reflectionPrompts.sun.from
+      )
+    );
+
+  const fromMoonAction =
+    normalizeVenusRetrogradeAction(
+      prepareAnnualAction(
+        response.reflections.from.moon,
+        event.reflectionPrompts.moon.from
+      )
+    );
+
+  const fromRisingAction =
+    normalizeVenusRetrogradeAction(
+      prepareAnnualAction(
+        response.reflections.from.rising,
+        event.reflectionPrompts.rising.from
+      )
+    );
+
+  const toSunAction =
+    normalizeVenusRetrogradeAction(
+      prepareAnnualAction(
+        response.reflections.to.sun,
+        event.reflectionPrompts.sun.to
+      )
+    );
+
+  const toMoonAction =
+    normalizeVenusRetrogradeAction(
+      prepareAnnualAction(
+        response.reflections.to.moon,
+        event.reflectionPrompts.moon.to
+      )
+    );
+
+  const toRisingAction =
+    normalizeVenusRetrogradeAction(
+      prepareAnnualAction(
+        response.reflections.to.rising,
+        event.reflectionPrompts.rising.to
+      )
+    );
+
+  const fromSunHouse =
+    response.houses.from.sun;
+  const fromMoonHouse =
+    response.houses.from.moon;
+  const fromRisingHouse =
+    response.houses.from.rising;
+
+  const toSunHouse =
+    response.houses.to.sun;
+  const toMoonHouse =
+    response.houses.to.moon;
+  const toRisingHouse =
+    response.houses.to.rising;
+
+  const scorpioParagraph = [
+    `${name}, while Venus retrogrades through Scorpio and your solar ${ordinalHouse(
+      fromSunHouse
+    )}, desire, value, and attraction are reviewed within ${houseNarrativeFocus[fromSunHouse] || "this area of your life"}. You may find greater vitality as you review or let go of ${fromSunAction}.`,
+    `In your lunar ${ordinalHouse(
+      fromMoonHouse
+    )}, Venus exposes emotional attachments and deeper needs around ${houseNarrativeFocus[fromMoonHouse] || "this area of your emotional life"}. You nurture yourself as you review or release ${fromMoonAction}.`,
+    `Through your natal ${ordinalHouse(
+      fromRisingHouse
+    )}, intimacy, vulnerability, and power invite reconsideration within ${houseNarrativeFocus[fromRisingHouse] || "the circumstances through which you meet the world"}. Your life circumstances may improve by reviewing or releasing ${fromRisingAction}.`
+  ].join(" ");
+
+  const libraParagraph = [
+    `As Venus backtracks into Libra and your solar ${ordinalHouse(
+      toSunHouse
+    )}, the review turns toward balance, fairness, and reciprocity within ${houseNarrativeFocus[toSunHouse] || "this area of your life"}. You may find greater vitality as you review or let go of ${toSunAction}.`,
+    `In your lunar ${ordinalHouse(
+      toMoonHouse
+    )}, Venus revisits agreements, boundaries, and emotional reciprocity around ${houseNarrativeFocus[toMoonHouse] || "this area of your emotional life"}. You nurture yourself as you review or release ${toMoonAction}.`,
+    `Through your natal ${ordinalHouse(
+      toRisingHouse
+    )}, relationships and unspoken rules invite reassessment within ${houseNarrativeFocus[toRisingHouse] || "the circumstances through which you meet the world"}. Your life circumstances may improve as you review or release ${toRisingAction}.`
+  ].join(" ");
+
+  const scorpioNatal =
+    buildVenusRetrogradeNatalParagraphs({
+      event,
+      response,
+      side: "from"
+    });
+
+  const libraNatal =
+    buildVenusRetrogradeNatalParagraphs({
+      event,
+      response,
+      side: "to"
+    });
+
+  return [
+    scorpioParagraph,
+    scorpioNatal,
+    libraParagraph,
+    libraNatal
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+function renderVenusRetrogradeReflection({
+  app,
+  event,
+  response,
+  advanceStory,
+  render
+}) {
+  app.innerHTML = `
+    <h2>${escapeHtml(event.reflectionTitle)}</h2>
+    <p>${escapeHtml(event.reflectionIntroduction)}</p>
+
+    <section style="margin-bottom: 40px;">
+      <h3>Venus in ${escapeHtml(event.fromSign)}</h3>
+
+      ${renderReflectionField({
+        id: "fromSunAnnualReflection",
+        heading: "My Sun",
+        prompt: event.reflectionPrompts.sun.from,
+        selectedActivities: response.activities.from.sun,
+        value: response.reflections.from.sun
+      })}
+
+      ${renderReflectionField({
+        id: "fromMoonAnnualReflection",
+        heading: "My Moon",
+        prompt: event.reflectionPrompts.moon.from,
+        selectedActivities: response.activities.from.moon,
+        value: response.reflections.from.moon
+      })}
+
+      ${renderReflectionField({
+        id: "fromRisingAnnualReflection",
+        heading: "My Rising Sign",
+        prompt: event.reflectionPrompts.rising.from,
+        selectedActivities: response.activities.from.rising,
+        value: response.reflections.from.rising
+      })}
+    </section>
+
+    <section style="margin-bottom: 40px;">
+      <h3>Venus in ${escapeHtml(event.toSign)}</h3>
+
+      ${renderReflectionField({
+        id: "toSunAnnualReflection",
+        heading: "My Sun",
+        prompt: event.reflectionPrompts.sun.to,
+        selectedActivities: response.activities.to.sun,
+        value: response.reflections.to.sun
+      })}
+
+      ${renderReflectionField({
+        id: "toMoonAnnualReflection",
+        heading: "My Moon",
+        prompt: event.reflectionPrompts.moon.to,
+        selectedActivities: response.activities.to.moon,
+        value: response.reflections.to.moon
+      })}
+
+      ${renderReflectionField({
+        id: "toRisingAnnualReflection",
+        heading: "My Rising Sign",
+        prompt: event.reflectionPrompts.rising.to,
+        selectedActivities: response.activities.to.rising,
+        value: response.reflections.to.rising
+      })}
+    </section>
+
+    <p id="annualReflectionError" style="display: none;">
+      Please respond to all six prompts before continuing.
+    </p>
+
+    <button id="backToAnnualChoices">Back</button>
+    <button id="submitAnnualReflection">Continue</button>
+  `;
+
+  function saveReflections() {
+    response.reflections.from.sun =
+      document.getElementById(
+        "fromSunAnnualReflection"
+      ).value.trim();
+
+    response.reflections.from.moon =
+      document.getElementById(
+        "fromMoonAnnualReflection"
+      ).value.trim();
+
+    response.reflections.from.rising =
+      document.getElementById(
+        "fromRisingAnnualReflection"
+      ).value.trim();
+
+    response.reflections.to.sun =
+      document.getElementById(
+        "toSunAnnualReflection"
+      ).value.trim();
+
+    response.reflections.to.moon =
+      document.getElementById(
+        "toMoonAnnualReflection"
+      ).value.trim();
+
+    response.reflections.to.rising =
+      document.getElementById(
+        "toRisingAnnualReflection"
+      ).value.trim();
+  }
+
+  document
+    .getElementById("backToAnnualChoices")
+    .addEventListener("click", () => {
+      saveReflections();
+      storyState.currentAnchorId =
+        "annualEventChoices";
+      render();
+    });
+
+  document
+    .getElementById("submitAnnualReflection")
+    .addEventListener("click", () => {
+      saveReflections();
+
+      const allComplete =
+        response.reflections.from.sun &&
+        response.reflections.from.moon &&
+        response.reflections.from.rising &&
+        response.reflections.to.sun &&
+        response.reflections.to.moon &&
+        response.reflections.to.rising;
+
+      if (!allComplete) {
+        document.getElementById(
+          "annualReflectionError"
+        ).style.display = "block";
+        return;
+      }
+
+      const narrative =
+        buildVenusRetrogradeStory(
+          event,
+          response
+        );
+
+      storyState.outputs.annualEventStories[
+        event.id
+      ] = {
+        title: event.reflectionTitle.replace(
+          /^Write\s+/i,
+          ""
+        ),
+        narrative,
+        houses: structuredClone(
+          response.houses
+        ),
+        activities: structuredClone(
+          response.activities
+        ),
+        natalPlanets: structuredClone(
+          response.natalPlanets
+        ),
+        reflections: structuredClone(
+          response.reflections
+        )
+      };
+
+      advanceStory();
+      render();
+    });
 }
 
 function buildEclipseNatalPlanetParagraphs({
@@ -1472,6 +1901,13 @@ function buildTransitionHouseStory(event, response) {
 }
 
 export function buildAnnualEventStory(event, response) {
+  if (event.type === "retrogradePair") {
+    return buildVenusRetrogradeStory(
+      event,
+      response
+    );
+  }
+
   if (event.type === "eclipsePair") {
     return buildEclipseStory(event, response);
   }
@@ -1786,6 +2222,13 @@ function wireReflectionButtons({
 }
 
 export function renderAnnualEventReflection(options) {
+  if (options.event.type === "retrogradePair") {
+    renderVenusRetrogradeReflection(
+      options
+    );
+    return;
+  }
+
   if (options.event.type === "eclipsePair") {
     renderEclipsePairReflection(options);
     return;

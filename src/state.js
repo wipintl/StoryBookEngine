@@ -27,20 +27,33 @@ export const storyState = {
   annualJourney: {
     year: 2026,
     currentEventIndex: 0,
-
     responses: {}
   },
 
   outputs: {
     characterSketch: null,
-    annualEventStories: {}
+    annualEventStories: {},
+    yearStory: "",
+    closingReflection: {
+      clarified: "",
+      intention: "",
+      release: "",
+      remember: "",
+      dedication: ""
+    }
   },
 
   completedAnchors: []
 };
 
 export function completeAnchor(anchorId) {
-  if (!storyState.completedAnchors.includes(anchorId)) {
-    storyState.completedAnchors.push(anchorId);
+  if (
+    !storyState.completedAnchors.includes(
+      anchorId
+    )
+  ) {
+    storyState.completedAnchors.push(
+      anchorId
+    );
   }
 }

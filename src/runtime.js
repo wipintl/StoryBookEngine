@@ -6,6 +6,7 @@ import {
   signElements
 } from "../assets/narratives/characterSketchLanguage.js";
 import { renderAnnualEventAnchor } from "./annualEventRuntime.js";
+import { renderFinalSectionsAnchor } from "./finalSectionsRuntime.js";
 
 const app = document.getElementById("app");
 const nextButton = document.getElementById("nextButton");
@@ -265,7 +266,61 @@ function loadDevelopmentCheckpoint() {
       createCheckpoint(
         6,
         "annualEventReflection"
-      )
+      ),
+
+    venus:
+      createCheckpoint(
+        7,
+        "annualEventScene"
+      ),
+
+    "venus-context":
+      createCheckpoint(
+        7,
+        "annualEventContext"
+      ),
+
+    "venus-choices":
+      createCheckpoint(
+        7,
+        "annualEventChoices"
+      ),
+
+    "venus-story":
+      createCheckpoint(
+        7,
+        "annualEventReflection"
+      ),
+
+    "year-story": {
+      currentAnchorId:
+        "yearStory",
+      currentEventIndex: 7,
+      completedAnchors: [
+        ...completedThroughEvent(8)
+      ]
+    },
+
+    closing: {
+      currentAnchorId:
+        "closingReflection",
+      currentEventIndex: 7,
+      completedAnchors: [
+        ...completedThroughEvent(8),
+        "yearStory"
+      ]
+    },
+
+    complete: {
+      currentAnchorId:
+        "storybookComplete",
+      currentEventIndex: 7,
+      completedAnchors: [
+        ...completedThroughEvent(8),
+        "yearStory",
+        "closingReflection"
+      ]
+    }
   };
 
   const selectedCheckpoint =
@@ -598,6 +653,49 @@ function loadDevelopmentCheckpoint() {
           sun: "",
           moon: "",
           rising: ""
+        }
+      },
+
+      venusRetrogradeScorpioLibra: {
+        houses: {
+          from: {
+            sun: "7",
+            moon: "1",
+            rising: "10"
+          },
+          to: {
+            sun: "6",
+            moon: "12",
+            rising: "9"
+          }
+        },
+        activities: {
+          from: {
+            sun: [],
+            moon: [],
+            rising: []
+          },
+          to: {
+            sun: [],
+            moon: [],
+            rising: []
+          }
+        },
+        natalPlanets: {
+          from: {},
+          to: {}
+        },
+        reflections: {
+          from: {
+            sun: "",
+            moon: "",
+            rising: ""
+          },
+          to: {
+            sun: "",
+            moon: "",
+            rising: ""
+          }
         }
       }
     }
@@ -1116,6 +1214,18 @@ function render() {
     });
 
   if (annualEventWasRendered) {
+    return;
+  }
+
+  const finalSectionWasRendered =
+    renderFinalSectionsAnchor({
+      anchorId: current.id,
+      app,
+      advanceStory,
+      render
+    });
+
+  if (finalSectionWasRendered) {
     return;
   }
 
