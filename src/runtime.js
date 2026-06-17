@@ -193,6 +193,78 @@ function loadDevelopmentCheckpoint() {
       createCheckpoint(
         3,
         "annualEventReflection"
+      ),
+
+    saturn:
+      createCheckpoint(
+        4,
+        "annualEventScene"
+      ),
+
+    "saturn-context":
+      createCheckpoint(
+        4,
+        "annualEventContext"
+      ),
+
+    "saturn-choices":
+      createCheckpoint(
+        4,
+        "annualEventChoices"
+      ),
+
+    "saturn-story":
+      createCheckpoint(
+        4,
+        "annualEventReflection"
+      ),
+
+    "eclipse-1":
+      createCheckpoint(
+        5,
+        "annualEventScene"
+      ),
+
+    "eclipse-1-context":
+      createCheckpoint(
+        5,
+        "annualEventContext"
+      ),
+
+    "eclipse-1-choices":
+      createCheckpoint(
+        5,
+        "annualEventChoices"
+      ),
+
+    "eclipse-1-story":
+      createCheckpoint(
+        5,
+        "annualEventReflection"
+      ),
+
+    "eclipse-2":
+      createCheckpoint(
+        6,
+        "annualEventScene"
+      ),
+
+    "eclipse-2-context":
+      createCheckpoint(
+        6,
+        "annualEventContext"
+      ),
+
+    "eclipse-2-choices":
+      createCheckpoint(
+        6,
+        "annualEventChoices"
+      ),
+
+    "eclipse-2-story":
+      createCheckpoint(
+        6,
+        "annualEventReflection"
       )
   };
 
@@ -408,6 +480,124 @@ function loadDevelopmentCheckpoint() {
             moon: "",
             rising: ""
           }
+        }
+      },
+
+      saturnPiscesAries: {
+        houses: {
+          from: {
+            sun: "11",
+            moon: "5",
+            rising: "2"
+          },
+          to: {
+            sun: "12",
+            moon: "6",
+            rising: "3"
+          }
+        },
+
+        activities: {
+          from: {
+            sun: [],
+            moon: [],
+            rising: []
+          },
+          to: {
+            sun: [],
+            moon: [],
+            rising: []
+          }
+        },
+
+        natalPlanets: {
+          from: {},
+          to: {}
+        },
+
+        reflections: {
+          from: {
+            sun: "",
+            moon: "",
+            rising: ""
+          },
+          to: {
+            sun: "",
+            moon: "",
+            rising: ""
+          }
+        }
+      },
+
+      eclipseSeasonFebruaryMarch: {
+        houses: {
+          from: {
+            sun: "10",
+            moon: "4",
+            rising: "1"
+          },
+          to: {
+            sun: "5",
+            moon: "11",
+            rising: "8"
+          }
+        },
+        activities: {
+          from: {
+            sun: [],
+            moon: [],
+            rising: []
+          },
+          to: {
+            sun: [],
+            moon: [],
+            rising: []
+          }
+        },
+        natalPlanets: {
+          from: {},
+          to: {}
+        },
+        reflections: {
+          sun: "",
+          moon: "",
+          rising: ""
+        }
+      },
+
+      eclipseSeasonAugust: {
+        houses: {
+          from: {
+            sun: "4",
+            moon: "10",
+            rising: "7"
+          },
+          to: {
+            sun: "11",
+            moon: "5",
+            rising: "2"
+          }
+        },
+        activities: {
+          from: {
+            sun: [],
+            moon: [],
+            rising: []
+          },
+          to: {
+            sun: [],
+            moon: [],
+            rising: []
+          }
+        },
+        natalPlanets: {
+          from: {},
+          to: {}
+        },
+        reflections: {
+          sun: "",
+          moon: "",
+          rising: ""
         }
       }
     }

@@ -433,8 +433,11 @@ function renderTransitionHouseChoices({
 
     <section style="margin-bottom: 48px;">
       <h3>
-        ${escapeHtml(event.planetName)} in
-        ${escapeHtml(event.fromSign)}
+        ${escapeHtml(
+          event.type === "eclipsePair"
+            ? event.fromLabel
+            : `${event.planetName} in ${event.fromSign}`
+        )}
       </h3>
 
       <p>
@@ -478,8 +481,11 @@ function renderTransitionHouseChoices({
 
     <section style="margin-bottom: 48px;">
       <h3>
-        ${escapeHtml(event.planetName)} in
-        ${escapeHtml(event.toSign)}
+        ${escapeHtml(
+          event.type === "eclipsePair"
+            ? event.toLabel
+            : `${event.planetName} in ${event.toSign}`
+        )}
       </h3>
 
       <p>
@@ -656,8 +662,8 @@ export function renderAnnualEventChoices(
   options
 ) {
   if (
-    options.event.type ===
-    "transitionHouse"
+    options.event.type === "transitionHouse" ||
+    options.event.type === "eclipsePair"
   ) {
     renderTransitionHouseChoices(options);
     return;

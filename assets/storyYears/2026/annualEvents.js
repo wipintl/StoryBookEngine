@@ -467,5 +467,371 @@ export const storyYear2026 = {
       }
     }
 
+    ,
+
+    {
+      id: "saturnPiscesAries",
+      title: "The Saturn Scene",
+      type: "transitionHouse",
+      planetName: "Saturn",
+      fromSign: "Pisces",
+      toSign: "Aries",
+      fromTense: "presentPerfect",
+
+      narrative: [
+        "In Pisces, cautious Saturn has been learning that even with discipline and effort, the world does not always hold still. This phase has focused on finding stability without external certainty, discovering how to remain grounded and centered when the only solid footing is internal.",
+        "As Saturn moves into Aries, the tone shifts. He returns to a more familiar and confident role, taking on responsibility openly and pairing hard-earned wisdom with decisive action. Authority becomes embodied rather than abstract. Expect builders, engineers, and entrepreneurs to thrive in a climate where initiative, leadership, and tangible results are rewarded.",
+        "Special note: You first experienced this transition from Pisces to Aries late in May of last year.",
+        "Saturn in Pisces: March 2023–May 2025; September 2025–February 2026.",
+        "Saturn in Aries: May–September 2025; February 2026–April 2028."
+      ],
+
+      contextTitle:
+        "Where is Saturn affecting my life?",
+
+      contextIntroduction: [
+        "Saturn’s influence shows where structure, responsibility, and long-term effort are required.",
+        "To understand how this energy affects you personally, we’ll look at which houses Saturn is moving through in your chart as he shifts from Pisces to Aries."
+      ],
+
+      lookupTitle:
+        "Saturn from Pisces to Aries House Lookup",
+
+      lookupColumns: {
+        sign:
+          "If a planet or angle is in the sign:",
+        fromHouse:
+          "Then Saturn in Pisces is in its:",
+        toHouse:
+          "And Saturn in Aries is in its:"
+      },
+
+      houseLookup: {
+        Aries: { from: "12", to: "1" },
+        Taurus: { from: "11", to: "12" },
+        Gemini: { from: "10", to: "11" },
+        Cancer: { from: "9", to: "10" },
+        Leo: { from: "8", to: "9" },
+        Virgo: { from: "7", to: "8" },
+        Libra: { from: "6", to: "7" },
+        Scorpio: { from: "5", to: "6" },
+        Sagittarius: { from: "4", to: "5" },
+        Capricorn: { from: "3", to: "4" },
+        Aquarius: { from: "2", to: "3" },
+        Pisces: { from: "1", to: "2" }
+      },
+
+      contextInstructions: [
+        "Find the Zodiac signs you identified earlier for your Sun, Moon, and Rising Sign.",
+        "Locate each sign in the left column of the chart.",
+        "Note the corresponding house for Saturn in Pisces and for Saturn in Aries."
+      ],
+
+      contextLanguage: {
+        sun: { prefix: "My Sun is in", houseType: "solar" },
+        moon: { prefix: "My Moon is in", houseType: "lunar" },
+        rising: { prefix: "My Rising Sign is", houseType: "natal" }
+      },
+
+      choicesTitle:
+        "How is Saturn reshaping my world?",
+
+      choicesGuidance: [
+        "Saturn shows where long-term effort, discipline, and responsibility are required, and where growth comes through patience and commitment.",
+        "Use the house selections below to explore how Saturn has been working in your life over the past few years and how that work is shifting as he moves from Pisces into Aries.",
+        "Optional: If you know that you have natal planets in Pisces or Aries, select those planets and choose qualities from the Planet Reference List.",
+        "You do not need to fill every optional box. Choose only what feels relevant."
+      ],
+
+      fromChoicesIntroduction:
+        "For the past couple of years, Saturn has taught me how to manage and take responsibility for…",
+
+      toChoicesIntroduction:
+        "Beginning in 2025, Saturn will teach me how to manage and take responsibility for…",
+
+      natalPlanetLayers: {
+        enabled: true,
+        from: {
+          title:
+            "Optional: Natal planets in Pisces",
+          introduction:
+            "If you know that you have natal planets in Pisces, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        },
+        to: {
+          title:
+            "Optional: Natal planets in Aries",
+          introduction:
+            "If you know that you have natal planets in Aries, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        }
+      },
+
+      reflectionTitle:
+        "Write My Saturn Story",
+
+      reflectionIntroduction:
+        "Now, turn what you’ve learned into clear, practical sentences that describe how Saturn’s energy has been shaping your life and how that work is evolving. For each placement, choose the actions or themes that stand out most to you. One sentence is enough. More than one is fine. Special note: It may help to think back to 1994–1996, the last time Saturn was in Pisces, and 1996–1998, the last time Saturn was in Aries.",
+
+      reflectionPrompts: {
+        sun: {
+          from:
+            "While Saturn has been in Pisces, I have found more vitality or meaning when I…",
+          to:
+            "As Saturn moves into Aries, I will find more vitality or meaning when I…"
+        },
+        moon: {
+          from:
+            "While Saturn has been in Pisces, I have nurtured myself when I…",
+          to:
+            "As Saturn moves into Aries, I will nurture myself when I…"
+        },
+        rising: {
+          from:
+            "While Saturn has been in Pisces, I have improved my life circumstances when I…",
+          to:
+            "As Saturn moves into Aries, I will improve my life circumstances when I…"
+        }
+      }
+    }
+
+    ,
+
+    {
+      id: "eclipseSeasonFebruaryMarch",
+      title: "February–March Eclipse Season",
+      type: "eclipsePair",
+      planetName: "Eclipses",
+      fromSign: "Aquarius",
+      toSign: "Virgo",
+      fromLabel: "Solar Eclipse in Aquarius",
+      toLabel: "Lunar Eclipse in Virgo",
+      releaseSide: "from",
+      emergingSide: "to",
+
+      narrative: [
+        "The February–March eclipses, in Aquarius and Virgo, move us away from the familiar “Yes, but…” hesitations that hold us back and toward more meaningful engagement with our communities and the world at large. If you’ve been clinging to the idea that things must be perfect before you step forward, this period may feel uncomfortable. But if you’re willing to participate before everything is polished, these eclipses can open powerful new pathways.",
+        "Partial Solar Eclipse: February 17 at 29° Aquarius (North Node Eclipse).",
+        "Total Lunar Eclipse: March 3 at 13° Virgo (South Node Eclipse).",
+        "The February solar eclipse is the first of the Leo/Aquarius eclipse series, which continues through August 2027. This Aquarius eclipse is the first eclipse on this axis since 2019. Think of it as a final clearing, a wrecking ball that removes lingering blockages and makes space for the new wave of fire and air energy that has been building. This eclipse series catapults us more fully into our individual journeys. While the changes it brings may involve anger, grief, or disruption, perspective often reveals that these endings were necessary.",
+        "The March lunar eclipse is a Blood Moon, emphasizing release and reckoning. It asks us to let go of idealized fantasies about what we wish the world, or our circumstances, could be and to meet reality as it is. Under a Virgo eclipse, revelations may be stark, but they’re also clarifying. Letting go of what’s nonessential can make it clear what needs healing or adjustment and what’s ready to be left behind."
+      ],
+
+      contextTitle:
+        "Where are the February–March Eclipses affecting my life?",
+
+      contextIntroduction: [
+        "Eclipses activate specific areas of life, bringing accelerated change, endings, and new beginnings.",
+        "To understand how the February–March eclipses are affecting you personally, we’ll look at which houses they occupy in your chart."
+      ],
+
+      lookupTitle:
+        "February–March Eclipse House Lookup",
+
+      lookupColumns: {
+        sign: "If a planet or angle is in the sign:",
+        fromHouse: "Then the Solar Eclipse is in its:",
+        toHouse: "Then the Lunar Eclipse is in its:"
+      },
+
+      houseLookup: {
+        Aries: { from: "11", to: "6" },
+        Taurus: { from: "10", to: "5" },
+        Gemini: { from: "9", to: "4" },
+        Cancer: { from: "8", to: "3" },
+        Leo: { from: "7", to: "2" },
+        Virgo: { from: "6", to: "1" },
+        Libra: { from: "5", to: "12" },
+        Scorpio: { from: "4", to: "11" },
+        Sagittarius: { from: "3", to: "10" },
+        Capricorn: { from: "2", to: "9" },
+        Aquarius: { from: "1", to: "8" },
+        Pisces: { from: "12", to: "7" }
+      },
+
+      contextInstructions: [
+        "Find the Zodiac signs you identified earlier for your Sun, Moon, and Rising Sign.",
+        "Locate each sign in the left column of the chart.",
+        "Note the corresponding house for the Solar Eclipse and the Lunar Eclipse."
+      ],
+
+      contextLanguage: {
+        sun: { prefix: "My Sun is in", houseType: "solar" },
+        moon: { prefix: "My Moon is in", houseType: "lunar" },
+        rising: { prefix: "My Rising Sign is", houseType: "natal" }
+      },
+
+      choicesTitle:
+        "How are the February–March Eclipses reshaping my world?",
+
+      choicesGuidance: [
+        "Eclipses accelerate change by highlighting what is ready to be released and what is ready to emerge.",
+        "Now that you know which houses these eclipses activate in your chart, reflect on how they may reshape your world.",
+        "Optional: If you know that you have natal planets in Aquarius or Virgo, select those planets and choose qualities from the Planet Reference List.",
+        "You do not need to fill every optional box. Choose only what feels relevant."
+      ],
+
+      fromChoicesIntroduction:
+        "With the solar eclipse on February 17, I may realize it’s time to release something related to…",
+
+      toChoicesIntroduction:
+        "With the lunar eclipse on March 3, I may discover my emotional needs shift in the area of…",
+
+      natalPlanetLayers: {
+        enabled: true,
+        from: {
+          title: "Optional: Natal planets in Aquarius",
+          introduction:
+            "If you know that you have natal planets in Aquarius, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        },
+        to: {
+          title: "Optional: Natal planets in Virgo",
+          introduction:
+            "If you know that you have natal planets in Virgo, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        }
+      },
+
+      reflectionTitle:
+        "Write My February–March Eclipse Story",
+
+      reflectionIntroduction:
+        "Now, turn what you’ve learned into clear, intentional sentences that describe how you can work with the eclipse energy this season. For each placement, focus on what is ending and what is emerging. One sentence is enough. More than one is fine.",
+
+      reflectionPrompts: {
+        sun: {
+          heading: "My Sun",
+          prompt:
+            "I will find more vitality or meaning when I let go of… and turn toward…"
+        },
+        moon: {
+          heading: "My Moon",
+          prompt:
+            "I will nurture myself when I release… and embrace…"
+        },
+        rising: {
+          heading: "My Rising Sign",
+          prompt:
+            "I will improve my life circumstances when I move past… and move toward…"
+        }
+      }
+    },
+
+    {
+      id: "eclipseSeasonAugust",
+      title: "August Eclipse Season",
+      type: "eclipsePair",
+      planetName: "Eclipses",
+      fromSign: "Leo",
+      toSign: "Pisces",
+      fromLabel: "Solar Eclipse in Leo",
+      toLabel: "Lunar Eclipse in Pisces",
+      releaseSide: "to",
+      emergingSide: "from",
+
+      narrative: [
+        "It’s time to play a bit of musical chairs. After the rapid changes of spring and summer, the August eclipses in Leo and Pisces ask you to consider what adjustments are needed to make room for the new you, new desires, new priorities, and new ways of relating. And don’t be surprised if the people around you are doing the same.",
+        "Total Solar Eclipse: August 12 at 20° Leo (South Node Eclipse).",
+        "Partial Lunar Eclipse: August 28 at 5° Pisces (North Node Eclipse).",
+        "The solar eclipse in Leo clarifies what needs to be released in order for your creativity to move more freely into the world. It asks you to name where you’re willing to be flexible and which boundaries are non-negotiable. From that clarity, a more authentic form of self-expression can emerge.",
+        "Two weeks later, the lunar eclipse in Pisces turns attention toward hopes, dreams, and dissolution. Having glimpsed the kinds of change the next decade may bring, this eclipse encourages you to cultivate a spiritual path that resonates with your heart’s calling. A rich inner life is your greatest asset on the road ahead."
+      ],
+
+      contextTitle:
+        "Where are the August Eclipses affecting my life?",
+
+      contextIntroduction: [
+        "The August eclipses highlight areas of adjustment, release, and realignment.",
+        "To understand how these eclipse energies are affecting you personally, we’ll look at which houses they occupy in your chart."
+      ],
+
+      lookupTitle:
+        "August Eclipse House Lookup",
+
+      lookupColumns: {
+        sign: "If a planet or angle is in the sign:",
+        fromHouse: "Then the Solar Eclipse is in its:",
+        toHouse: "Then the Lunar Eclipse is in its:"
+      },
+
+      houseLookup: {
+        Aries: { from: "5", to: "12" },
+        Taurus: { from: "4", to: "11" },
+        Gemini: { from: "3", to: "10" },
+        Cancer: { from: "2", to: "9" },
+        Leo: { from: "1", to: "8" },
+        Virgo: { from: "12", to: "7" },
+        Libra: { from: "11", to: "6" },
+        Scorpio: { from: "10", to: "5" },
+        Sagittarius: { from: "9", to: "4" },
+        Capricorn: { from: "8", to: "3" },
+        Aquarius: { from: "7", to: "2" },
+        Pisces: { from: "6", to: "1" }
+      },
+
+      contextInstructions: [
+        "Find the Zodiac signs you identified earlier for your Sun, Moon, and Rising Sign.",
+        "Locate each sign in the left column of the chart.",
+        "Note the corresponding house for the Solar Eclipse and the Lunar Eclipse."
+      ],
+
+      contextLanguage: {
+        sun: { prefix: "My Sun is in", houseType: "solar" },
+        moon: { prefix: "My Moon is in", houseType: "lunar" },
+        rising: { prefix: "My Rising Sign is", houseType: "natal" }
+      },
+
+      choicesTitle:
+        "How are the August Eclipses reshaping my world?",
+
+      choicesGuidance: [
+        "The August eclipses invite adjustment, integration, and realignment.",
+        "Now that you know which houses these eclipses activate in your chart, reflect on how they may reshape your world.",
+        "Optional: If you know that you have natal planets in Leo or Pisces, select those planets and choose qualities from the Planet Reference List.",
+        "You do not need to fill every optional box. Choose only what feels relevant."
+      ],
+
+      fromChoicesIntroduction:
+        "With the solar eclipse on August 12, I may discover my emotional needs shift in the area of…",
+
+      toChoicesIntroduction:
+        "With the lunar eclipse on August 28, I may realize it’s time to release something related to…",
+
+      natalPlanetLayers: {
+        enabled: true,
+        from: {
+          title: "Optional: Natal planets in Leo",
+          introduction:
+            "If you know that you have natal planets in Leo, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        },
+        to: {
+          title: "Optional: Natal planets in Pisces",
+          introduction:
+            "If you know that you have natal planets in Pisces, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+        }
+      },
+
+      reflectionTitle:
+        "Write My August Eclipse Story",
+
+      reflectionIntroduction:
+        "Now, turn what you’ve learned into clear, intentional sentences that describe how you can work consciously with the August eclipse energy. For each placement, focus on what is being released and what is being integrated or adjusted. One sentence is enough. More than one is fine.",
+
+      reflectionPrompts: {
+        sun: {
+          heading: "My Sun",
+          prompt:
+            "I will find more vitality or meaning when I let go of… and turn toward…"
+        },
+        moon: {
+          heading: "My Moon",
+          prompt:
+            "I will nurture myself when I release… and embrace…"
+        },
+        rising: {
+          heading: "My Rising Sign",
+          prompt:
+            "I will improve my life circumstances when I move past… and move toward…"
+        }
+      }
+    }
+
   ]
 };

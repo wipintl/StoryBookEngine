@@ -45,7 +45,7 @@ export function getEventResponse(event) {
   const eventId = event.id;
 
   if (!storyState.annualJourney.responses[eventId]) {
-    if (event.type === "transitionHouse") {
+    if (event.type === "transitionHouse" || event.type === "eclipsePair") {
       storyState.annualJourney.responses[eventId] = {
         houses: {
           from: { sun: "", moon: "", rising: "" },
@@ -79,6 +79,7 @@ export function getEventResponse(event) {
 
   if (
     event.type !== "transitionHouse" &&
+    event.type !== "eclipsePair" &&
     !response.natalPlanets
   ) {
     response.natalPlanets = {};
@@ -132,7 +133,7 @@ export function renderScene({
 }
 
 export function renderLookupTable(event) {
-  if (event.type === "transitionHouse") {
+  if (event.type === "transitionHouse" || event.type === "eclipsePair") {
     const rows = Object.entries(event.houseLookup)
       .map(([sign, houses]) => `
         <tr>

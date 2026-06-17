@@ -6,6 +6,10 @@ import {
   transitionNatalPlanetLanguage
 } from "../assets/narratives/transitionPlanetEventLanguage.js";
 import {
+  eclipseNatalPlanetCoreThemes,
+  eclipseEventLanguage
+} from "../assets/narratives/eclipseEventLanguage.js";
+import {
   escapeHtml,
   ordinalHouse
 } from "./annualEventShared.js";
@@ -47,6 +51,11 @@ function fillTemplate(template = "", values = {}) {
 
 function prepareAnnualAction(value = "", prompt = "") {
   let response = String(value).trim();
+
+  response = response.replace(
+    /\blet go for\b/gi,
+    "let go of"
+  );
 
   if (prompt) {
     const promptPattern = new RegExp(
@@ -99,6 +108,38 @@ function prepareAnnualAction(value = "", prompt = "") {
   }
 
   return lowercaseFirst(response);
+}
+
+function preparePresentPerfectAction(value = "") {
+  let action = String(value).trim();
+
+  if (!action) {
+    return "";
+  }
+
+  const sentenceReadyPhrases = [
+    [
+      /^are brave and do something you(?:'|’)ve been procrastinating on$/i,
+      "be brave and do something you’ve been procrastinating on"
+    ],
+    [
+      /^express your creativity:\s*sing, dance, paint, write$/i,
+      "express your creativity through singing, dancing, painting, or writing"
+    ]
+  ];
+
+  for (const [pattern, replacement] of sentenceReadyPhrases) {
+    if (pattern.test(action)) {
+      action = action.replace(
+        pattern,
+        replacement
+      );
+
+      break;
+    }
+  }
+
+  return action;
 }
 
 function toPastTensePhrase(value = "") {
@@ -271,6 +312,628 @@ function toPastTensePhrase(value = "") {
   }
 
   return `${pastWord}${remainder}`;
+}
+
+
+function toEclipseActivityPhrase(value = "") {
+  const phrase = String(value).trim();
+
+  const authoredActivityPhrases = new Map([
+    [
+      "Refresh your look with new clothes, a haircut, or a makeover",
+      "refreshing your look with new clothes, a haircut, or a makeover"
+    ],
+    [
+      "Start a new diet or exercise routine",
+      "starting a new diet or exercise routine"
+    ],
+    [
+      "Make a big change, like move to a new home or buy a car",
+      "making a big change, such as moving to a new home or buying a car"
+    ],
+    [
+      "Clean out your closets, pantry, garage, etc.",
+      "cleaning out your closets, pantry, garage, and other spaces"
+    ],
+    [
+      "Get your financial stuff in order",
+      "getting your financial matters in order"
+    ],
+    [
+      "Reflect on your talents, resources, and what you earn",
+      "reflecting on your talents, resources, and what you earn"
+    ],
+    [
+      "Reflect on what’s important to you, and if you make time for it",
+      "reflecting on what is important to you and whether you make time for it"
+    ],
+    [
+      "Write in your journal daily",
+      "writing in your journal daily"
+    ],
+    [
+      "Create healthier daily habits",
+      "creating healthier daily habits"
+    ],
+    [
+      "Clear out your mail piles, email inbox, or files",
+      "clearing out your mail piles, email inbox, or files"
+    ],
+    [
+      "Clean up your self-talk, social media feed, and information sources",
+      "cleaning up your self-talk, social media feed, and information sources"
+    ],
+    [
+      "Learn a new skill that you’ll use in your daily life",
+      "learning a new skill that you will use in your daily life"
+    ],
+    [
+      "Tune up your car",
+      "tuning up your car"
+    ],
+    [
+      "Get in touch with siblings or neighbors",
+      "getting in touch with siblings or neighbors"
+    ],
+    [
+      "Spend time with your family",
+      "spending time with your family"
+    ],
+    [
+      "Take care of your yard or property",
+      "taking care of your yard or property"
+    ],
+    [
+      "Make peace with your past",
+      "making peace with your past"
+    ],
+    [
+      "Make peace with my past",
+      "making peace with my past"
+    ],
+    [
+      "Learn about your ancestors",
+      "learning about your ancestors"
+    ],
+    [
+      "Do something that will give you pleasure",
+      "doing something that gives you pleasure"
+    ],
+    [
+      "Go to the day spa and relax",
+      "going to the day spa and relaxing"
+    ],
+    [
+      "Go out on a romantic date",
+      "going out on a romantic date"
+    ],
+    [
+      "Express your creativity: sing, dance, paint, write",
+      "expressing your creativity through singing, dancing, painting, or writing"
+    ],
+    [
+      "Laugh more",
+      "laughing more"
+    ],
+    [
+      "Roll up your sleeves and tackle something hard",
+      "rolling up your sleeves and tackling something hard"
+    ],
+    [
+      "Be brave and do something you’ve been procrastinating on",
+      "being brave and doing something you’ve been procrastinating on"
+    ],
+    [
+      "Hire someone to help with a project you’ve been stuck on",
+      "hiring someone to help with a project you’ve been stuck on"
+    ],
+    [
+      "Take care of your body: exercise, eat well, and schedule doctor visits",
+      "taking care of your body by exercising, eating well, and scheduling doctor visits"
+    ],
+    [
+      "Schedule date night or a couple’s holiday",
+      "scheduling date night or a couple’s holiday"
+    ],
+    [
+      "Go out and mingle with interesting humans",
+      "going out and mingling with interesting people"
+    ],
+    [
+      "Catch up with a good friend",
+      "catching up with a good friend"
+    ],
+    [
+      "Do shadow work",
+      "doing shadow work"
+    ],
+    [
+      "Research something hidden or occult",
+      "researching something hidden or occult"
+    ],
+    [
+      "Update your will or estate plan",
+      "updating your will or estate plan"
+    ],
+    [
+      "Reflect on what you’re investing in and what you’re getting out of it",
+      "reflecting on what you’re investing in and what you’re getting out of it"
+    ],
+    [
+      "Reflect on what I’m investing in and what I’m getting out of it",
+      "reflecting on what I’m investing in and what I’m getting out of it"
+    ],
+    [
+      "Get outside of your comfort zone",
+      "getting outside of your comfort zone"
+    ],
+    [
+      "Learn something completely new",
+      "learning something completely new"
+    ],
+    [
+      "Go to a place you’ve never been before",
+      "going to a place you’ve never been before"
+    ],
+    [
+      "Refresh your assumptions, attitudes, and beliefs",
+      "refreshing your assumptions, attitudes, and beliefs"
+    ],
+    [
+      "Ask for a raise or a promotion",
+      "asking for a raise or a promotion"
+    ],
+    [
+      "Apply for a new job",
+      "applying for a new job"
+    ],
+    [
+      "Update your resume, biography, or social media profiles",
+      "updating your resume, biography, or social media profiles"
+    ],
+    [
+      "Reach out and help a friend",
+      "reaching out and helping a friend"
+    ],
+    [
+      "Give your time or treasure to help others",
+      "giving your time or treasure to help others"
+    ],
+    [
+      "Get involved in an organization",
+      "getting involved in an organization"
+    ],
+    [
+      "Hang out with friends",
+      "spending time with friends"
+    ],
+    [
+      "Consider your long-term hopes, wishes, and plans",
+      "considering your long-term hopes, wishes, and plans"
+    ],
+    [
+      "Practice self-care",
+      "practicing self-care"
+    ],
+    [
+      "Step back from the world, and rest",
+      "stepping back from the world and resting"
+    ],
+    [
+      "Keep a dream journal",
+      "keeping a dream journal"
+    ],
+    [
+      "Forgive yourself",
+      "forgiving yourself"
+    ]
+  ]);
+
+  if (authoredActivityPhrases.has(phrase)) {
+    return authoredActivityPhrases.get(phrase);
+  }
+
+  return lowercaseFirst(phrase);
+}
+
+function joinEclipseActivities(activities = []) {
+  return joinNaturally(
+    activities.map(toEclipseActivityPhrase)
+  );
+}
+
+function buildEclipseNatalPlanetParagraphs({
+  event,
+  response,
+  side
+}) {
+  const selectedPlanets =
+    response.natalPlanets?.[side] || {};
+
+  const entries =
+    Object.entries(selectedPlanets);
+
+  if (entries.length === 0) {
+    return "";
+  }
+
+  const sideLanguage =
+    eclipseEventLanguage[event.id]?.[side];
+
+  if (!sideLanguage) {
+    return "";
+  }
+
+  const sign =
+    side === "from"
+      ? event.fromSign
+      : event.toSign;
+
+  const paragraphs = entries.map(
+    ([planet, qualities]) => {
+      const coreThemes =
+        eclipseNatalPlanetCoreThemes[planet] ||
+        "its characteristic needs and functions";
+
+      const qualityLanguage =
+        joinNaturally(
+          qualities.map(quality =>
+            quality.toLowerCase()
+          )
+        );
+
+      const qualityWord =
+        qualities.length === 1
+          ? "quality"
+          : "qualities";
+
+      const qualityVerb =
+        qualities.length === 1
+          ? "suggests"
+          : "suggest";
+
+      const movement =
+        sideLanguage.movements[planet] ||
+        "responding to the changes and revelations carried by this eclipse";
+
+      return [
+        `Your natal ${planet} in ${sign} places ${coreThemes} inside ${sideLanguage.field}.`,
+        `The ${qualityLanguage} ${qualityWord} you selected ${qualityVerb} that this eclipse may work through ${movement}.`
+      ].join(" ");
+    }
+  );
+
+  if (entries.length === 1) {
+    return [
+      paragraphs[0],
+      sideLanguage.integration
+    ].join(" ");
+  }
+
+  return [
+    sideLanguage.groupIntroduction,
+    ...paragraphs,
+    sideLanguage.groupIntegration
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+function defaultEclipseReflectionValue({
+  promptKey,
+  event,
+  response
+}) {
+  const releaseActivities =
+    response.activities[event.releaseSide][
+      promptKey
+    ] || [];
+
+  const emergingActivities =
+    response.activities[event.emergingSide][
+      promptKey
+    ] || [];
+
+  const releaseLanguage =
+    joinEclipseActivities(
+      releaseActivities
+    );
+
+  const emergingLanguage =
+    joinEclipseActivities(
+      emergingActivities
+    );
+
+  if (!releaseLanguage && !emergingLanguage) {
+    return "";
+  }
+
+  if (promptKey === "moon") {
+    return `release ${lowercaseFirst(
+      releaseLanguage
+    )} and embrace ${lowercaseFirst(
+      emergingLanguage
+    )}`;
+  }
+
+  if (promptKey === "rising") {
+    return `move past ${lowercaseFirst(
+      releaseLanguage
+    )} and move toward ${lowercaseFirst(
+      emergingLanguage
+    )}`;
+  }
+
+  return `let go of ${lowercaseFirst(
+    releaseLanguage
+  )} and turn toward ${lowercaseFirst(
+    emergingLanguage
+  )}`;
+}
+
+function normalizeEclipsePairedReflection(value = "") {
+  const phrase = String(value).trim();
+
+  const patterns = [
+    {
+      pattern:
+        /^let go of\s+(.+?)\s+and turn toward\s+(.+)$/i,
+      build: (release, emerging) =>
+        `let go of ${toEclipseActivityPhrase(
+          release
+        )} and turn toward ${toEclipseActivityPhrase(
+          emerging
+        )}`
+    },
+    {
+      pattern:
+        /^release\s+(.+?)\s+and embrace\s+(.+)$/i,
+      build: (release, emerging) =>
+        `release ${toEclipseActivityPhrase(
+          release
+        )} and embrace ${toEclipseActivityPhrase(
+          emerging
+        )}`
+    },
+    {
+      pattern:
+        /^move past\s+(.+?)\s+and move toward\s+(.+)$/i,
+      build: (release, emerging) =>
+        `move past ${toEclipseActivityPhrase(
+          release
+        )} and move toward ${toEclipseActivityPhrase(
+          emerging
+        )}`
+    }
+  ];
+
+  for (const { pattern, build } of patterns) {
+    const match = phrase.match(pattern);
+
+    if (match) {
+      return build(
+        match[1].trim(),
+        match[2].trim()
+      );
+    }
+  }
+
+  return phrase;
+}
+
+function buildEclipseStory(event, response) {
+  const name = storyState.identity.name;
+
+  const sunAction =
+    normalizeEclipsePairedReflection(
+      prepareAnnualAction(
+        response.reflections.sun,
+        event.reflectionPrompts.sun.prompt
+      )
+    );
+
+  const moonAction =
+    normalizeEclipsePairedReflection(
+      prepareAnnualAction(
+        response.reflections.moon,
+        event.reflectionPrompts.moon.prompt
+      )
+    );
+
+  const risingAction =
+    normalizeEclipsePairedReflection(
+      prepareAnnualAction(
+        response.reflections.rising,
+        event.reflectionPrompts.rising.prompt
+      )
+    );
+
+  const solarSunHouse =
+    response.houses.from.sun;
+  const lunarSunHouse =
+    response.houses.to.sun;
+  const solarMoonHouse =
+    response.houses.from.moon;
+  const lunarMoonHouse =
+    response.houses.to.moon;
+  const solarRisingHouse =
+    response.houses.from.rising;
+  const lunarRisingHouse =
+    response.houses.to.rising;
+
+  const mainParagraph = [
+    `${name}, the ${event.fromLabel} activates your solar ${ordinalHouse(
+      solarSunHouse
+    )}, bringing accelerated change to ${houseNarrativeFocus[solarSunHouse] || "this area of your life"}, while the ${event.toLabel} activates your solar ${ordinalHouse(
+      lunarSunHouse
+    )}, illuminating ${houseNarrativeFocus[lunarSunHouse] || "another area of your life"}. You may find greater vitality or meaning when you ${sunAction}.`,
+
+    `Through your Moon, the solar eclipse moves through your lunar ${ordinalHouse(
+      solarMoonHouse
+    )}, touching ${houseNarrativeFocus[solarMoonHouse] || "this area of your emotional life"}, while the lunar eclipse moves through your lunar ${ordinalHouse(
+      lunarMoonHouse
+    )}, clarifying ${houseNarrativeFocus[lunarMoonHouse] || "another area of your emotional life"}. You nurture yourself when you ${moonAction}.`,
+
+    `Through your Rising Sign, the solar eclipse activates your natal ${ordinalHouse(
+      solarRisingHouse
+    )}, reshaping ${houseNarrativeFocus[solarRisingHouse] || "the circumstances through which you meet the world"}, while the lunar eclipse activates your natal ${ordinalHouse(
+      lunarRisingHouse
+    )}, realigning ${houseNarrativeFocus[lunarRisingHouse] || "another part of your lived experience"}. Your life circumstances may improve when you ${risingAction}.`
+  ].join(" ");
+
+  const solarNatal =
+    buildEclipseNatalPlanetParagraphs({
+      event,
+      response,
+      side: "from"
+    });
+
+  const lunarNatal =
+    buildEclipseNatalPlanetParagraphs({
+      event,
+      response,
+      side: "to"
+    });
+
+  return [
+    mainParagraph,
+    solarNatal,
+    lunarNatal
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+}
+
+function renderEclipsePairReflection({
+  app,
+  event,
+  response,
+  advanceStory,
+  render
+}) {
+  const fields = [
+    {
+      key: "sun",
+      id: "sunAnnualReflection"
+    },
+    {
+      key: "moon",
+      id: "moonAnnualReflection"
+    },
+    {
+      key: "rising",
+      id: "risingAnnualReflection"
+    }
+  ];
+
+  const fieldHtml = fields
+    .map(({ key, id }) => {
+      const prompt =
+        event.reflectionPrompts[key];
+
+      const value =
+        response.reflections[key] ||
+        defaultEclipseReflectionValue({
+          promptKey: key,
+          event,
+          response
+        });
+
+      return renderReflectionField({
+        id,
+        heading: prompt.heading,
+        prompt: prompt.prompt,
+        selectedActivities: [],
+        value
+      });
+    })
+    .join("");
+
+  app.innerHTML = `
+    <h2>${escapeHtml(event.reflectionTitle)}</h2>
+    <p>${escapeHtml(event.reflectionIntroduction)}</p>
+
+    ${fieldHtml}
+
+    <p id="annualReflectionError" style="display: none;">
+      Please respond to all three prompts before continuing.
+    </p>
+
+    <button id="backToAnnualChoices">Back</button>
+    <button id="submitAnnualReflection">Continue</button>
+  `;
+
+  function saveReflections() {
+    response.reflections.sun =
+      document.getElementById(
+        "sunAnnualReflection"
+      ).value.trim();
+
+    response.reflections.moon =
+      document.getElementById(
+        "moonAnnualReflection"
+      ).value.trim();
+
+    response.reflections.rising =
+      document.getElementById(
+        "risingAnnualReflection"
+      ).value.trim();
+  }
+
+  document
+    .getElementById("backToAnnualChoices")
+    .addEventListener("click", () => {
+      saveReflections();
+      storyState.currentAnchorId =
+        "annualEventChoices";
+      render();
+    });
+
+  document
+    .getElementById("submitAnnualReflection")
+    .addEventListener("click", () => {
+      saveReflections();
+
+      const allComplete =
+        response.reflections.sun &&
+        response.reflections.moon &&
+        response.reflections.rising;
+
+      if (!allComplete) {
+        document.getElementById(
+          "annualReflectionError"
+        ).style.display = "block";
+        return;
+      }
+
+      const narrative =
+        buildEclipseStory(event, response);
+
+      storyState.outputs.annualEventStories[
+        event.id
+      ] = {
+        title: event.reflectionTitle.replace(
+          /^Write\s+/i,
+          ""
+        ),
+        narrative,
+        houses: structuredClone(
+          response.houses
+        ),
+        activities: structuredClone(
+          response.activities
+        ),
+        natalPlanets: structuredClone(
+          response.natalPlanets
+        ),
+        reflections: structuredClone(
+          response.reflections
+        )
+      };
+
+      advanceStory();
+      render();
+    });
 }
 
 function buildTransitionNatalPlanetParagraphs({
@@ -565,6 +1228,23 @@ function buildSingleHouseStory(event, response) {
 }
 
 function getTransitionNarrativeLanguage(event) {
+  if (event.id === "saturnPiscesAries") {
+    return {
+      fromOpening:
+        "its patient and reality-testing influence has worked through",
+      fromMoon:
+        "Saturn has asked for emotional steadiness and mature care around",
+      fromRising:
+        "discipline, responsibility, and inner stability have shaped",
+      toOpening:
+        "responsibility, initiative, and embodied authority become more active within",
+      toMoon:
+        "emotional courage, self-command, and direct responsibility become more active around",
+      toRising:
+        "long-term effort begins to move through initiative, leadership, and decisive action within"
+    };
+  }
+
   if (event.id === "jupiterCancerLeo") {
     return {
       fromOpening:
@@ -646,20 +1326,39 @@ function buildTransitionHouseStory(event, response) {
       event.reflectionPrompts.rising.from
     );
 
+  const useBaseFromAction =
+    event.fromTense === "present" ||
+    event.fromTense === "presentPerfect";
+
   const fromSunAction =
-    event.fromTense === "present"
+    useBaseFromAction
       ? preparedFromSunAction
       : toPastTensePhrase(preparedFromSunAction);
 
   const fromMoonAction =
-    event.fromTense === "present"
+    useBaseFromAction
       ? preparedFromMoonAction
       : toPastTensePhrase(preparedFromMoonAction);
 
   const fromRisingAction =
-    event.fromTense === "present"
+    useBaseFromAction
       ? preparedFromRisingAction
       : toPastTensePhrase(preparedFromRisingAction);
+
+  const presentPerfectSunAction =
+    preparePresentPerfectAction(
+      fromSunAction
+    );
+
+  const presentPerfectMoonAction =
+    preparePresentPerfectAction(
+      fromMoonAction
+    );
+
+  const presentPerfectRisingAction =
+    preparePresentPerfectAction(
+      fromRisingAction
+    );
 
   const toSunAction = prepareAnnualAction(
     response.reflections.to.sun,
@@ -679,31 +1378,60 @@ function buildTransitionHouseStory(event, response) {
   const fromIsPresent =
     event.fromTense === "present";
 
-  const fromPlanetVerb =
-    fromIsPresent ? "moves" : "moved";
+  const fromIsPresentPerfect =
+    event.fromTense === "presentPerfect";
 
-  const vitalityVerb =
-    fromIsPresent ? "may find" : "found";
+  let fromParagraph;
 
-  const nurtureVerb =
-    fromIsPresent ? "nurture" : "nurtured";
+  if (fromIsPresentPerfect) {
+    fromParagraph = [
+      `${name}, while ${event.planetName} has been in ${event.fromSign} and your solar ${ordinalHouse(
+        fromSunHouse
+      )}, ${language.fromOpening} ${houseNarrativeFocus[fromSunHouse] || "this area of your life"}. You have found greater vitality or meaning as you have worked to ${presentPerfectSunAction}.`,
 
-  const circumstancesVerb =
-    fromIsPresent ? "may improve" : "improved";
+      `In your lunar ${ordinalHouse(
+        fromMoonHouse
+      )}, ${language.fromMoon} ${houseNarrativeFocus[fromMoonHouse] || "this area of your inner life"}. You have nurtured yourself as you have worked to ${presentPerfectMoonAction}.`,
 
-  const fromParagraph = [
-    `${name}, while ${event.planetName} ${fromPlanetVerb} through ${event.fromSign} and your solar ${ordinalHouse(
-      fromSunHouse
-    )}, ${language.fromOpening} ${houseNarrativeFocus[fromSunHouse] || "this area of your life"}. You ${vitalityVerb} greater vitality or meaning as you ${fromSunAction}.`,
+      `Through your natal ${ordinalHouse(
+        fromRisingHouse
+      )}, ${language.fromRising} ${houseNarrativeFocus[fromRisingHouse] || "the circumstances through which you met the world"}. You have improved your life circumstances as you have worked to ${presentPerfectRisingAction}.`
+    ].join(" ");
+  } else {
+    const fromPlanetVerb =
+      fromIsPresent
+        ? "moves"
+        : "moved";
 
-    `In your lunar ${ordinalHouse(
-      fromMoonHouse
-    )}, ${language.fromMoon} ${houseNarrativeFocus[fromMoonHouse] || "this area of your inner life"}. You ${nurtureVerb} yourself as you ${fromMoonAction}.`,
+    const vitalityVerb =
+      fromIsPresent
+        ? "may find"
+        : "found";
 
-    `Through your natal ${ordinalHouse(
-      fromRisingHouse
-    )}, ${language.fromRising} ${houseNarrativeFocus[fromRisingHouse] || "the circumstances through which you met the world"}. You ${circumstancesVerb} your life circumstances as you ${fromRisingAction}.`
-  ].join(" ");
+    const nurtureVerb =
+      fromIsPresent
+        ? "nurture"
+        : "nurtured";
+
+    const circumstancesVerb =
+      fromIsPresent
+        ? "may improve"
+        : "improved";
+
+    fromParagraph = [
+      `${name}, while ${event.planetName} ${fromPlanetVerb} through ${event.fromSign} and your solar ${ordinalHouse(
+        fromSunHouse
+      )}, ${language.fromOpening} ${houseNarrativeFocus[fromSunHouse] || "this area of your life"}. You ${vitalityVerb} greater vitality or meaning as you ${fromSunAction}.`,
+
+      `In your lunar ${ordinalHouse(
+        fromMoonHouse
+      )}, ${language.fromMoon} ${houseNarrativeFocus[fromMoonHouse] || "this area of your inner life"}. You ${nurtureVerb} yourself as you ${fromMoonAction}.`,
+
+      `Through your natal ${ordinalHouse(
+        fromRisingHouse
+      )}, ${language.fromRising} ${houseNarrativeFocus[fromRisingHouse] || "the circumstances through which you met the world"}. You ${circumstancesVerb} your life circumstances as you ${fromRisingAction}.`
+    ].join(" ");
+  }
 
   const toParagraph = [
     `As ${event.planetName} moves into ${event.toSign} and your solar ${ordinalHouse(
@@ -744,6 +1472,10 @@ function buildTransitionHouseStory(event, response) {
 }
 
 export function buildAnnualEventStory(event, response) {
+  if (event.type === "eclipsePair") {
+    return buildEclipseStory(event, response);
+  }
+
   if (event.type === "transitionHouse") {
     return buildTransitionHouseStory(event, response);
   }
@@ -1054,6 +1786,11 @@ function wireReflectionButtons({
 }
 
 export function renderAnnualEventReflection(options) {
+  if (options.event.type === "eclipsePair") {
+    renderEclipsePairReflection(options);
+    return;
+  }
+
   if (options.event.type === "transitionHouse") {
     renderTransitionHouseReflection(options);
     return;
