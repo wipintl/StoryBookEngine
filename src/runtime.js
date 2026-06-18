@@ -14,18 +14,24 @@ const titleAttribution =
   document.getElementById("titleAttribution");
 
 function loadDevelopmentCheckpoint() {
-  const isLocalDevelopment =
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1";
-
-  if (!isLocalDevelopment) {
-    return;
-  }
-
   const checkpoint =
     new URLSearchParams(
       window.location.search
     ).get("test");
+
+  const isLocalDevelopment =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1";
+
+  const isPrintFullCheckpoint =
+    checkpoint === "print-full";
+
+  if (
+    !isLocalDevelopment &&
+    !isPrintFullCheckpoint
+  ) {
+    return;
+  }
 
   const baseCompletedAnchors = [
     "welcome",
@@ -312,6 +318,17 @@ function loadDevelopmentCheckpoint() {
     },
 
     complete: {
+      currentAnchorId:
+        "storybookComplete",
+      currentEventIndex: 7,
+      completedAnchors: [
+        ...completedThroughEvent(8),
+        "yearStory",
+        "closingReflection"
+      ]
+    },
+
+    "print-full": {
       currentAnchorId:
         "storybookComplete",
       currentEventIndex: 7,
@@ -703,8 +720,105 @@ function loadDevelopmentCheckpoint() {
 
   storyState.outputs = {
     characterSketch: null,
-    annualEventStories: {}
+    annualEventStories: {},
+    yearStory: "",
+    closingReflection: {
+      clarified: "",
+      intention: "",
+      release: "",
+      remember: "",
+      dedication: ""
+    }
   };
+
+  if (checkpoint === "print-full") {
+    storyState.outputs = {
+      characterSketch:
+        "Tracy, your identity gathers strength through continuity, allowing meaning to deepen through patience, repetition, and sustained attention. Your inner life gives that movement emotional depth, transforming ordinary experience into something charged with meaning. When these layers meet the world, your outward manner gives that inner relationship a visible form.",
+
+      annualEventStories: {
+        plutoAquarius: {
+          title: "My Pluto Story",
+          narrative:
+            "Tracy, Pluto’s movement through your solar 10th House turns your attention toward career, visibility, reputation, and public direction. In your lunar 4th House, Pluto’s work becomes more intimate, touching home, family, ancestry, and emotional foundations. Through your natal 1st House, transformation enters the way you meet the world and claim your autonomy.\n\nYour natal Saturn in Aquarius places structure, responsibility, endurance, limits, and long-term consequences inside Pluto’s field of transformation. The selected quality, grounded, suggests that this part of the story may work through distinguishing what can be repaired and sustained from what no longer works.",
+          participantReflection:
+            "I am noticing where my public direction and inner foundations are changing together."
+        },
+
+        neptunePiscesAries: {
+          title: "My Neptune Story",
+          narrative:
+            "Tracy, while Neptune moved through Pisces and your solar 11th House, its dissolving and receptive influence worked through friendships, community, networks, and long-term hopes. As Neptune moves into Aries and your solar 12th House, inspiration becomes more embodied within rest, retreat, dreams, endings, and the inner life.\n\nYour natal Mars in Aries places action, desire, courage, conflict, and self-assertion inside Neptune’s newly embodied and initiating field. The selected quality, strong, suggests that this part of the story may work through turning inspiration into action while learning whether urgency arises from inner guidance, impulse, or projection.",
+          participantReflection:
+            "I want to listen carefully before acting, then act with more faith in my own guidance."
+        },
+
+        uranusTaurusGemini: {
+          title: "My Uranus Story",
+          narrative:
+            "Tracy, while Uranus moved through Taurus and your solar 1st House, its disruptive and liberating influence worked through identity, appearance, autonomy, and the way you enter life. With several natal planets in Taurus, Uranus’s long passage through this sign touched multiple parts of your chart.\n\nYour natal Sun in Taurus placed identity, vitality, leadership, and conscious purpose inside Uranus’s liberating field. Your natal Mercury in Taurus placed thought, language, learning, perception, and communication inside the same field. Your natal Venus in Taurus placed values, attraction, pleasure, relationship, and self-worth inside the story as well. Taken together, these placements suggest that Uranus’s Taurus chapter may have reshaped how you understand identity, thought, relationship, security, and the values that support an authentic life.\n\nAs Uranus moves into Gemini, freedom begins to move through new language, new connections, and a more flexible mind.",
+          participantReflection:
+            "This feels like a chapter about becoming more flexible without losing what is essential."
+        },
+
+        jupiterCancerLeo: {
+          title: "My Jupiter Story",
+          narrative:
+            "Tracy, while Jupiter moves through Cancer and your solar 3rd House, its nourishing and expansive influence works through communication, learning, daily habits, and your immediate environment. As Jupiter moves into Leo and your solar 4th House, confidence, visibility, and creative expansion become more active within home, family, ancestry, and emotional foundations.\n\nYour natal Uranus in Leo places freedom, originality, disruption, awakening, and change inside Jupiter’s confident and expressive field. The selected quality, rebellious, suggests that this part of the story may work through awakening original forms of creativity, visibility, and leadership while encouraging a more liberated relationship with recognition.",
+          participantReflection:
+            "I can let growth come through learning, home, and the courage to be seen."
+        },
+
+        saturnPiscesAries: {
+          title: "My Saturn Story",
+          narrative:
+            "Tracy, while Saturn has been in Pisces and your solar 11th House, its patient and reality-testing influence has worked through friendships, community, networks, and long-term hopes. As Saturn moves into Aries and your solar 12th House, responsibility, initiative, and embodied authority become more active within rest, retreat, dreams, endings, and the inner life.\n\nThis chapter asks for steadiness, simplicity, and the willingness to honor limits without abandoning the work that matters.",
+          participantReflection:
+            "I want to be disciplined without becoming rigid, and rested without disappearing."
+        },
+
+        eclipseSeasonFebruaryMarch: {
+          title: "My February–March Eclipse Story",
+          narrative:
+            "Tracy, the Solar Eclipse in Aquarius activates your solar 5th House, bringing accelerated change to creativity, pleasure, romance, and personal expression, while the Lunar Eclipse in Virgo activates your solar 10th House, illuminating career, visibility, reputation, and public direction.\n\nYour natal Saturn in Aquarius places structure, responsibility, endurance, limits, and long-term consequences inside the Aquarius solar eclipse’s clearing and future-facing field. Your natal Uranus in Virgo places freedom, originality, disruption, awakening, and change inside the Virgo lunar eclipse’s clarifying and reality-facing field.",
+          participantReflection:
+            "I am considering what needs to be cleared so my creative and public life can align."
+        },
+
+        eclipseSeasonAugust: {
+          title: "My August Eclipse Story",
+          narrative:
+            "Tracy, the Solar Eclipse in Leo activates your solar 11th House, bringing accelerated change to friendships, community, networks, and long-term hopes, while the Lunar Eclipse in Pisces activates your solar 4th House, illuminating home, family, ancestry, and emotional foundations.\n\nYour natal Pluto in Leo places power, transformation, elimination, renewal, and deep psychological change inside the Leo solar eclipse’s creative and self-revealing field. Your natal Jupiter in Pisces places growth, faith, meaning, opportunity, and perspective inside the Pisces lunar eclipse’s dissolving and spiritually realigning field.",
+          participantReflection:
+            "This feels like a rebalancing between community, family, faith, and visibility."
+        },
+
+        venusRetrogradeScorpioLibra: {
+          title: "My Venus Retrograde Story",
+          narrative:
+            "Tracy, while Venus retrogrades through Scorpio and your solar 7th House, desire, value, and attraction are reviewed within partnerships, commitments, and one-to-one relationships. As Venus backtracks into Libra and your solar 6th House, the review turns toward balance, fairness, and reciprocity within work, health, service, and daily responsibilities.\n\nYour natal Moon in Scorpio places emotional needs, instinct, memory, care, and belonging inside Venus retrograde’s probing and desire-revealing field. Your natal Pluto in Libra places power, transformation, elimination, renewal, and deep psychological change inside Venus retrograde’s relational and balance-seeking field.",
+          participantReflection:
+            "I am reviewing what reciprocity, closeness, and emotional honesty require from me now."
+        }
+      },
+
+      yearStory:
+        "My focus this year is learning how to let old structures loosen while giving practical form to new possibilities. I want to keep an open mind, remain flexible, and trust that there is more than one way to create resources, relationship, visibility, and meaning. The biggest lesson is to stay awake to what is changing without rushing the story before it is ready.",
+
+      closingReflection: {
+        clarified:
+          "I can see that several parts of my life are asking for more freedom, more discipline, and more honest language at the same time.",
+        intention:
+          "My intention is to stay open and flexible while continuing to create steadily.",
+        release:
+          "I am ready to release the belief that there is only one correct path forward.",
+        remember:
+          "When things feel uncertain or intense, I want to remember that I am participating in a story that is still unfolding.",
+        dedication:
+          "Keep on, keeping on, Ms. Jackson."
+      }
+    };
+  }
 
   storyState.completedAnchors = [
     ...selectedCheckpoint.completedAnchors

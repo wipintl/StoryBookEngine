@@ -474,71 +474,199 @@ function renderClosingReflection({
     });
 }
 
+
+function renderPrintAnswer(label, value) {
+  if (!value) {
+    return "";
+  }
+
+  return `
+    <section class="print-subsection">
+      <h4>${escapeHtml(label)}</h4>
+      ${renderParagraphs(value)}
+    </section>
+  `;
+}
+
+function renderPrintableStorybook() {
+  const outputs = ensureFinalOutputs();
+  const participantName =
+    storyState.identity?.name || "Participant";
+  const closing = outputs.closingReflection || {};
+
+  const characterSketch =
+    outputs.characterSketch || "";
+  const characterReflection =
+    storyState.selections?.reflection || "";
+
+  const chapterSections = storyYear2026.events
+    .map(event => {
+      const story =
+        outputs.annualEventStories?.[event.id];
+
+      if (!story) {
+        return "";
+      }
+
+      const storyTitle =
+        story.title ||
+        event.reflectionTitle.replace(
+          /^Write\s+/i,
+          ""
+        );
+
+      return `
+        <section class="print-section print-chapter">
+          <h2>${escapeHtml(storyTitle)}</h2>
+
+          ${renderParagraphs(story.narrative || "")}
+
+          ${
+            story.participantReflection
+              ? `
+                <section class="print-reflection">
+                  <h3>In Your Own Words</h3>
+                  ${renderParagraphs(
+                    story.participantReflection
+                  )}
+                </section>
+              `
+              : ""
+          }
+        </section>
+      `;
+    })
+    .filter(Boolean)
+    .join("");
+
+  return `
+    <article
+      id="printableStorybook"
+      class="printable-storybook"
+      aria-label="Printable 2026 Storybook"
+    >
+      <section class="print-title-page">
+        <p class="print-kicker">Magic and Mastery</p>
+        <h1>${escapeHtml(participantName)}’s 2026 Storybook</h1>
+        <p class="print-subtitle">An interactive annual astrology reflection</p>
+        <p class="print-attribution">
+          Original instructional language, astrological frameworks,
+          worksheets, and annual Storybook content are attributed to
+          Donna Woodwell and Kathy Biehl.
+        </p>
+      </section>
+
+      ${
+        characterSketch
+          ? `
+            <section class="print-section">
+              <h2>Your Character Sketch</h2>
+              ${renderParagraphs(characterSketch)}
+
+              ${
+                characterReflection
+                  ? `
+                    <section class="print-reflection">
+                      <h3>In Your Own Words</h3>
+                      ${renderParagraphs(characterReflection)}
+                    </section>
+                  `
+                  : ""
+              }
+            </section>
+          `
+          : ""
+      }
+
+      ${chapterSections}
+
+      ${
+        outputs.yearStory
+          ? `
+            <section class="print-section">
+              <h2>Your 2026 Story</h2>
+              ${renderParagraphs(outputs.yearStory)}
+            </section>
+          `
+          : ""
+      }
+
+      <section class="print-section">
+        <h2>Closing Reflection</h2>
+
+        ${renderPrintAnswer(
+          "What feels newly clarified about who you are right now?",
+          closing.clarified
+        )}
+
+        ${renderPrintAnswer(
+          "What intention feels most important to carry into the year ahead?",
+          closing.intention
+        )}
+
+        ${renderPrintAnswer(
+          "What are you ready to release?",
+          closing.release
+        )}
+
+        ${renderPrintAnswer(
+          "What do you want to remember when things feel uncertain or intense?",
+          closing.remember
+        )}
+
+        ${renderPrintAnswer(
+          "Your dedication or guiding principle",
+          closing.dedication
+        )}
+      </section>
+
+      <section class="print-closing-page">
+        <p><strong>The story is already unfolding.</strong></p>
+        <p><strong>You are not behind.</strong></p>
+        <p><strong>You are participating.</strong></p>
+      </section>
+    </article>
+  `;
+}
+
 function renderStorybookComplete({
   app,
   render
 }) {
-  const outputs = ensureFinalOutputs();
-  const closing =
-    outputs.closingReflection;
-
   app.innerHTML = `
-    <h2>Your 2026 Storybook Is Complete</h2>
+    <section class="screen-only">
+      <h2>Your 2026 Storybook Is Complete</h2>
 
-    <p>
-      Keep this Storybook somewhere accessible.
-      Return to it when you need perspective,
-      reassurance, or a reminder of what you set
-      in motion.
-    </p>
+      <p>
+        Keep this Storybook somewhere accessible.
+        Return to it when you need perspective,
+        reassurance, or a reminder of what you set
+        in motion.
+      </p>
 
-    ${
-      outputs.yearStory
-        ? `
-          <section style="margin: 30px 0;">
-            <h3>Your 2026 Story</h3>
-            ${renderParagraphs(
-              outputs.yearStory
-            )}
-          </section>
-        `
-        : ""
-    }
+      <p>
+        You can now print your completed Storybook
+        or save it as a PDF using your browser’s print
+        options.
+      </p>
 
-    ${
-      closing.dedication
-        ? `
-          <section style="margin: 30px 0;">
-            <h3>
-              Your Dedication or Guiding Principle
-            </h3>
+      <button id="printStorybookButton">
+        Print or Save My Storybook
+      </button>
 
-            ${renderParagraphs(
-              closing.dedication
-            )}
-          </section>
-        `
-        : ""
-    }
-
-    <section style="margin-top: 38px;">
-      <p><strong>
-        The story is already unfolding.
-      </strong></p>
-
-      <p><strong>
-        You are not behind.
-      </strong></p>
-
-      <p><strong>
-        You are participating.
-      </strong></p>
+      <button id="backToClosingReflection">
+        Back
+      </button>
     </section>
 
-    <button id="backToClosingReflection">
-      Back
-    </button>
+    ${renderPrintableStorybook()}
   `;
+
+  document
+    .getElementById("printStorybookButton")
+    .addEventListener("click", () => {
+      window.print();
+    });
 
   document
     .getElementById(
