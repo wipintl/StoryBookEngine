@@ -8,7 +8,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Storybook Engine</title>
+  <title>2026 Storybook</title>
 
   <style>
     html,
@@ -44,20 +44,205 @@
       margin-top: auto;
       padding-top: 24px;
     }
+
+
+    #app {
+      max-width: 820px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    textarea,
+    select,
+    input {
+      box-sizing: border-box;
+      font: inherit;
+    }
+
+    button {
+      margin: 6px 6px 6px 0;
+    }
+
+    .printable-storybook {
+      margin-top: 36px;
+      padding-top: 28px;
+      border-top: 1px solid #ddd;
+    }
+
+    .print-title-page {
+      padding: 48px 0;
+      text-align: center;
+    }
+
+    .print-kicker {
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.8rem;
+    }
+
+    .print-subtitle,
+    .print-attribution {
+      max-width: 580px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .print-section {
+      margin: 38px 0;
+    }
+
+    .print-reflection,
+    .print-subsection {
+      margin-top: 22px;
+      padding-top: 12px;
+      border-top: 1px solid #e6e6e6;
+    }
+
+    .print-closing-page {
+      margin: 48px 0;
+      text-align: center;
+    }
+
+    @media print {
+      @page {
+        margin: 0.7in;
+      }
+
+      html,
+      body {
+        min-height: auto;
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        color: #111;
+      }
+
+      body {
+        display: block;
+        font-family: Georgia, 'Times New Roman', serif;
+        font-size: 11.5pt;
+        line-height: 1.45;
+      }
+
+      header,
+      footer,
+      button,
+      textarea,
+      select,
+      input,
+      .screen-only {
+        display: none !important;
+      }
+
+      main,
+      #app {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .printable-storybook {
+        display: block;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      .print-title-page {
+        min-height: 8.8in;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        page-break-after: always;
+        break-after: page;
+      }
+
+      .print-title-page h1 {
+        font-size: 28pt;
+        line-height: 1.15;
+        margin: 18px 0 12px;
+      }
+
+      .print-kicker {
+        font-size: 9pt;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .print-subtitle {
+        font-size: 13pt;
+      }
+
+      .print-attribution {
+        margin-top: 36px;
+        font-size: 9pt;
+      }
+
+      .print-section {
+        margin: 0 0 24pt;
+        padding: 0;
+        page-break-before: auto;
+        break-before: auto;
+      }
+
+      .print-chapter {
+        page-break-before: always;
+        break-before: page;
+      }
+
+      .print-section h2 {
+        font-size: 18pt;
+        margin: 0 0 12pt;
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      .print-section h3 {
+        font-size: 13pt;
+        margin: 16pt 0 8pt;
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      .print-section h4 {
+        font-size: 11.5pt;
+        margin: 0 0 6pt;
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      p {
+        orphans: 3;
+        widows: 3;
+      }
+
+      .print-reflection,
+      .print-subsection {
+        margin-top: 16pt;
+        padding-top: 10pt;
+        border-top: 0.5pt solid #bbb;
+      }
+
+      .print-closing-page {
+        min-height: 6in;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        page-break-before: always;
+        break-before: page;
+        font-size: 15pt;
+      }
+    }
+
   </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>Storybook Engine</h1>
-
-    <p id="titleAttribution">
-      An interactive presentation of the original Storybook process
-      and authored materials created by Donna Woodwell and Kathy Biehl
-      for © Magic and Mastery.
-    </p>
-  </header>
+  <header class="screen-only" aria-hidden="true"></header>
 
   <main>
     <div id="app"></div>
