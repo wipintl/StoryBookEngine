@@ -119,8 +119,16 @@ export function renderScene({
   document
     .getElementById("backToCharacterReflection")
     .addEventListener("click", () => {
-      storyState.currentAnchorId =
-        "characterReflection";
+      if (
+        storyState.annualJourney.currentEventIndex > 0
+      ) {
+        storyState.annualJourney.currentEventIndex -= 1;
+        storyState.currentAnchorId =
+          "annualEventComplete";
+      } else {
+        storyState.currentAnchorId =
+          "characterReflection";
+      }
 
       render();
     });
@@ -243,14 +251,14 @@ export function renderActivityGroup({
       ${activities
         .map((activity, index) => {
           const checked =
-            selectedActivities.includes(activity)
+            selectedActivities[0] === activity
               ? "checked"
               : "";
 
           return `
             <label>
               <input
-                type="checkbox"
+                type="radio"
                 name="${lens}Activity"
                 value="${index}"
                 ${checked}

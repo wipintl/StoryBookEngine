@@ -637,15 +637,10 @@ function buildVenusRetrogradeNatalParagraphs({
           )
         );
 
-      const qualityWord =
+      const qualityPhrase =
         qualities.length === 1
-          ? "quality"
-          : "qualities";
-
-      const qualityVerb =
-        qualities.length === 1
-          ? "suggests"
-          : "suggest";
+          ? `The selected quality, ${qualityLanguage}, suggests`
+          : `Taken together, the selected qualities — ${qualityLanguage} — suggest`;
 
       const movement =
         sideLanguage.movements[planet] ||
@@ -653,7 +648,7 @@ function buildVenusRetrogradeNatalParagraphs({
 
       return [
         `Your natal ${planet} in ${sign} places ${coreThemes} inside ${sideLanguage.field}.`,
-        `The ${qualityLanguage} ${qualityWord} you selected ${qualityVerb} that this retrograde may work through ${movement}.`
+        `${qualityPhrase} that this retrograde may work through ${movement}.`
       ].join(" ");
     }
   );
@@ -1011,15 +1006,10 @@ function buildEclipseNatalPlanetParagraphs({
           )
         );
 
-      const qualityWord =
+      const qualityPhrase =
         qualities.length === 1
-          ? "quality"
-          : "qualities";
-
-      const qualityVerb =
-        qualities.length === 1
-          ? "suggests"
-          : "suggest";
+          ? `The selected quality, ${qualityLanguage}, suggests`
+          : `Taken together, the selected qualities — ${qualityLanguage} — suggest`;
 
       const movement =
         sideLanguage.movements[planet] ||
@@ -1027,7 +1017,7 @@ function buildEclipseNatalPlanetParagraphs({
 
       return [
         `Your natal ${planet} in ${sign} places ${coreThemes} inside ${sideLanguage.field}.`,
-        `The ${qualityLanguage} ${qualityWord} you selected ${qualityVerb} that this eclipse may work through ${movement}.`
+        `${qualityPhrase} that this eclipse may work through ${movement}.`
       ].join(" ");
     }
   );
@@ -1414,10 +1404,10 @@ function buildTransitionNatalPlanetParagraphs({
           )
         );
 
-      const qualityWord =
+      const qualityPhrase =
         qualities.length === 1
-          ? "quality"
-          : "qualities";
+          ? `The selected quality, ${qualityLanguage},`
+          : `Taken together, the selected qualities — ${qualityLanguage} —`;
 
       const placementVerb =
         isPast
@@ -1431,7 +1421,7 @@ function buildTransitionNatalPlanetParagraphs({
 
       return [
         `Your natal ${planet} in ${sign} ${placementVerb} ${coreThemes} inside ${sideLanguage.field}.`,
-        `The ${qualityLanguage} ${qualityWord} you selected ${chapterVerb} ${movement}.`
+        `${qualityPhrase} ${chapterVerb} ${movement}.`
       ].join(" ");
     }
   );

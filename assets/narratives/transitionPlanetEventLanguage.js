@@ -90,6 +90,75 @@ export const transitionNatalPlanetLanguage = {
     }
   },
 
+  saturnPiscesAries: {
+    from: {
+      field:
+        "Saturn’s disciplined and reality-testing field in Pisces",
+      movements: {
+        Sun:
+          "learning how identity and purpose could remain steady even when certainty dissolved, external structures shifted, or the path ahead could not yet be fully defined",
+        Moon:
+          "developing emotional steadiness, compassionate boundaries, and a more mature relationship with sensitivity, care, and uncertainty",
+        Mercury:
+          "giving form to intuition and imagination while learning how to think clearly when facts, feelings, and symbolic impressions overlapped",
+        Venus:
+          "testing values, relationships, pleasure, and self-worth so that compassion could deepen without erasing standards or boundaries",
+        Mars:
+          "learning how action, desire, and courage could remain purposeful when momentum slowed, direction blurred, or surrender became necessary",
+        Jupiter:
+          "grounding faith, meaning, and possibility through patience, discernment, and a willingness to build belief upon lived experience",
+        Saturn:
+          "intensifying lessons of endurance, responsibility, boundaries, and inner authority while asking what could remain dependable without external certainty",
+        Uranus:
+          "containing disruption long enough for insight to mature, while learning how freedom and responsibility could coexist inside uncertainty",
+        Neptune:
+          "giving structure to imagination, spirituality, and sensitivity while distinguishing devotion from escape and surrender from disappearance",
+        Pluto:
+          "bringing discipline to deep psychological and spiritual transformation, especially where loss, release, or uncertainty required inner strength"
+      },
+      integration:
+        "While Saturn has moved through Pisces, the planet you selected may have shown where inner stability had to become stronger than external certainty.",
+      groupIntroduction:
+        "With several natal planets in Pisces, Saturn’s passage through this sign has tested and strengthened multiple parts of your chart.",
+      groupIntegration:
+        "Taken together, these placements suggest that Saturn’s Pisces chapter may have asked several parts of your life to develop patience, discernment, compassionate boundaries, and a more durable source of inner authority."
+    },
+
+    to: {
+      field:
+        "Saturn’s direct and responsibility-building field in Aries",
+      movements: {
+        Sun:
+          "asking identity and purpose to become more self-directed, accountable, and willing to lead through decisive action",
+        Moon:
+          "developing emotional courage, self-command, and the capacity to care for needs without waiting for external permission",
+        Mercury:
+          "making thought and communication more direct, disciplined, and capable of turning decisions into concrete next steps",
+        Venus:
+          "clarifying values, relationships, and self-worth through stronger standards, honest choices, and responsibility for what is desired",
+        Mars:
+          "disciplining action, anger, desire, and initiative so that courage can become sustained effort rather than momentary impulse",
+        Jupiter:
+          "testing confidence and ambition through practical commitment, personal accountability, and the patience required to build meaningful growth",
+        Saturn:
+          "amplifying themes of leadership, endurance, authority, and self-mastery while beginning a new cycle of long-term responsibility",
+        Uranus:
+          "giving structure to independence and innovation so that change can be initiated deliberately rather than only reactively",
+        Neptune:
+          "turning spiritual or imaginative intention into action while requiring clarity about which visions can support real responsibility",
+        Pluto:
+          "bringing deep power and transformation into disciplined action, leadership, and the willingness to carry consequences consciously"
+      },
+      integration:
+        "As Saturn moves into Aries, the planet you selected may become a place where wisdom must take form through courage, responsibility, and action.",
+      groupIntroduction:
+        "With several natal planets in Aries, Saturn’s entrance into this sign begins to place responsibility upon multiple parts of your chart.",
+      groupIntegration:
+        "Taken together, these placements suggest that Saturn’s Aries chapter may ask several parts of your life to become more direct, accountable, self-led, and capable of turning hard-earned wisdom into tangible results."
+    }
+  },
+
+
   jupiterCancerLeo: {
     from: {
       field:

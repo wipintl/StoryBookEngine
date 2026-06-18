@@ -46,10 +46,10 @@ export const planetEventLanguage = {
         },
 
         oneQuality:
-          "The {qualities} quality you selected suggests that the Sun may shape this Pluto chapter through {movements}.",
+          "The selected quality, {qualities}, suggests that the Sun may shape this Pluto chapter through {movements}.",
 
         multipleQualities:
-          "Taken together, the {qualities} qualities you selected suggest that the Sun may shape this Pluto chapter through {movements}.",
+          "Taken together, the selected qualities — {qualities} — suggest that the Sun may shape this Pluto chapter through {movements}.",
 
         integration:
           "Across the areas of life you identified, transformation may ask you to reconsider how you express purpose, exercise leadership, and remain faithful to the person you are becoming."
@@ -102,10 +102,10 @@ export const planetEventLanguage = {
         },
 
         oneQuality:
-          "The {qualities} quality you selected suggests that the Moon may shape this Pluto chapter through {movements}.",
+          "The selected quality, {qualities}, suggests that the Moon may shape this Pluto chapter through {movements}.",
 
         multipleQualities:
-          "Taken together, the {qualities} qualities you selected suggest that the Moon may shape this Pluto chapter through {movements}.",
+          "Taken together, the selected qualities — {qualities} — suggest that the Moon may shape this Pluto chapter through {movements}.",
 
         integration:
           "Across the areas of life you identified, transformation may deepen your understanding of emotional safety, belonging, and the forms of care that can support genuine change."
@@ -152,10 +152,10 @@ export const planetEventLanguage = {
         },
 
         oneQuality:
-          "The {qualities} quality you selected suggests that Mercury may shape this Pluto chapter through {movements}.",
+          "The selected quality, {qualities}, suggests that Mercury may shape this Pluto chapter through {movements}.",
 
         multipleQualities:
-          "Taken together, the {qualities} qualities you selected suggest that Mercury may shape this Pluto chapter through {movements}.",
+          "Taken together, the selected qualities — {qualities} — suggest that Mercury may shape this Pluto chapter through {movements}.",
 
         integration:
           "Across the areas of life you identified, transformation may change how you gather information, name difficult truths, and decide which ideas are worth carrying forward."
@@ -208,10 +208,10 @@ export const planetEventLanguage = {
         },
 
         oneQuality:
-          "The {qualities} quality you selected suggests that Venus may shape this Pluto chapter through {movements}.",
+          "The selected quality, {qualities}, suggests that Venus may shape this Pluto chapter through {movements}.",
 
         multipleQualities:
-          "Taken together, the {qualities} qualities you selected suggest that Venus may shape this Pluto chapter through {movements}.",
+          "Taken together, the selected qualities — {qualities} — suggest that Venus may shape this Pluto chapter through {movements}.",
 
         integration:
           "Across the areas of life you identified, transformation may ask you to reconsider what you value, what brings genuine pleasure, and which relationships can grow with greater honesty."
@@ -264,10 +264,10 @@ export const planetEventLanguage = {
         },
 
         oneQuality:
-          "The {qualities} quality you selected suggests that Mars may shape this Pluto chapter through {movements}.",
+          "The selected quality, {qualities}, suggests that Mars may shape this Pluto chapter through {movements}.",
 
           multipleQualities:
-          "Taken together, the {qualities} qualities you selected suggest that Mars may shape this Pluto chapter through a combination of {movements}.",
+          "Taken together, the selected qualities — {qualities} — suggest that Mars may shape this Pluto chapter through a combination of {movements}.",
 
         integration:
           "Across the areas of life you identified, transformation may require decisive action. The challenge is not simply to exert more force, but to understand where your energy can create purposeful change and where it may need greater direction."
@@ -314,10 +314,10 @@ export const planetEventLanguage = {
         },
 
         oneQuality:
-          "The {qualities} quality you selected suggests that Jupiter may shape this Pluto chapter through {movements}.",
+          "The selected quality, {qualities}, suggests that Jupiter may shape this Pluto chapter through {movements}.",
 
         multipleQualities:
-          "Taken together, the {qualities} qualities you selected suggest that Jupiter may shape this Pluto chapter through {movements}.",
+          "Taken together, the selected qualities — {qualities} — suggest that Jupiter may shape this Pluto chapter through {movements}.",
 
         integration:
           "Across the areas of life you identified, transformation may expand your sense of possibility while asking you to distinguish genuine growth from promises, beliefs, or ambitions that have become too large to sustain."
@@ -370,10 +370,10 @@ export const planetEventLanguage = {
       },
 
       oneQuality:
-        "The {qualities} quality you selected suggests that Saturn may shape this Pluto chapter through {movements}.",
+        "The selected quality, {qualities}, suggests that Saturn may shape this Pluto chapter through {movements}.",
 
       multipleQualities:
-        "Taken together, the {qualities} qualities you selected suggest that Saturn may shape this Pluto chapter through {movements}.",
+        "Taken together, the selected qualities — {qualities} — suggest that Saturn may shape this Pluto chapter through {movements}.",
 
       integration:
         "Across the areas of life you identified, transformation may arrive less as one dramatic break and more as a long-term restructuring. This may shape your public direction, your foundations at home, and the way you choose to present yourself and move through the world."
@@ -414,10 +414,10 @@ export const planetEventLanguage = {
       },
 
       oneQuality:
-        "The {qualities} quality you selected suggests that Uranus may shape this Pluto chapter through {movements}.",
+        "The selected quality, {qualities}, suggests that Uranus may shape this Pluto chapter through {movements}.",
 
       multipleQualities:
-        "Taken together, the {qualities} qualities you selected suggest that Uranus may shape this Pluto chapter through {movements}.",
+        "Taken together, the selected qualities — {qualities} — suggest that Uranus may shape this Pluto chapter through {movements}.",
 
       integration:
         "Across the areas of life you identified, transformation may arrive through disruption, experimentation, and the need to respond differently when familiar structures can no longer contain what is emerging."
@@ -458,10 +458,10 @@ export const planetEventLanguage = {
       },
 
       oneQuality:
-        "The {qualities} quality you selected suggests that Neptune may shape this Pluto chapter through {movements}.",
+        "The selected quality, {qualities}, suggests that Neptune may shape this Pluto chapter through {movements}.",
 
       multipleQualities:
-        "Taken together, the {qualities} qualities you selected suggest that Neptune may shape this Pluto chapter through {movements}.",
+        "Taken together, the selected qualities — {qualities} — suggest that Neptune may shape this Pluto chapter through {movements}.",
 
       integration:
         "Across the areas of life you identified, transformation may ask you to separate genuine inspiration from illusion, clarify where your boundaries belong, and decide which dreams are capable of becoming lived commitments."
@@ -508,10 +508,10 @@ export const planetEventLanguage = {
       },
 
       oneQuality:
-        "The {qualities} quality you selected suggests that natal Pluto may deepen this chapter through {movements}.",
+        "The selected quality, {qualities}, suggests that natal Pluto may deepen this chapter through {movements}.",
 
       multipleQualities:
-        "Taken together, the {qualities} qualities you selected suggest that natal Pluto may deepen this chapter through {movements}.",
+        "Taken together, the selected qualities — {qualities} — suggest that natal Pluto may deepen this chapter through {movements}.",
 
       integration:
         "Across the areas of life you identified, transformation may become especially concentrated. What has remained buried, disowned, or unresolved may demand a more honest relationship with power, vulnerability, and the possibility of renewal."

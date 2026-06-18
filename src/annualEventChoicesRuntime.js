@@ -16,14 +16,14 @@ function renderPlanetKeywordOptions({
   return keywords
     .map((keyword, index) => {
       const checked =
-        selectedKeywords.includes(keyword)
+        selectedKeywords[0] === keyword
           ? "checked"
           : "";
 
       return `
         <label>
           <input
-            type="checkbox"
+            type="radio"
             name="${inputName}"
             value="${index}"
             ${checked}
@@ -88,9 +88,9 @@ function renderPlanetSections({
             style="display: ${display}; margin-top: 14px;"
           >
             <p>
-              Choose one or more ${escapeHtml(
+              Choose one ${escapeHtml(
                 planet
-              )} qualities:
+              )} quality:
             </p>
 
             ${renderPlanetKeywordOptions({
@@ -317,7 +317,7 @@ function renderSingleHouseChoices({
       id="annualChoicesError"
       style="display: none;"
     >
-      Please select at least one house activity
+      Please select one house activity
       for each placement.
     </p>
 
@@ -326,7 +326,7 @@ function renderSingleHouseChoices({
       style="display: none;"
     >
       For each natal planet selected, choose
-      at least one planet quality.
+      one planet quality.
     </p>
 
     <button id="backToAnnualContext">
@@ -531,7 +531,7 @@ function renderTransitionHouseChoices({
       id="annualChoicesError"
       style="display: none;"
     >
-      Please select at least one activity for
+      Please select one activity for
       all six placements.
     </p>
 
@@ -540,7 +540,7 @@ function renderTransitionHouseChoices({
       style="display: none;"
     >
       For each natal planet selected, choose
-      at least one planet quality.
+      one planet quality.
     </p>
 
     <button id="backToAnnualContext">
@@ -664,7 +664,7 @@ export function renderAnnualEventChoices(
   if (
     options.event.type === "transitionHouse" ||
     options.event.type === "eclipsePair" ||
-    options.event.type === "retrogradePair" || event.type === "retrogradePair"
+    options.event.type === "retrogradePair"
   ) {
     renderTransitionHouseChoices(options);
     return;

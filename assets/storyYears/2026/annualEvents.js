@@ -72,7 +72,7 @@ export const storyYear2026 = {
 
       choicesGuidance: [
         "Now that you know which house Pluto is moving through in your chart, it’s time to reflect on where deep change, clearing, and transformation are underway.",
-        "For each placement, choose one or more activities from the House Reference List that describe the area of life receiving Pluto’s attention.",
+        "For each placement, choose one activity from the House Reference List that describes the area of life receiving Pluto’s attention.",
         "Optional: If you know that you have natal planets in Aquarius, select those planets and choose qualities from the Planet Reference List.",
         "You do not need to fill every optional box. Choose only what feels relevant."
       ],
@@ -84,7 +84,7 @@ export const storyYear2026 = {
         enabled: true,
         title: "Optional: Natal planets in Aquarius",
         introduction:
-          "If you know that you have natal planets in Aquarius, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+          "If you know that you have natal planets in Aquarius, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
       },
 
       reflectionTitle: "Write My Pluto Story",
@@ -181,7 +181,7 @@ export const storyYear2026 = {
       choicesGuidance: [
         "Neptune works slowly and subtly, inviting release, trust, and deeper awareness.",
         "To understand how this influence has been unfolding and how it is changing, we’ll look at the houses Neptune is moving through in your chart.",
-        "Choose one or more activities for each Pisces house and each Aries house that describe the themes receiving Neptune’s attention.",
+        "Choose one activity for each Pisces house and each Aries house that describes the themes receiving Neptune’s attention.",
         "Optional: If you know that you have natal planets in Pisces or Aries, select those planets and choose qualities from the Planet Reference List.",
         "You do not need to fill every optional box. Choose only what feels relevant."
       ],
@@ -197,12 +197,12 @@ export const storyYear2026 = {
         from: {
           title: "Optional: Natal planets in Pisces",
           introduction:
-            "If you know that you have natal planets in Pisces, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Pisces, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         },
         to: {
           title: "Optional: Natal planets in Aries",
           introduction:
-            "If you know that you have natal planets in Aries, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Aries, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         }
       },
 
@@ -303,7 +303,7 @@ export const storyYear2026 = {
 
       choicesGuidance: [
         "Now that you know which houses Uranus is moving through in your chart, it’s time to reflect on how it may act in your world.",
-        "Choose one or more activities for each Taurus house and each Gemini house that describe the themes receiving Uranus’s attention.",
+        "Choose one activity for each Taurus house and each Gemini house that describes the themes receiving Uranus’s attention.",
         "Optional: If you know that you have natal planets in Taurus or Gemini, select those planets and choose qualities from the Planet Reference List.",
         "You do not need to fill every optional box. Choose only what feels relevant."
       ],
@@ -319,12 +319,12 @@ export const storyYear2026 = {
         from: {
           title: "Optional: Natal planets in Taurus",
           introduction:
-            "If you know that you have natal planets in Taurus, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Taurus, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         },
         to: {
           title: "Optional: Natal planets in Gemini",
           introduction:
-            "If you know that you have natal planets in Gemini, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Gemini, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         }
       },
 
@@ -437,12 +437,12 @@ export const storyYear2026 = {
         from: {
           title: "Optional: Natal planets in Cancer",
           introduction:
-            "If you know that you have natal planets in Cancer, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Cancer, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         },
         to: {
           title: "Optional: Natal planets in Leo",
           introduction:
-            "If you know that you have natal planets in Leo, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Leo, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         }
       },
 
@@ -555,13 +555,13 @@ export const storyYear2026 = {
           title:
             "Optional: Natal planets in Pisces",
           introduction:
-            "If you know that you have natal planets in Pisces, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Pisces, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         },
         to: {
           title:
             "Optional: Natal planets in Aries",
           introduction:
-            "If you know that you have natal planets in Aries, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Aries, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         }
       },
 
@@ -680,12 +680,12 @@ export const storyYear2026 = {
         from: {
           title: "Optional: Natal planets in Aquarius",
           introduction:
-            "If you know that you have natal planets in Aquarius, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Aquarius, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         },
         to: {
           title: "Optional: Natal planets in Virgo",
           introduction:
-            "If you know that you have natal planets in Virgo, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Virgo, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         }
       },
 
@@ -799,12 +799,12 @@ export const storyYear2026 = {
         from: {
           title: "Optional: Natal planets in Leo",
           introduction:
-            "If you know that you have natal planets in Leo, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Leo, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         },
         to: {
           title: "Optional: Natal planets in Pisces",
           introduction:
-            "If you know that you have natal planets in Pisces, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Pisces, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         }
       },
 
@@ -932,13 +932,13 @@ export const storyYear2026 = {
           title:
             "Optional: Natal planets in Scorpio",
           introduction:
-            "If you know that you have natal planets in Scorpio, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Scorpio, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         },
         to: {
           title:
             "Optional: Natal planets in Libra",
           introduction:
-            "If you know that you have natal planets in Libra, select them below and choose one or more qualities for each planet. If you do not know or have none, leave this section blank."
+            "If you know that you have natal planets in Libra, select them below and choose one quality for each planet. If you do not know or have none, leave this section blank."
         }
       },
 

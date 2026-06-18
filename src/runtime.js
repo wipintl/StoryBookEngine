@@ -1237,6 +1237,35 @@ function render() {
         This is the beginning of your Storybook journey.
       </p>
 
+      <section
+        style="
+          border: 1px solid #dddddd;
+          padding: 14px;
+          margin: 24px 0;
+          background: #fafafa;
+        "
+      >
+        <h3>Before You Begin</h3>
+
+        <p>
+          This Storybook works best when you know your
+          Sun, Moon, and Rising signs. If you do not know
+          all three, you can use a free birth chart calculator
+          before beginning. You will need your birth date,
+          birth time, and birth location.
+        </p>
+
+        <p>
+          <a
+            href="https://horoscopes.astro-seek.com/birth-chart-horoscope-online"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Open Astro-Seek Birth Chart Calculator
+          </a>
+        </p>
+      </section>
+
       <button id="startButton">Begin</button>
     `;
 
