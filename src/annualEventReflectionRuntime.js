@@ -1090,6 +1090,51 @@ function defaultEclipseReflectionValue({
   )}`;
 }
 
+function selectedEclipseReferenceItems({
+  promptKey,
+  event,
+  response
+}) {
+  const releaseActivities =
+    response.activities[event.releaseSide][
+      promptKey
+    ] || [];
+
+  const emergingActivities =
+    response.activities[event.emergingSide][
+      promptKey
+    ] || [];
+
+  const releaseLanguage =
+    joinEclipseActivities(
+      releaseActivities
+    );
+
+  const emergingLanguage =
+    joinEclipseActivities(
+      emergingActivities
+    );
+
+  if (promptKey === "moon") {
+    return [
+      releaseLanguage && `Release: ${releaseLanguage}`,
+      emergingLanguage && `Embrace: ${emergingLanguage}`
+    ].filter(Boolean);
+  }
+
+  if (promptKey === "rising") {
+    return [
+      releaseLanguage && `Move past: ${releaseLanguage}`,
+      emergingLanguage && `Move toward: ${emergingLanguage}`
+    ].filter(Boolean);
+  }
+
+  return [
+    releaseLanguage && `Let go of: ${releaseLanguage}`,
+    emergingLanguage && `Turn toward: ${emergingLanguage}`
+  ].filter(Boolean);
+}
+
 function normalizeEclipsePairedReflection(value = "") {
   const phrase = String(value).trim();
 
@@ -1262,7 +1307,11 @@ function renderEclipsePairReflection({
         id,
         heading: prompt.heading,
         prompt: prompt.prompt,
-        selectedActivities: [],
+        selectedActivities: selectedEclipseReferenceItems({
+          promptKey: key,
+          event,
+          response
+        }),
         value
       });
     })
@@ -1914,7 +1963,42 @@ function defaultReflectionValue(
   selectedActivities
 ) {
   if (savedValue) return savedValue;
+
+  if (storyState.storyMode === "reflection") {
+    return "";
+  }
+
   return joinNaturally(selectedActivities || []);
+}
+
+function renderSelectedReferenceList(selectedActivities = []) {
+  const items = (selectedActivities || [])
+    .filter(Boolean)
+    .map(
+      (activity) =>
+        `<li>${escapeHtml(activity)}</li>`
+    )
+    .join("");
+
+  if (!items || storyState.storyMode !== "reflection") {
+    return "";
+  }
+
+  return `
+    <div style="
+      border-left: 3px solid #b8a16a;
+      margin: 14px 0 18px;
+      padding: 10px 14px;
+      background: rgba(184, 161, 106, 0.08);
+    ">
+      <p style="margin-top: 0;">
+        <strong>Your selected focus:</strong>
+      </p>
+      <ul style="margin-bottom: 0;">
+        ${items}
+      </ul>
+    </div>
+  `;
 }
 
 function renderReflectionField({
@@ -1929,18 +2013,24 @@ function renderReflectionField({
     selectedActivities
   );
 
+  const isReflectionMode =
+    storyState.storyMode === "reflection";
+
+  const guidance = isReflectionMode
+    ? "Review your selected focus, then write your own response."
+    : "Use the selected phrase as written, or expand it in your own words.";
+
   return `
     <section style="margin-bottom: 30px;">
       <h3>${escapeHtml(heading)}</h3>
       <p><strong>${escapeHtml(prompt)}</strong></p>
-      <p>
-        Use the selected phrase as written, or expand it in your own words.
-      </p>
+      ${renderSelectedReferenceList(selectedActivities)}
+      <p>${escapeHtml(guidance)}</p>
       <textarea
         id="${id}"
         rows="5"
         style="width: 100%;"
-        placeholder="Use the selected phrase as written, or expand it in your own words."
+        placeholder="${escapeHtml(guidance)}"
       >${escapeHtml(startingValue)}</textarea>
     </section>
   `;

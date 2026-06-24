@@ -1,5 +1,7 @@
 export const storyState = {
   currentAnchorId: "welcome",
+  storyMode: "guided",
+
 
   identity: {
     name: null,

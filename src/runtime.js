@@ -14,10 +14,15 @@ const titleAttribution =
   document.getElementById("titleAttribution");
 
 function loadDevelopmentCheckpoint() {
-  const checkpoint =
-    new URLSearchParams(
-      window.location.search
-    ).get("test");
+  const params = new URLSearchParams(
+    window.location.search
+  );
+
+  const checkpoint = params.get("test");
+
+  if (params.get("mode") === "reflection") {
+    storyState.storyMode = "reflection";
+  }
 
   const isLocalDevelopment =
     window.location.hostname === "localhost" ||
@@ -1344,6 +1349,9 @@ function render() {
   }
 
   if (current.id === "welcome") {
+    const isReflectionMode =
+      storyState.storyMode === "reflection";
+
     app.innerHTML = `
       <h2>Welcome</h2>
 
@@ -1380,12 +1388,59 @@ function render() {
         </p>
       </section>
 
+      <section
+        style="
+          border: 1px solid #dddddd;
+          padding: 14px;
+          margin: 24px 0;
+          background: #fffdf8;
+        "
+      >
+        <h3>Preview Mode</h3>
+
+        <p>
+          For review, choose how much of the Storybook
+          should be synthesized for the participant.
+        </p>
+
+        <label style="display: block; margin: 10px 0;">
+          <input
+            type="radio"
+            name="storyMode"
+            value="guided"
+            ${!isReflectionMode ? "checked" : ""}
+          >
+          <strong>Guided Story Mode</strong> — the
+          Storybook creates a polished narrative from the
+          participant’s selections.
+        </label>
+
+        <label style="display: block; margin: 10px 0;">
+          <input
+            type="radio"
+            name="storyMode"
+            value="reflection"
+            ${isReflectionMode ? "checked" : ""}
+          >
+          <strong>Reflection-First Mode</strong> — the
+          Storybook preserves the structure and asks the
+          participant to do more of the interpretive writing.
+        </label>
+      </section>
+
       <button id="startButton">Begin</button>
     `;
 
     document
       .getElementById("startButton")
       .addEventListener("click", () => {
+        const selectedMode = document.querySelector(
+          'input[name="storyMode"]:checked'
+        );
+
+        storyState.storyMode =
+          selectedMode?.value || "guided";
+
         advanceStory();
         render();
       });
